@@ -1,0 +1,29 @@
+{
+    "name": "placuszki",
+    "description": "bardzo puszyste przyjemne placuszki",
+    "instructions": "1. Kup 2. Zrob, 3. Zjedz",
+    "imageUrl": "https://d3iamf8ydd24h9.cloudfront.net/pictures/articles/2019/08/1066536-v-1500x1500.jpg",
+    "link": "https://aniagotuje.pl/przepis/jak-zrobic-ciasto-na-nalesniki",
+    "recipeIngredients": [
+        {
+            "ingredientId": "1",
+            "quantity": 150,
+            "unit": "ml"
+        },
+        {
+            "ingredientId": "2",
+            "quantity": 500,
+            "unit": "g"
+        },
+        {
+            "ingredientId": "4",
+            "quantity": 150,
+            "unit": "ml"
+        },
+        {
+            "ingredientId": "3",
+            "quantity": 2,
+            "unit": "whole"
+        }
+    ]
+}
