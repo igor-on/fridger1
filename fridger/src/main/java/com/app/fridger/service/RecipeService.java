@@ -12,7 +12,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import javax.swing.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +27,7 @@ public class RecipeService {
     public List<Recipe> getRecipes() {
         return recipeRepository.findAll();
     }
+
     @Transactional
     public String createRecipe(Recipe recipe) {
         for (RecipeIngredient recipeIngredient : recipe.getRecipeIngredients()) {
@@ -58,9 +58,26 @@ public class RecipeService {
             dbRecipe.setImageUrl(recipe.getImageUrl());
             dbRecipe.setLink(recipe.getLink());
 
-            List<RecipeIngredient> recipeIngredients = recipe.getRecipeIngredients();
 
-            for (RecipeIngredient recipeIngredient : recipeIngredients) {
+            List<RecipeIngredient> recipeIngredients = recipe.getRecipeIngredients();
+            log.info("Recipe ingredients: " + recipeIngredients);
+
+            List<Long> recipeIngredientsIds = recipeIngredients.stream().map(ri -> ri.getId()).toList();
+            List<RecipeIngredient> dbRecipeIngredientsToRemove = dbRecipe.getRecipeIngredients().stream()
+                    .filter(dbRi -> !recipeIngredientsIds.contains(dbRi.getId()))
+                    .toList();
+
+            log.info("Db recipe ingredients ro remove: " + dbRecipeIngredientsToRemove);
+
+            // Remove "old" ingredients
+            dbRecipeIngredientsToRemove.forEach(dbRi -> {
+                log.info("Deleting dbRecipeIngredient..." + dbRi.getId());
+                recipeIngredientRepository.delete(dbRi);
+            });
+            dbRecipe.getRecipeIngredients().clear();
+
+            // Populate recipeIngredients from start
+            for (RecipeIngredient recipeIngredient : recipe.getRecipeIngredients()) {
 
                 Optional<RecipeIngredient> recipeIngredientById = recipeIngredientRepository.findById(recipeIngredient.getId());
 
@@ -72,12 +89,16 @@ public class RecipeService {
                     dbRecipeIngredient.setUnit(recipeIngredient.getUnit());
                     dbRecipeIngredient.setQuantity(recipeIngredient.getQuantity());
                     handleSettingIngredient(dbRecipeIngredient, recipeIngredient.getIngredient());
-                } else { // else add new data
+                    dbRecipe.add(dbRecipeIngredient);
+                } else if (recipeIngredient.getId() == 0) { // else add new data
                     log.info("Adding new recipeIngredient..." + recipeIngredient.getId());
                     handleSettingIngredient(recipeIngredient, recipeIngredient.getIngredient());
                     dbRecipe.add(recipeIngredient);
+                } else {
+                    throw new EmptyResultDataAccessException("Cannot find recipe ingredient to update - id: " + recipe.getId(), 1);
                 }
             }
+
 
         } else {
             throw new EmptyResultDataAccessException("Cannot find recipe to update - id: " + recipe.getId(), 1);
@@ -93,6 +114,7 @@ public class RecipeService {
             Ingredient dbIngredient = ingrByName.get();
             recipeIngredient.setIngredient(dbIngredient);
         } else { // else save new ingredient data
+            log.info("Adding new ingredient...");
             recipeIngredient.setIngredient(ingredient);
         }
     }

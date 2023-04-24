@@ -1,14 +1,10 @@
 package com.app.fridger.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Table(name = "recipe_ingredient")
 @Entity
@@ -16,6 +12,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 public class RecipeIngredient {
 
     @Id

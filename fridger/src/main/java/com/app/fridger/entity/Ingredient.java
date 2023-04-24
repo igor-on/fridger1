@@ -1,19 +1,18 @@
 package com.app.fridger.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.Set;
+import lombok.ToString;
 
 @Table(name = "ingredients")
 @Entity
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Ingredient {
 
     @Id
