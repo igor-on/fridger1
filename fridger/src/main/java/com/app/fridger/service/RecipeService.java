@@ -30,6 +30,10 @@ public class RecipeService {
 
     @Transactional
     public String createRecipe(Recipe recipe) {
+
+        if (recipe.getId() != 0) {
+            throw new IllegalArgumentException("id must be null for new recipes!");
+        }
         for (RecipeIngredient recipeIngredient : recipe.getRecipeIngredients()) {
             recipeIngredient.setRecipe(recipe); //TODO: test checking if recipeIngredient exists
 

@@ -62,6 +62,21 @@ public class GlobalErrorHandler {
                 .build();
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Error handleRuntimeException(RuntimeException e, HttpServletRequest request) {
+        log.error("Runtime Exception handled in global exception handler: " + e);
+        e.printStackTrace();
+
+        return Error.builder()
+                .code(HttpStatus.BAD_REQUEST.value())
+                .time(LocalDateTime.now().atZone(ZoneId.systemDefault()).toString())
+                .message(e.getMessage())
+                .path(request.getRequestURI())
+                .method(request.getMethod())
+                .build();
+    }
+
 }
 
 @Data
