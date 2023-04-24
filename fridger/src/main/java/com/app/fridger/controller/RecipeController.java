@@ -9,7 +9,9 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("${fridger.request-map}")
@@ -26,8 +28,14 @@ public class RecipeController {
 
     @PostMapping("recipes")
     @ResponseStatus(HttpStatus.CREATED)
-    public String createRecipe(@Valid @RequestBody Recipe recipe) {
-        return recipeService.createRecipe(recipe);
+    public Map<String, Object> createRecipe(@Valid @RequestBody Recipe recipe) {
+
+        HashMap<String, Object> result = new HashMap<>();
+        Recipe dbRecipe = recipeService.createRecipe(recipe);
+
+        result.put("message", "Successfully created recipe with id: " + dbRecipe.getId());
+        result.put("data", dbRecipe);
+        return result;
     }
 
     @DeleteMapping("recipes/{id}")
@@ -36,7 +44,14 @@ public class RecipeController {
     }
 
     @PutMapping("recipes")
-    public String updateRecipe(@Valid @RequestBody Recipe recipe) {
-        return recipeService.updateRecipe(recipe);
+    public Map<String, Object> updateRecipe(@Valid @RequestBody Recipe recipe) {
+
+        HashMap<String, Object> result = new HashMap<>();
+        Recipe dbRecipe = recipeService.updateRecipe(recipe);
+
+        result.put("message", "Successfully updated recipe with id: " + dbRecipe.getId());
+        result.put("data", dbRecipe);
+
+        return result;
     }
 }

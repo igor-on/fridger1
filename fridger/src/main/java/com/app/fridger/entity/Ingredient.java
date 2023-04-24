@@ -1,5 +1,6 @@
 package com.app.fridger.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -18,6 +19,7 @@ public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @JsonIgnore
     private long id;
     @Column(name = "name")
     @NotBlank(message = "Name is mandatory")
