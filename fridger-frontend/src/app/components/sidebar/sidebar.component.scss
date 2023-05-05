@@ -1,0 +1,112 @@
+:host {
+    width: 15%;
+}
+
+.red {
+    background-color: red;
+}
+
+.sidebar {
+    height: 100%;
+    padding: 2em;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+
+    h1 {
+        margin-bottom: 5rem;
+        font-weight: bolder;
+    }
+
+    h4 {
+        color: var(--grey);
+        font-weight: bolder;
+    }
+
+    .sidebar-options {
+        margin-top: 1em;
+        padding-left: 0;
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: .8em;
+            padding: .5em;
+            border-radius: 75px;
+            list-style: none;
+            cursor: pointer;
+            transition: .2s;
+
+            &:not(:last-child) {
+                margin-bottom: 1rem;
+            }
+
+            a {
+                color: var(--black);
+                text-decoration: none;
+            }
+
+            &:hover {
+                background-color: var(--black);
+                color: var(--background-white);
+                scale: 1.2;
+
+                a {
+                    color: var(--background-white);
+                }
+            }
+            
+            &.active {
+                background-color: var(--black);
+                color: var(--background-white);
+                scale: 1.2;
+    
+                a {
+                    color: var(--background-white);
+                }
+            }
+        }
+    }
+
+}
+
+// .sidebar h1 {
+// }
+
+// .sidebar h4 {
+
+// }
+
+// .sidebar .sidebar-options {
+//     margin-top: 1em;
+//     padding-left: 0;
+// }
+
+// .sidebar .sidebar-options .option {
+//     display: flex;
+//     align-items: center;
+//     gap: .8em;
+//     padding: .5em;
+//     border-radius: 75px;
+//     list-style: none;
+//     cursor: pointer;
+//     transition: .4s;
+// }
+
+// .sidebar .sidebar-options .option:hover {
+//     background-color: var(--black);
+//     color: var(--background-white);
+//     scale: 1.2;
+// }
+
+// .sidebar .sidebar-options .option:hover a {
+//     color: var(--background-white);
+// }
+
+// .sidebar .sidebar-options .option:not(:last-child) {
+//     margin-bottom: 1rem;
+// }
+
+// .sidebar .sidebar-options .option a {
+//     color: var(--black);
+//     text-decoration: none;
+// }

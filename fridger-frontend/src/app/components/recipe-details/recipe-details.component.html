@@ -1,0 +1,63 @@
+<h1 class="logo">
+    <a href="index.html">
+        Fridger
+    </a>
+</h1>
+
+
+<section class="main-wrapper">
+    <div class="left-section">
+        <div class="image-box">
+            <div>
+                <img class="circle-image"
+                    [src]="recipe?.imageUrl"
+                    alt="food-image">
+                <!-- <a href="edit-recipe.html"> -->
+                    <div class="badge edit" [routerLink]="['/recipe-form', recipe?.id]">
+                        <i class="bi bi-pencil-fill"></i>
+                    </div>
+                <!-- </a> -->
+                <div class="badge delete" (click)="onDelete()">
+                     <i class="bi bi-trash3-fill"></i>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+
+
+            <h1>{{ recipe?.name }}</h1>
+            <div class="additional-info">
+                <!-- <div class="tags">
+                    <div color="pink">#Spaghetii</div>
+                    <div color="green">#Fast</div>
+                    <div color="brown">#Pomodoro</div>
+                    <div color="light-green">#Italian</div>
+                </div> -->
+                <div class="links">
+                    <a [href]="recipe?.link"><i class="bi bi-youtube"></i>youtube</a>
+                </div>
+            </div>
+            <div class="description">
+                <h4>Description</h4>
+                <p>{{ recipe?.description }}</p>
+            </div>
+            <div class="instructions">
+
+                <h4>Instructions</h4>
+                <p>{{ recipe?.instructions }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="right-section">
+        <!-- <p>20 minutes</p>
+        <p>630 calories</p>
+        <p>Beginner</p> -->
+        <div class="ingredients-list">
+            <h4>Ingredients</h4>
+
+            <ul>
+                <li *ngFor="let recipeIngr of recipe?.recipeIngredients">{{ recipeIngr.quantity }} | {{ recipeIngr.ingredient.name }}</li>
+            </ul>
+        </div>
+    </div>
+</section>

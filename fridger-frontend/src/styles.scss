@@ -1,5 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
-/* RESET STYLES */
+:root {
+    --background-white: #F7EDE7;
+    --beige: #E6D0AF;
+    --pastel-pink: #DDACA7;
+    --grey: #B5ADBA;
+    --light-brown: #B48C6D;
+    --brown: #5E3F2E;
+    --black: #160E0A;
+    --ginger: #C75A22;
+    --pastel-green: rgb(193, 212, 163);
+    --pastel-light-green: rgb(217, 238, 183);
+    --pastel-pink: rgb(229, 189, 196);
+    --pastel-orange: rgb(228, 194, 132);
+    --pastel-yellow: rgb(234, 234, 160);
+    --pastel-red: rgb(244, 117, 117);
+}
+
+
+/* STYLE RESET */
 
 *,
 *::after,
@@ -32,4 +49,76 @@ textarea,
 button,
 select {
     font: inherit;
+}
+
+
+// COMMON 
+.main-wrapper {
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+}
+
+.logo {
+    position: absolute;
+    padding: 2rem;
+    font-weight: bolder;
+}
+
+.logo a {
+    color: var(--black);
+    text-decoration: none;
+}
+
+.circle-image {
+    border-radius: 50%;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    height: 100%;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    /* justify-content: space-between; */
+    
+    div {
+        padding: .2em 1.2em;
+        border-radius: 5em;
+        
+        &:not(:last-child) {
+            margin-right: 1em;
+        }
+    }
+}
+
+.tags div[color="pink"] {
+    background-color: var(--pastel-pink);
+    border-color: var(--pastel-pink);
+}
+.tags div[color="green"] {
+    background-color: var(--pastel-green);
+    border-color: var(--pastel-green);
+}
+.tags div[color="brown"] {
+    background-color: var(--light-brown);
+    border-color: var(--light-brown);
+}
+.tags div[color="light-green"] {
+    background-color: var(--pastel-light-green);
+    border-color: var(--pastel-light-green);
+}
+
+.flex-box-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.grid {
+    display: grid;
+    gap: 4rem;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
 }
