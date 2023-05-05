@@ -17,6 +17,7 @@ import java.util.Map;
 @RequestMapping("${fridger.request-map}")
 @RequiredArgsConstructor
 @Log4j2
+@CrossOrigin("http://localhost:4200")
 public class RecipeController {
     private final RecipeService recipeService;
 
@@ -24,6 +25,11 @@ public class RecipeController {
     @GetMapping("recipes")
     public List<Recipe> getRecipes() {
         return recipeService.getRecipes();
+    }
+
+    @GetMapping("recipes/{id}")
+    public Recipe getRecipeDetails(@PathVariable Long id) {
+        return recipeService.getRecipeDetails(id);
     }
 
     @PostMapping("recipes")
@@ -39,8 +45,13 @@ public class RecipeController {
     }
 
     @DeleteMapping("recipes/{id}")
-    public String deleteRecipe(@PathVariable Long id) {
-        return recipeService.deleteRecipe(id);
+    public Map<String, Object> deleteRecipe(@PathVariable Long id) {
+
+        HashMap<String, Object> result = new HashMap<>();
+        String message = recipeService.deleteRecipe(id);
+        result.put("message", message);
+
+        return result;
     }
 
     @PutMapping("recipes")
@@ -49,7 +60,7 @@ public class RecipeController {
         HashMap<String, Object> result = new HashMap<>();
         Recipe dbRecipe = recipeService.updateRecipe(recipe);
 
-        result.put("message", "Successfully updated recipe with id: " + dbRecipe.getId());
+        result.put("message", "Successfully updated recipe: " + dbRecipe.getName());
         result.put("data", dbRecipe);
 
         return result;
