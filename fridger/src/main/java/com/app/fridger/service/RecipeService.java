@@ -103,7 +103,7 @@ public class RecipeService {
                 handleSettingIngredient(recipeIngredient, recipeIngredient.getIngredient());
                 dbRecipe.add(recipeIngredient);
             } else {
-                throw new EmptyResultDataAccessException("Cannot find recipe ingredient to update - id: " + recipe.getId(), 1);
+                throw new EmptyResultDataAccessException("Cannot find recipe ingredient to update - id: " + recipeIngredient.getId(), 1);
             }
         }
 
@@ -122,5 +122,15 @@ public class RecipeService {
             log.info("Adding new ingredient...");
             recipeIngredient.setIngredient(ingredient);
         }
+    }
+
+    public Recipe getRecipeDetails(Long id) {
+        Optional<Recipe> recipeRepositoryById = recipeRepository.findById(id);
+
+        if (recipeRepositoryById.isEmpty()) {
+            throw new EmptyResultDataAccessException("Cannot find recipe to update - id: " + id, 1);
+        }
+
+        return recipeRepositoryById.get();
     }
 }

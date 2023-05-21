@@ -44,7 +44,7 @@ public class RecipeCalendarService {
         }
 
         PlannedRecipe dbPlannedRecipe = plannedRecipeById.get();
-        dbPlannedRecipe.setTitle(plannedRecipe.getTitle());
+//        dbPlannedRecipe.setTitle(plannedRecipe.getTitle());
         dbPlannedRecipe.setDone(plannedRecipe.isDone());
         dbPlannedRecipe.setPlannedDate(plannedRecipe.getPlannedDate());
         dbPlannedRecipe.setRecipe(plannedRecipe.getRecipe());

@@ -1,0 +1,136 @@
+<h1 class="logo hover-scale">
+    <a href="index.html">
+        Fridger
+    </a>
+</h1>
+
+
+<form [formGroup]="recipeForm" (ngSubmit)="onCreate()">
+    <div class="main-wrapper">
+        <section class="left-section">
+
+            <div class="input">
+                <label for="name">Name</label>
+                <input formControlName="name" type="text" name="name" id="name" placeholder="name for your recipe...">
+            </div>
+
+            <div class="input">
+                <label for="desc">Description</label>
+                <textarea formControlName="description" name="desc" id="desc"
+                    placeholder="describe your recipe in few words..."></textarea>
+            </div>
+
+            <div class="input">
+                <label for="link">Video link</label>
+                <input formControlName="link" type="text" name="link" id="link" placeholder="https://youtube.com/...">
+            </div>
+
+            <div class="input">
+                <label for="link">Tags</label>
+                <div class="tags edit">
+                    <div color="pink">#Spaghetii</div>
+                    <div color="green">#Fast</div>
+                    <div color="brown">#Pomodoro</div>
+                    <div color="light-green">#Italian</div>
+                    <div color="pink">#Spaghetii</div>
+                    <div color="green">#Fast</div>
+                    <div color="brown">#Pomodoro</div>
+                    <div color="light-green">#Italian</div>
+                    <div color="pink">#Spaghetii</div>
+                    <div color="green">#Fast</div>
+                    <div color="brown">#Pomodoro</div>
+                    <div color="light-green">#Italian</div>
+                    <div color="pink">#Spaghetii</div>
+                    <div color="green">#Fast</div>
+                    <div color="brown">#Pomodoro</div>
+                    <div color="light-green">#Italian</div>
+                </div>
+            </div>
+
+
+            <div class="flex-box image-input-wrapper">
+                <div class="input image">
+                    <label for="image">Photo</label>
+                    <input #imageUrlInput formControlName="imageUrl" type="text" placeholder="link to photo...">
+                </div>
+                <div class="image-box">
+                    <img class="circle-image" [src]="imageUrlInput.value" alt="food-image">
+                </div>
+            </div>
+
+
+
+        </section>
+        <section class="right-section2">
+            <div class="input">
+                <label for="instructions">Instructions</label>
+                <textarea formControlName="instructions" class="instructions" name="instructions" id="instructions"
+                    placeholder="Write steps..."></textarea>
+            </div>
+
+            <div class="input" formArrayName="recipeIngredients">
+                <label for="ingredients">Ingredients</label>
+
+                <div class="recipe-ingredients">
+
+                    <div class="ingredient flex-box-raw" *ngFor="let ingredientsCtrl of ingrControls; index as i"
+                        [formGroupName]="i">
+                        <div class="ingr-input flex-box-vertical" formGroupName="ingredient">
+                            <label for="ingr-name">Name</label>
+                            <input formControlName="name" type="text" name="ingr-name" id="ingr-name"
+                                placeholder="flour">
+                        </div>
+                        <div class="ingr-input flex-box-vertical">
+                            <label for="ingr-quantity">Quantity</label>
+                            <input formControlName="quantity" type="number" min="0" name="ingr-quantity"
+                                id="ingr-quantity" placeholder="100">
+                        </div>
+                        <div class="ingr-input flex-box-vertical">
+                            <label for="ingr-unit">Unit</label>
+                            <input formControlName="unit" type="text" name="ingr-unit" id="ingr-unit" placeholder="g">
+                        </div>
+                        <div class="buttons flex-box-center" *ngIf="i == 0">
+                            <div class="button flex-box-center" (click)="onAddRecipeIngredient()">
+                                <i class="bi bi-plus" style="font-size: 32px">
+                                </i>
+                            </div>
+                            <div class="button flex-box-center" (click)="onDeleteRecipeIngredient()">
+                                <i class="bi bi-dash" style="font-size: 32px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="ingredient-input flex-box-raw">
+                    <div class="flex-box-vertical">
+                        <label for="ingr-name">Name</label>
+                        <input type="text" name="ingr-name" id="ingr-name" placeholder="flour">
+                    </div>
+                    <div class="flex-box-vertical">
+                        <label for="ingr-quantity">Quantity</label>
+                        <input type="number" min="0" name="ingr-quantity" id="ingr-quantity" placeholder="100">
+                    </div>
+                    <div class="flex-box-vertical">
+                        <label for="ingr-unit">Unit</label>
+                        <input type="text" name="ingr-unit" id="ingr-unit" placeholder="g">
+                    </div>
+                </div>
+                <div class="ingredient-input flex-box-raw">
+                    <div class="flex-box-vertical">
+                        <label for="ingr-name">Name</label>
+                        <input type="text" name="ingr-name" id="ingr-name" placeholder="flour">
+                    </div>
+                    <div class="flex-box-vertical">
+                        <label for="ingr-quantity">Quantity</label>
+                        <input type="number" min="0" name="ingr-quantity" id="ingr-quantity" placeholder="100">
+                    </div>
+                    <div class="flex-box-vertical">
+                        <label for="ingr-unit">Unit</label>
+                        <input type="text" name="ingr-unit" id="ingr-unit" placeholder="g">
+                    </div>
+                </div> -->
+            </div>
+            <button class="btn btn-success" type="submit">SUBMIT</button>
+        </section>
+
+    </div>
+</form>
