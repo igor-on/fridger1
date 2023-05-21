@@ -28,6 +28,7 @@
     margin: 0;
     padding: 0;
     font-family: 'Rubik', sans-serif;
+    // border: 1px solid black;
 }
 
 body {
@@ -63,6 +64,16 @@ select {
     position: absolute;
     padding: 2rem;
     font-weight: bolder;
+    transition: .2s;
+
+}
+
+.hover-scale:hover {
+    scale: 1.2;
+
+    * {
+        color: var(--black);
+    }
 }
 
 .logo a {

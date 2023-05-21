@@ -21,9 +21,9 @@ public class PlannedRecipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "title")
-    @NotNull
-    private String title;
+//    @Column(name = "title")
+//    @NotNull
+//    private String title;
     @Column(name = "planned_date")
     @NotNull
     private LocalDateTime plannedDate;

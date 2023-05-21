@@ -26,9 +26,6 @@ export class RecipesListComponent implements OnInit, OnDestroy {
     this.handleMessages();
     this.handleRecipes();
 
-    this.globalFilter.valueChanges.subscribe(() => {
-      this.getGlobalFilteredRecipes()
-    })
   }
 
   handleMessages() {
