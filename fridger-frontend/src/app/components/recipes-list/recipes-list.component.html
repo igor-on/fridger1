@@ -1,38 +1,64 @@
 <section class="recipes-list">
-    <div class="upper-content">
-        <div class="global-search">
-            <input type="text" name="global-search" id="" [formControl]="globalFilter"
-                placeholder="Search recipe by name, ingredient and etc..." autocomplete="off">
-        </div>
-        <div class="options">
-            <h3>Options</h3>
-        </div>
+  <div class="upper-content">
+    <div class="global-search">
+      <input
+        type="text"
+        name="global-search"
+        id=""
+        [formControl]="globalFilter"
+        placeholder="Search recipe by name, ingredient and etc..."
+        autocomplete="off"
+      />
     </div>
-    <div class="main-content">
-        <div class="title">
-            <h1>Your recipes</h1>
-            <!-- <a href="edit-recipe.html"> -->
-                <button routerLink="recipe-form" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Create recipe"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
-                </svg></button>
-            <!-- </a> -->
-            <div *ngIf="message" (click)="message=''" class="alert alert-success" role="alert">
-                {{ message }}
-              </div>
-        </div>
-        <div class="recipes-list-wrapper grid">
-            <div class="recipe-box" *ngFor="let recipe of getGlobalFilteredRecipes()">
-                <!-- <a href="recipe-details.html"> -->
-                    <div class="image-box" [routerLink]="['recipe-details', recipe.id]">
-                        <img class="circle-image" [src]="recipe.imageUrl"
-                            alt="food-image">
-                    </div>
-                <!-- </a> -->
-                <div class="name-box" color="orange" randBgColor>
-                    <p>{{ recipe.name }}</p>
-                </div>
-            </div>
-        </div>
+    <div class="options">
+      <h3>Options</h3>
     </div>
-
+  </div>
+  <div class="main-content">
+    <div class="title">
+      <h1>Your recipes</h1>
+      <!-- <a href="edit-recipe.html"> -->
+      <button
+        routerLink="/recipe-form"
+        type="button"
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        title="Create recipe"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="32"
+          height="32"
+          fill="currentColor"
+          class="bi bi-plus-circle-fill"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
+          />
+        </svg>
+      </button>
+      <!-- </a> -->
+      <div
+        *ngIf="message"
+        (click)="message = ''"
+        class="alert alert-success"
+        role="alert"
+      >
+        {{ message }}
+      </div>
+    </div>
+    <div class="recipes-list-wrapper grid">
+      <div class="recipe-box" *ngFor="let recipe of getGlobalFilteredRecipes()">
+        <!-- <a href="recipe-details.html"> -->
+        <div class="image-box" [routerLink]="['/recipe-details', recipe.id]">
+          <img class="circle-image" [src]="recipe.imageUrl" alt="food-image" />
+        </div>
+        <!-- </a> -->
+        <div class="name-box" color="orange" randBgColor>
+          <p>{{ recipe.name }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
