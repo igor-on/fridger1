@@ -9,26 +9,26 @@ import { RecipeService } from 'src/app/services/recipe.service';
 @Component({
   selector: 'app-recipe-form',
   templateUrl: './recipe-form.component.html',
-  styleUrls: ['./recipe-form.component.scss']
+  styleUrls: ['./recipe-form.component.scss'],
 })
 export class RecipeFormComponent implements OnInit {
-
-
   recipeForm!: FormGroup;
 
   editMode: boolean = false;
 
-  constructor(private route: ActivatedRoute,
-              private router: Router,
-              private fb: FormBuilder,
-              private recipeService: RecipeService,
-              private messageService: MessageService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private fb: FormBuilder,
+    private recipeService: RecipeService,
+    private messageService: MessageService
+  ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.editMode = params.has('id')
+      this.editMode = params.has('id');
       this.initForm();
-    })
+    });
   }
 
   initForm() {
@@ -42,45 +42,41 @@ export class RecipeFormComponent implements OnInit {
       new FormGroup({
         id: new FormControl(0),
         ingredient: new FormGroup({
-          name: new FormControl('')
+          name: new FormControl(''),
         }),
         quantity: new FormControl(''),
         unit: new FormControl(''),
-      })
-    ])
-
-
+      }),
+    ]);
 
     if (this.editMode) {
-      console.log('edit mode')
+      console.log('edit mode');
       const recipeId = this.route.snapshot.paramMap.get('id');
 
-      this.recipeService.getRecipeDetails(recipeId!).subscribe(
-        data => {
+      this.recipeService.getRecipeDetails(recipeId!).subscribe(data => {
+        id.setValue(data.id);
+        name.setValue(data.name);
+        description.setValue(data.description);
+        instructions.setValue(data.instructions);
+        link.setValue(data.link);
+        imageUrl.setValue(data.imageUrl);
 
-          id.setValue(data.id);
-          name.setValue(data.name);
-          description.setValue(data.description);
-          instructions.setValue(data.instructions);
-          link.setValue(data.link);
-          imageUrl.setValue(data.imageUrl);
+        // this.onDeleteRecipeIngredient();
 
-          this.onDeleteRecipeIngredient();
+        recipeIngredients.clear(); // when dont want to have pre prepared ingredients
 
-          data.recipeIngredients.forEach((recipeIngr) => {
-            const ingr = new FormGroup({
-              id: new FormControl(recipeIngr.id),
-              ingredient: new FormGroup({
-                name: new FormControl(recipeIngr.ingredient.name)
-              }),
-              quantity: new FormControl(recipeIngr.quantity.toString()),
-              unit: new FormControl(recipeIngr.unit)
-            });
-            recipeIngredients.push(ingr);
+        data.recipeIngredients.forEach(recipeIngr => {
+          const ingr = new FormGroup({
+            id: new FormControl(recipeIngr.id),
+            ingredient: new FormGroup({
+              name: new FormControl(recipeIngr.ingredient.name),
+            }),
+            quantity: new FormControl(recipeIngr.quantity.toString()),
+            unit: new FormControl(recipeIngr.unit),
           });
-        }
-      )
-
+          recipeIngredients.push(ingr);
+        });
+      });
     }
 
     this.recipeForm = new FormGroup({
@@ -90,34 +86,37 @@ export class RecipeFormComponent implements OnInit {
       instructions: instructions,
       link: link,
       imageUrl: imageUrl,
-      recipeIngredients: recipeIngredients
-    })
+      recipeIngredients: recipeIngredients,
+    });
   }
 
   onCreate() {
-    console.log('Form submitted!')
-    console.log(`recipeForm:`)
-    console.log(this.recipeForm.value)
-
+    console.log('Form submitted!');
+    console.log(`recipeForm:`);
+    console.log(this.recipeForm.value);
 
     if (this.editMode) {
-      this.recipeService.updateRecipe(this.recipeForm.value).subscribe(response => {
-        console.log("Recipe updated, message: " + response.message)
-        this._handleResponse(response)
-      })
+      this.recipeService
+        .updateRecipe(this.recipeForm.value)
+        .subscribe(response => {
+          console.log('Recipe updated, message: ' + response.message);
+          this._handleResponse(response);
+        });
     } else {
-      this.recipeService.createRecipe(this.recipeForm.value).subscribe(response => {
-        console.log("Recipe created, message: " + response.message)
-        this._handleResponse(response)
-      })
+      this.recipeService
+        .createRecipe(this.recipeForm.value)
+        .subscribe(response => {
+          console.log('Recipe created, message: ' + response.message);
+          this._handleResponse(response);
+        });
     }
-    
+
     // this.messageService.sendMessage()
   }
-  
+
   private _handleResponse(response: any) {
     this.router.navigate(['/']);
-    this.messageService.sendMessage(response.message)
+    this.messageService.sendMessage(response.message);
   }
 
   get ingrControls() {
@@ -128,19 +127,19 @@ export class RecipeFormComponent implements OnInit {
     (<FormArray>this.recipeForm.get('recipeIngredients')).push(
       new FormGroup({
         ingredient: new FormGroup({
-          name: new FormControl(null)
+          name: new FormControl(null),
         }),
         quantity: new FormControl(null),
-        unit: new FormControl(null)
+        unit: new FormControl(null),
       })
     );
   }
 
   onDeleteRecipeIngredient() {
-    // if ((<FormArray>this.recipeForm.get('recipeIngredients')).length - 1 == 0) {
-    //   return
-    // }
+    if ((<FormArray>this.recipeForm.get('recipeIngredients')).length === 1) {
+      return;
+    }
 
-    (<FormArray>this.recipeForm.get('recipeIngredients')).removeAt((<FormArray>this.recipeForm.get('recipeIngredients')).length - 1);
+    (<FormArray>this.recipeForm.get('recipeIngredients')).removeAt(-1);
   }
 }
