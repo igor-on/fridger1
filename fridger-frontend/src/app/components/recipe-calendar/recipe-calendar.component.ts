@@ -39,10 +39,12 @@ export class RecipeCalendarComponent implements OnInit {
       minute: '2-digit',
       hour12: false,
     },
-    initialView: 'dayGridMonth',
+    defaultTimedEventDuration: '00:00',
+    initialView: 'dayGridWeek',
     plugins: [dayGridPlugin, interactionPlugin],
     headerToolbar: {
       center: 'addEventButton',
+      start: 'title,dayGridWeek,dayGridMonth',
     },
     editable: true,
     events: this.fetchEvents.bind(this),
@@ -120,6 +122,9 @@ export class RecipeCalendarComponent implements OnInit {
           eventId !== undefined
             ? this.plannedRecipes.find(v => v.id === eventId)
             : null,
+      },
+      position: {
+        top: '8rem',
       },
     });
 

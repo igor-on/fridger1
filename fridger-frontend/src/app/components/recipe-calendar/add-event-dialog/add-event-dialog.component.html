@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Add your planned recipe</h1>
+<h1 mat-dialog-title>{{ editMode ? 'Update' : 'Add' }} your planned recipe</h1>
 <div mat-dialog-content>
     <!-- <p>What's your favorite animal?</p> -->
     <div appearance="fill">
@@ -6,7 +6,7 @@
             <label for="date">Planned date</label>
             <input type="datetime-local" matInput formControlName="date" name="date" />
             <label for="recipeId">Recipe</label>
-            <select formControlName="recipe">
+            <select formControlName="recipe" aria-placeholder="select recipe../">
                 <option *ngFor="let recipe of recipes" [ngValue]="recipe">
                     {{ recipe.name }}
                 </option>
@@ -14,7 +14,7 @@
         </form>
     </div>
 </div>
-<div mat-dialog-actions>
-    <button type="button" mat-button (click)="onNoClick()">No Thanks</button>
-    <button type="submit" mat-button [mat-dialog-close]="eventForm.value" cdkFocusInitial>Ok</button>
+<div mat-dialog-actions class="!px-6">
+    <button type="button" class="btn-error mr-4" (click)="onNoClick()">No Thanks</button>
+    <button type="submit" class="btn-success" [mat-dialog-close]="eventForm.value" cdkFocusInitial>Ok</button>
 </div>
