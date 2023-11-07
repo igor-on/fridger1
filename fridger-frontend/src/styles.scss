@@ -1,137 +1,143 @@
-:root {
-    --background-white: #F7EDE7;
-    --beige: #E6D0AF;
-    --pastel-pink: #DDACA7;
-    --grey: #B5ADBA;
-    --light-brown: #B48C6D;
-    --brown: #5E3F2E;
-    --black: #160E0A;
-    --ginger: #C75A22;
-    --pastel-green: rgb(193, 212, 163);
-    --pastel-light-green: rgb(217, 238, 183);
-    --pastel-pink: rgb(229, 189, 196);
-    --pastel-orange: rgb(228, 194, 132);
-    --pastel-yellow: rgb(234, 234, 160);
-    --pastel-red: rgb(244, 117, 117);
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+:root {
+  --background-white: #f7ede7;
+  --beige: #e6d0af;
+  --pastel-pink: #ddaca7;
+  --grey: #b5adba;
+  --light-brown: #b48c6d;
+  --brown: #5e3f2e;
+  --black: #160e0a;
+  --ginger: #c75a22;
+  --pastel-green: rgb(193, 212, 163);
+  --pastel-light-green: rgb(217, 238, 183);
+  --pastel-pink: rgb(229, 189, 196);
+  --pastel-orange: rgb(228, 194, 132);
+  --pastel-yellow: rgb(234, 234, 160);
+  --pastel-red: rgb(244, 117, 117);
+}
 
 /* STYLE RESET */
 
 *,
 *::after,
 *::before {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    font-family: 'Rubik', sans-serif;
-    // border: 1px solid black;
+  margin: 0;
+  padding: 0;
+  font-family: 'Rubik', sans-serif;
+  // border: 1px solid black;
 }
 
 body {
-    min-height: 100vh;
-    /* height: 100vh; */
-    /* height: 100dvh; */
+  min-height: 100vh;
+  /* height: 100vh; */
+  /* height: 100dvh; */
 }
 
 img,
 picture,
 svg,
 video {
-    display: block;
-    max-width: 100%;
+  display: block;
+  max-width: 100%;
 }
 
 input,
 textarea,
 button,
 select {
-    font: inherit;
+  font: inherit;
 }
 
-
-// COMMON 
+// COMMON
 .main-wrapper {
-    height: 100vh;
-    height: 100dvh;
-    display: flex;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
 }
 
 .logo {
-    position: absolute;
-    padding: 2rem;
-    font-weight: bolder;
-    transition: .2s;
-
+  position: absolute;
+  padding: 2rem;
+  font-weight: bolder;
+  transition: 0.2s;
 }
 
 .hover-scale:hover {
-    scale: 1.2;
+  scale: 1.2;
 
-    * {
-        color: var(--black);
-    }
+  * {
+    color: var(--black);
+  }
 }
 
 .logo a {
-    color: var(--black);
-    text-decoration: none;
+  color: var(--black);
+  text-decoration: none;
 }
 
 .circle-image {
-    border-radius: 50%;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    height: 100%;
+  border-radius: 50%;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  height: 100%;
 }
 
 .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1em;
-    /* justify-content: space-between; */
-    
-    div {
-        padding: .2em 1.2em;
-        border-radius: 5em;
-        
-        &:not(:last-child) {
-            margin-right: 1em;
-        }
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  /* justify-content: space-between; */
+
+  div {
+    padding: 0.2em 1.2em;
+    border-radius: 5em;
+
+    &:not(:last-child) {
+      margin-right: 1em;
     }
+  }
 }
 
-.tags div[color="pink"] {
-    background-color: var(--pastel-pink);
-    border-color: var(--pastel-pink);
+.tags div[color='pink'] {
+  background-color: var(--pastel-pink);
+  border-color: var(--pastel-pink);
 }
-.tags div[color="green"] {
-    background-color: var(--pastel-green);
-    border-color: var(--pastel-green);
+.tags div[color='green'] {
+  background-color: var(--pastel-green);
+  border-color: var(--pastel-green);
 }
-.tags div[color="brown"] {
-    background-color: var(--light-brown);
-    border-color: var(--light-brown);
+.tags div[color='brown'] {
+  background-color: var(--light-brown);
+  border-color: var(--light-brown);
 }
-.tags div[color="light-green"] {
-    background-color: var(--pastel-light-green);
-    border-color: var(--pastel-light-green);
+.tags div[color='light-green'] {
+  background-color: var(--pastel-light-green);
+  border-color: var(--pastel-light-green);
 }
 
 .flex-box-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
 
 .grid {
-    display: grid;
-    gap: 4rem;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
+  display: grid;
+  gap: 4rem;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
