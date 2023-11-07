@@ -1,9 +1,8 @@
+import { Recipe } from './recipe';
+
 export interface PlannedRecipe {
   id?: number;
   plannedDate: string;
-  recipe: {
-    id: number;
-    name?: string;
-  };
+  recipe: Recipe;
   done: boolean;
 }

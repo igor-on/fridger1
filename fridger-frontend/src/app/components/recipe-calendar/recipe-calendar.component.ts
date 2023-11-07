@@ -1,15 +1,23 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FullCalendarComponent } from '@fullcalendar/angular';
-import { CalendarOptions, EventDropArg } from '@fullcalendar/core';
+import {
+  CalendarOptions,
+  EventClickArg,
+  EventDropArg,
+} from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { AddEventDialogComponent } from './add-event-dialog/add-event-dialog.component';
-import { CalendarService } from 'src/app/services/calendar.service';
+import {
+  CalendarService,
+  PostPlannedRecipeResponse,
+} from 'src/app/services/calendar.service';
 import { PlannedRecipe } from 'src/app/common/plannedRecipe';
 import { ActivatedRoute } from '@angular/router';
 import { Recipe } from 'src/app/common/recipe';
 import * as moment from 'moment';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-recipe-calendar',
@@ -21,9 +29,11 @@ export class RecipeCalendarComponent implements OnInit {
   @ViewChild('calendar') calendar!: FullCalendarComponent;
 
   recipes!: Recipe[];
+  plannedRecipes!: PlannedRecipe[];
 
   calendarOptions: CalendarOptions = {
     timeZone: 'locale',
+    locale: 'en-Gb',
     eventTimeFormat: {
       hour: '2-digit',
       minute: '2-digit',
@@ -39,14 +49,14 @@ export class RecipeCalendarComponent implements OnInit {
     customButtons: {
       addEventButton: {
         text: 'add event...',
-        click: this.openDialog.bind(this),
+        click: e => this.openDialog(undefined),
       },
     },
     eventDragStart: v => console.log(v.event.toPlainObject()),
     eventDrop: this.updateEventOnDrag.bind(this),
     eventResizeStart: v => console.log(v.event.toPlainObject()),
     eventResize: v => console.log(v.event.toPlainObject()),
-    eventClick: this.handleEventClick.bind(this),
+    eventClick: e => this.openDialog(Number.parseInt(e.event.id)),
     eventAdd: undefined,
   };
   constructor(
@@ -87,6 +97,9 @@ export class RecipeCalendarComponent implements OnInit {
           failureCallback(new Error('cannot find recipes!'));
         }
 
+        this.plannedRecipes = result;
+        console.log(this.plannedRecipes);
+
         successCallback(
           Array.prototype.slice.call(result).map((v: PlannedRecipe) => {
             return {
@@ -99,9 +112,15 @@ export class RecipeCalendarComponent implements OnInit {
       });
   }
 
-  openDialog(): void {
+  openDialog(eventId: number | undefined): void {
     const dialogRef = this.dialog.open(AddEventDialogComponent, {
-      data: this.recipes,
+      data: {
+        recipes: this.recipes,
+        plannedRecipe:
+          eventId !== undefined
+            ? this.plannedRecipes.find(v => v.id === eventId)
+            : null,
+      },
     });
 
     dialogRef
@@ -115,26 +134,67 @@ export class RecipeCalendarComponent implements OnInit {
         }) => {
           console.log('The dialog was closed: ', result);
 
+          // No Thanks clicked
+          if (!result) {
+            return;
+          }
+
+          console.log(dialogRef.componentInstance.data);
+
           const plannedRecipe: PlannedRecipe = {
             plannedDate: result.date,
             recipe: {
               id: result.recipe.id,
+              name: '',
+              description: '',
+              instructions: '',
+              imageUrl: '',
+              link: '',
+              recipeIngredients: [],
             },
             done: result.done,
           };
 
-          this.calendarService
-            .createPlannedRecipe(plannedRecipe)
-            .subscribe(result => {
-              console.log(result);
-              this.calendar.getApi().refetchEvents();
-            });
+          console.log('plannedRecipe: ', plannedRecipe);
+
+          if (eventId) {
+            console.log('Updating...');
+            plannedRecipe.id = eventId;
+            this.calendarService
+              .updatePlannedRecipe(plannedRecipe)
+              .subscribe(result => {
+                console.log(result);
+                this.calendar.getApi().refetchEvents();
+              });
+          } else {
+            console.log('Creating...');
+            this.calendarService
+              .createPlannedRecipe(plannedRecipe)
+              .subscribe(result => {
+                console.log(result);
+                this.calendar.getApi().refetchEvents();
+              });
+          }
         }
       );
   }
 
-  handleEventClick(args: any) {
-    console.log(args);
+  // TODO: analyze later
+  // handleEventEdit(
+  //   recipe: PlannedRecipe,
+  //   func: (data: PlannedRecipe) => Observable<PostPlannedRecipeResponse>
+  // ) {
+  //   console.log('func: ', func);
+  //   func(recipe).subscribe(result => {
+  //     console.log(result);
+  //     this.calendar.getApi().refetchEvents();
+  //   });
+  // }
+
+  handleEventClick(args: EventClickArg) {
+    console.log(args.event.title);
+    console.log(args.event.id);
+    console.log(args.event.toJSON());
   }
 
   test() {

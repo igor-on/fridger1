@@ -26,7 +26,7 @@ export class CalendarService {
   }
 }
 
-interface PostPlannedRecipeResponse {
+export interface PostPlannedRecipeResponse {
   data: PlannedRecipe;
   message: string;
 }

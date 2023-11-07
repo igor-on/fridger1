@@ -61,7 +61,9 @@ export class RecipeFormComponent implements OnInit {
         link.setValue(data.link);
         imageUrl.setValue(data.imageUrl);
 
-        this.onDeleteRecipeIngredient();
+        // this.onDeleteRecipeIngredient();
+
+        recipeIngredients.clear(); // when dont want to have pre prepared ingredients
 
         data.recipeIngredients.forEach(recipeIngr => {
           const ingr = new FormGroup({

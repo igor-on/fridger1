@@ -4,14 +4,12 @@ import { Observable } from 'rxjs';
 import { Recipe } from '../common/recipe';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RecipeService {
+  private url = 'http://localhost:8080/api/recipes';
 
-  private url = "http://localhost:8080/api/recipes";
-
-  constructor(private httpClient: HttpClient) { }
-
+  constructor(private httpClient: HttpClient) {}
 
   getRecipes(): Observable<Recipe[]> {
     return this.httpClient.get<Recipe[]>(this.url);
@@ -36,7 +34,6 @@ export class RecipeService {
 
     return this.httpClient.delete<DeleteRecipeResponse>(url);
   }
-
 }
 
 interface PostRecipeResponse {
