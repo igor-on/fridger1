@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +21,8 @@ public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
             LEFT JOIN recipes as r on pr.recipe_id = r.id\s
             LEFT JOIN recipe_ingredient as ri on r.id = ri.recipe_id\s
             LEFT JOIN ingredients as i on ri.ingredient_id = i.id
+            WHERE pr.planned_date >= :startDate and pr.planned_date <= :endDate
             GROUP BY i.name, ri.unit;
             """)
-    List<Object[]> getIngredientsListFromPlannedRecipes();
+    List<Object[]> getIngredientsListFromPlannedRecipes(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 }

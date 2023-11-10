@@ -4,11 +4,9 @@ import com.app.fridger.dto.ShoppingProduct;
 import com.app.fridger.service.GroceriesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,9 +21,9 @@ public class GroceriesController {
     private final GroceriesService groceriesService;
 
     @GetMapping("groceries/ingredients-list")
-    public Map<String, Object> getIngredientsListFromPlannedRecipes() {
+    public Map<String, Object> getIngredientsListFromPlannedRecipes(@RequestParam LocalDateTime startDate, @RequestParam LocalDateTime endDate) {
         HashMap<String, Object> result = new HashMap<>();
-        List<ShoppingProduct> shoppingProducts = groceriesService.getIngredientsListFromPlannedRecipes();
+        List<ShoppingProduct> shoppingProducts = groceriesService.getIngredientsListFromPlannedRecipes(startDate, endDate);
 
         result.put("message", "Successfully obtained groceries list");
         result.put("data", shoppingProducts);
