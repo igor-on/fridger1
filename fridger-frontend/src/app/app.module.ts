@@ -17,6 +17,7 @@ import { AddEventDialogComponent } from "./components/recipe-calendar/add-event-
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatButtonModule } from "@angular/material/button";
+import { GroceriesListComponent } from './components/groceries-list/groceries-list.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { MatButtonModule } from "@angular/material/button";
     RecipeFormComponent,
     RecipeCalendarComponent,
     AddEventDialogComponent,
+    GroceriesListComponent,
   ],
   imports: [
     BrowserModule,
