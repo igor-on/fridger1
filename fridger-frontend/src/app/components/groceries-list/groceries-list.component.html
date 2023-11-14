@@ -1,0 +1,65 @@
+<div class="main-wrapper">
+    <app-sidebar></app-sidebar>
+
+    <div class="mx-20 mt-10 flex flex-col items-center gap-2">
+        <div>
+            <h1>Generate groceries list from planned recipes</h1>
+            <div class="mt-10 flex items-center gap-3 text-[var(--grey)]">
+                <h3 class="">Select time range for your groceries:</h3>
+                <label class="mb-2 text-[1.75rem]" for="start">
+                    from
+                    <input
+                        type="datetime-local"
+                        name="start"
+                        placeholder="start"
+                        [ngModel]="startDate | date: 'yyyy-MM-ddTHH:mm:ss'"
+                        (ngModelChange)="startDate = $event" />
+                </label>
+                <label class="mb-2 text-[1.75rem]" for="end">
+                    to
+                    <input
+                        type="datetime-local"
+                        name="end"
+                        placeholder="end"
+                        [ngModel]="endDate | date: 'yyyy-MM-ddTHH:mm:ss'"
+                        (ngModelChange)="endDate = $event" />
+                </label>
+
+                <button type="submit" class="btn-primary mb-1 ml-2 h-[2.5rem] w-[12.5rem]" (click)="onGenerate()">
+                    Generate
+                </button>
+            </div>
+        </div>
+        <div
+            *ngIf="groceriesList.length > 0"
+            class="bg-shadow h-[83%] w-[50%] overflow-scroll rounded-sm border-2 p-10">
+            <h2>Grocery Shopping</h2>
+            <h5>
+                <b>from</b> {{ groceriesListStart | date: 'yyyy-MM-dd' }} <b>to</b>
+                {{ groceriesListEnd | date: 'yyyy-MM-dd' }}
+            </h5>
+            <table mat-table [dataSource]="groceriesList" class="mat-elevation-z0">
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>Name</th>
+                    <td mat-cell *matCellDef="let element">{{ element.ingredientName }}</td>
+                </ng-container>
+
+                <!-- Quantity Column -->
+                <ng-container matColumnDef="quantity">
+                    <th mat-header-cell *matHeaderCellDef>Quantity</th>
+                    <td mat-cell *matCellDef="let element">{{ element.quantity }}</td>
+                </ng-container>
+
+                <!-- Unit Column -->
+                <ng-container matColumnDef="unit">
+                    <th mat-header-cell *matHeaderCellDef>Unit</th>
+                    <td mat-cell *matCellDef="let element">{{ element.unit }}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="['name', 'quantity', 'unit']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['name', 'quantity', 'unit']"></tr>
+            </table>
+        </div>
+    </div>
+</div>

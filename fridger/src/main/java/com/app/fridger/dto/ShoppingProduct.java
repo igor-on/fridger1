@@ -21,6 +21,12 @@ public class ShoppingProduct {
         this.unit = String.valueOf(recipeIngredient.getUnit());
     }
 
+    public ShoppingProduct(Object[] obj) {
+        this.ingredientName = String.valueOf(obj[0]);
+        this.quantity = String.valueOf(obj[1]);
+        this.unit = String.valueOf(obj[2]);
+    }
+
     public ShoppingProduct(List<RecipeIngredient> recipeIngredients) {
         this.ingredientName = recipeIngredients.get(0).getIngredient().getName();
         this.quantity = recipeIngredients.stream().map(ri -> String.valueOf(ri.getQuantity())).collect(Collectors.joining(" "));

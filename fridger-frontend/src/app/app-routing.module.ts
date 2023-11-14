@@ -5,6 +5,7 @@ import { RecipeDetailsComponent } from './components/recipe-details/recipe-detai
 import { RecipeFormComponent } from './components/recipe-form/recipe-form.component';
 import { RecipeCalendarComponent } from './components/recipe-calendar/recipe-calendar.component';
 import { recipesResolver } from './recipesResolver';
+import { GroceriesListComponent } from './components/groceries-list/groceries-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -17,6 +18,7 @@ const routes: Routes = [
     component: RecipeCalendarComponent,
     resolve: { recipes: recipesResolver },
   },
+  { path: 'groceries', component: GroceriesListComponent },
 ];
 
 @NgModule({
