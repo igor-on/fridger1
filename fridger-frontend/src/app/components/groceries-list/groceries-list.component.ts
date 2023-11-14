@@ -14,7 +14,6 @@ export class GroceriesListComponent {
   groceriesListStart: string | undefined;
   groceriesListEnd: string | undefined;
 
-  displayedColumns: string[] = ['name', 'quantity', 'unit'];
   groceriesList: { ingredientName: string; quantity: number; unit: string }[] =
     [];
 
@@ -27,8 +26,6 @@ export class GroceriesListComponent {
     console.log('Generate clicked!');
     this.startDate = moment(this.startDate).format('yyyy-MM-DDTHH:mm:ss');
     this.endDate = moment(this.endDate).format('yyyy-MM-DDTHH:mm:ss');
-    console.log('startDate: ', this.startDate);
-    console.log('endDate: ', this.endDate);
 
     this.groceriesListStart = this.startDate;
     this.groceriesListEnd = this.endDate;
@@ -44,9 +41,5 @@ export class GroceriesListComponent {
         console.log(res);
         this.groceriesList = res.data;
       });
-  }
-
-  test(event: any) {
-    console.log(event);
   }
 }
