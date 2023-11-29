@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PlannedRecipe } from '../common/plannedRecipe';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CalendarService {
-  private url = 'http://localhost:8080/api/recipes-calendar';
+  private url = `${environment.apiUrl}/recipes-calendar`;
 
   constructor(private httpClient: HttpClient) {}
 

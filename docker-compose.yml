@@ -1,0 +1,47 @@
+version: "2"
+
+services:
+  fridger-ui:
+    build:
+      context: ./fridger-frontend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - fridger-app
+    networks:
+      - backend
+
+  fridger-app:
+    build:
+      context: ./fridger
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - DB_ADDRESS=mysqldb
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysqldb
+    networks:
+      - backend
+
+  mysqldb:
+    image: mysql:latest
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_USER=fridgerapp
+      - MYSQL_PASSWORD=fridgerapp
+      - MYSQL_DATABASE=fridger_db
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      - ./dbschema/dbschema2.sql:/docker-entrypoint-initdb.d/1.sql
+      - ./dbschema/initdata.sql:/docker-entrypoint-initdb.d/2.sql
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
