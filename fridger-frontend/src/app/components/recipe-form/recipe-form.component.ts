@@ -1,8 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Action } from 'rxjs/internal/scheduler/Action';
 import { Recipe } from 'src/app/common/recipe';
+import { noWhitespaceValidator } from 'src/app/common/validators';
 import { MessageService } from 'src/app/services/message.service';
 import { RecipeService } from 'src/app/services/recipe.service';
 
@@ -33,19 +40,44 @@ export class RecipeFormComponent implements OnInit {
 
   initForm() {
     let id = new FormControl();
-    let name = new FormControl('');
-    let description = new FormControl('');
-    let instructions = new FormControl('');
-    let link = new FormControl('');
-    let imageUrl = new FormControl('');
+    let name = new FormControl('', [
+      Validators.required,
+      noWhitespaceValidator,
+    ]);
+    let description = new FormControl('', [
+      Validators.required,
+      Validators.maxLength(255),
+      noWhitespaceValidator,
+    ]);
+    let instructions = new FormControl('', [
+      Validators.required,
+      Validators.maxLength(1000),
+      noWhitespaceValidator,
+    ]);
+    let link = new FormControl('', [
+      Validators.maxLength(255),
+      noWhitespaceValidator,
+    ]);
+    let imageUrl = new FormControl('', [
+      Validators.maxLength(255),
+      noWhitespaceValidator,
+    ]);
     let recipeIngredients = new FormArray([
       new FormGroup({
         id: new FormControl(0),
         ingredient: new FormGroup({
-          name: new FormControl(''),
+          name: new FormControl('', [
+            Validators.required,
+            Validators.maxLength(255),
+            noWhitespaceValidator,
+          ]),
         }),
-        quantity: new FormControl(''),
-        unit: new FormControl(''),
+        quantity: new FormControl('', Validators.required),
+        unit: new FormControl('', [
+          Validators.required,
+          Validators.maxLength(255),
+          noWhitespaceValidator,
+        ]),
       }),
     ]);
 
@@ -69,10 +101,21 @@ export class RecipeFormComponent implements OnInit {
           const ingr = new FormGroup({
             id: new FormControl(recipeIngr.id),
             ingredient: new FormGroup({
-              name: new FormControl(recipeIngr.ingredient.name),
+              name: new FormControl(recipeIngr.ingredient.name, [
+                Validators.required,
+                Validators.maxLength(255),
+                noWhitespaceValidator,
+              ]),
             }),
-            quantity: new FormControl(recipeIngr.quantity.toString()),
-            unit: new FormControl(recipeIngr.unit),
+            quantity: new FormControl(
+              recipeIngr.quantity.toString(),
+              Validators.required
+            ),
+            unit: new FormControl(recipeIngr.unit, [
+              Validators.required,
+              Validators.maxLength(255),
+              noWhitespaceValidator,
+            ]),
           });
           recipeIngredients.push(ingr);
         });
@@ -127,10 +170,18 @@ export class RecipeFormComponent implements OnInit {
     (<FormArray>this.recipeForm.get('recipeIngredients')).push(
       new FormGroup({
         ingredient: new FormGroup({
-          name: new FormControl(null),
+          name: new FormControl(null, [
+            Validators.required,
+            Validators.maxLength(255),
+            noWhitespaceValidator,
+          ]),
         }),
-        quantity: new FormControl(null),
-        unit: new FormControl(null),
+        quantity: new FormControl(null, Validators.required),
+        unit: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(255),
+          noWhitespaceValidator,
+        ]),
       })
     );
   }
@@ -141,5 +192,16 @@ export class RecipeFormComponent implements OnInit {
     }
 
     (<FormArray>this.recipeForm.get('recipeIngredients')).removeAt(-1);
+  }
+
+  inputInvalid(controlName: string) {
+    return (
+      this.recipeForm.get(controlName)?.touched &&
+      !this.recipeForm.get(controlName)?.valid
+    );
+  }
+
+  inputErrors(controlName: string) {
+    return this.recipeForm.get(controlName)?.errors;
   }
 }
