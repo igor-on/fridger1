@@ -15,7 +15,7 @@ import java.util.Map;
 @RequestMapping("${fridger.request-map}")
 @Log4j2
 @RequiredArgsConstructor
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("${fridger.allowed-origins}")
 public class GroceriesController {
 
     private final GroceriesService groceriesService;
