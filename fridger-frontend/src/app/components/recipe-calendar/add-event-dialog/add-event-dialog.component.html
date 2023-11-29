@@ -5,16 +5,29 @@
         <form [formGroup]="eventForm" style="display: flex; flex-direction: column; gap: 0.5rem">
             <label for="date">Planned date</label>
             <input type="datetime-local" matInput formControlName="date" name="date" />
+            <div class="ml-2 text-red-500" *ngIf="eventForm.get('date')?.invalid && eventForm.get('date')?.touched">
+                Date is required
+            </div>
             <label for="recipeId">Recipe</label>
             <select formControlName="recipe" aria-placeholder="select recipe../">
                 <option *ngFor="let recipe of recipes" [ngValue]="recipe">
                     {{ recipe.name }}
                 </option>
             </select>
+            <div class="ml-2 text-red-500" *ngIf="eventForm.get('recipe')?.invalid && eventForm.get('recipe')?.touched">
+                Recipe is required
+            </div>
         </form>
     </div>
 </div>
 <div mat-dialog-actions class="!px-6">
     <button type="button" class="btn-error mr-4" (click)="onNoClick()">No Thanks</button>
-    <button type="submit" class="btn-success" [mat-dialog-close]="eventForm.value" cdkFocusInitial>Ok</button>
+    <button
+        [disabled]="eventForm.invalid"
+        type="submit"
+        class="btn-success"
+        [mat-dialog-close]="eventForm.value"
+        cdkFocusInitial>
+        Ok
+    </button>
 </div>
