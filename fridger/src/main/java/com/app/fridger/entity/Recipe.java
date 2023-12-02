@@ -2,6 +2,7 @@ package com.app.fridger.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,6 +33,9 @@ public class Recipe {
     private String imageUrl;
     @Column(name = "link")
     private String link;
+    @Column(name = "favorite")
+    @NotNull
+    private Boolean favorite;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
     private List<RecipeIngredient> recipeIngredients;

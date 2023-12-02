@@ -156,6 +156,7 @@ export class RecipeCalendarComponent implements OnInit {
               imageUrl: '',
               link: '',
               recipeIngredients: [],
+              favorite: false,
             },
             done: result.done,
           };

@@ -32,6 +32,10 @@
   .btn-error {
     @apply h-7 rounded-lg bg-red-400 px-4 text-base leading-[0px] text-white shadow-md transition-all duration-300 hover:scale-125 hover:bg-red-500  disabled:bg-red-200 disabled:hover:scale-100;
   }
+
+  .grow {
+    @apply duration-300 hover:scale-125;
+  }
 }
 
 /* STYLE RESET */

@@ -35,6 +35,12 @@ export class RecipeService {
 
     return this.httpClient.delete<DeleteRecipeResponse>(url);
   }
+
+  toggleFavorite(recipe: Recipe): Observable<PostRecipeResponse> {
+    const url = `${this.url}/favorite`;
+
+    return this.httpClient.put<PostRecipeResponse>(url, recipe);
+  }
 }
 
 interface PostRecipeResponse {

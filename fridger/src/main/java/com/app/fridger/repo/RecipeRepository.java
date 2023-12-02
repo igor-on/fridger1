@@ -15,5 +15,7 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     @Query(value = "SELECT r FROM Recipe r LEFT JOIN FETCH r.recipeIngredients ri LEFT JOIN FETCH r.recipeIngredients.ingredient rii ")
     List<Recipe> findAll();
 
+    List<Recipe> findByFavoriteTrue();
+
     List<Recipe> findByRecipeIngredientsIngredientName(@Param(value = "name") String name);
 }
