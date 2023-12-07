@@ -1,0 +1,110 @@
+<main class="main-wrapper">
+    <app-sidebar></app-sidebar>
+    <div class="w-[85%]">
+        <div class="bg-image flex-ce flex h-[35%] flex-col items-center justify-start bg-slate-300 p-16 text-white">
+            <h1 class="text-6xl">Welcome in your virtual fridger!</h1>
+            <h3 class="text-3xl">Preparing dishes has never been easier.</h3>
+        </div>
+        <div class="flex h-[65%] w-[100%]">
+            <section class="flex w-[50%] flex-col items-center bg-pink-200 py-3">
+                <h3 class="text-3xl">Last Groceries</h3>
+                <div class="flex h-[93%] w-[100%] flex-col items-center gap-3 overflow-y-scroll pt-3">
+                    <!-- <div class="bg-dirty-white w-[400px] rounded-lg border-2 border-black p-3">
+                        <h3>Grocery Shopping</h3>
+                        <h5>from 2023-10-30 to 2023-12-07</h5>
+                        <p>items count: 10</p>
+                    </div>
+                    <div class="bg-dirty-white w-[400px] rounded-lg border-2 border-black p-3">
+                        <h3>Grocery Shopping</h3>
+                        <h5>from 2023-10-30 to 2023-12-07</h5>
+                        <p>items count: 10</p>
+                    </div>
+                    <div class="bg-dirty-white w-[400px] rounded-lg border-2 border-black p-3">
+                        <h3>Grocery Shopping</h3>
+                        <h5>from 2023-10-30 to 2023-12-07</h5>
+                        <p>items count: 10</p>
+                    </div>
+                    <div class="bg-dirty-white w-[400px] rounded-lg border-2 border-black p-3">
+                        <h3>Grocery Shopping</h3>
+                        <h5>from 2023-10-30 to 2023-12-07</h5>
+                        <p>items count: 10</p>
+                    </div>
+                    <div class="bg-dirty-white w-[400px] rounded-lg border-2 border-black p-3">
+                        <h3>Grocery Shopping</h3>
+                        <h5>from 2023-10-30 to 2023-12-07</h5>
+                        <p>items count: 10</p>
+                    </div>
+                    <div class="bg-dirty-white w-[400px] rounded-lg border-2 border-black p-3">
+                        <h3>Grocery Shopping</h3>
+                        <h5>from 2023-10-30 to 2023-12-07</h5>
+                        <p>items count: 10</p>
+                    </div> -->
+                    <div class="recipe-box min-w-[55%]">
+                        <!-- <a href="recipe-details.html"> -->
+                        <div class="image-box text-7xl">
+                            <div
+                                class="circle-image z-[999] flex w-[150px] flex-col items-center justify-center bg-green-300">
+                                <div class="text-sm">items count:</div>
+                                <div class="text-7xl">10</div>
+                            </div>
+                        </div>
+                        <!-- </a> -->
+                        <div class="name-box" color="orange" randBgColor>
+                            <div class="flex flex-col">
+                                <p class="text-2xl">Groceries</p>
+                                <p>From 2023-10-12 to 2023-10-03</p>
+                            </div>
+                            <div class="h-100 m-1 flex w-5">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    fill="white"
+                                    class="bi bi-star-fill pointer-events-auto z-[999] grow"
+                                    viewBox="0 0 16 16">
+                                    <path
+                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <!-- <div class="absolute right-0 top-7  h-3 w-3 bg-black"></div> -->
+                    </div>
+                </div>
+            </section>
+            <section class="flex w-[50%] flex-col items-center border-l-4 border-black py-3">
+                <h3 class="text-3xl">Favorites</h3>
+                <div
+                    class="flex h-[93%] w-[100%] flex-col items-center gap-3 overflow-x-visible overflow-y-scroll bg-rose-400 pt-3">
+                    <div class="recipe-box min-w-[55%]">
+                        <!-- <a href="recipe-details.html"> -->
+                        <div class="image-box">
+                            <img
+                                class="circle-image"
+                                [src]="
+                                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ15wXWRF0ikFX0_x4jIpIzmTmV5FDSRManIA&usqp=CAU'
+                                "
+                                alt="food-image" />
+                        </div>
+                        <!-- </a> -->
+                        <div class="name-box" color="orange" randBgColor>
+                            <p>Test</p>
+                            <div class="h-100 m-1 flex w-5">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    fill="white"
+                                    class="bi bi-star-fill pointer-events-auto z-[999] grow"
+                                    viewBox="0 0 16 16">
+                                    <path
+                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <!-- <div class="absolute right-0 top-7  h-3 w-3 bg-black"></div> -->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>

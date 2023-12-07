@@ -6,10 +6,12 @@ import { RecipeFormComponent } from './components/recipe-form/recipe-form.compon
 import { RecipeCalendarComponent } from './components/recipe-calendar/recipe-calendar.component';
 import { recipesResolver } from './recipesResolver';
 import { GroceriesListComponent } from './components/groceries-list/groceries-list.component';
+import { HomeComponent } from './components/home/home.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: RecipesComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'recipes', component: RecipesComponent },
   { path: 'recipe-details/:id', component: RecipeDetailsComponent },
   { path: 'recipe-form', component: RecipeFormComponent },
   { path: 'recipe-form/:id', component: RecipeFormComponent },

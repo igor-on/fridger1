@@ -1,0 +1,30 @@
+div,
+section {
+  //   border: 1px solid lightblue;
+}
+
+img {
+  object-fit: cover;
+}
+
+.bg-image {
+  background-color: var(--gray);
+  //   background-image: url('https://secondbite.org/wp-content/uploads/2021/06/Fruit-and-veg-1200-x-200.jpg');
+  //   background-image: url('https://www.nmhs.net/app/files/public/6ecc03af-b210-4430-ae59-dae89ed26376/background-healthy-food%201600x400.jpg');
+  background-image: url('https://thumbs.dreamstime.com/b/italian-food-background-black-stone-table-top-view-italian-food-background-black-stone-table-pasta-olive-oil-spices-herbs-112200186.jpg?w=1600&h=300');
+  //   background-image: url('../../../assets/background-healthy-food\ 1600x400.jpg');
+  //   background-image: url('../../../assets/stock-food-photos-bundle-bypeople-deals.png');
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover;
+  //   opacity: 0.7;
+}
+
+h1,
+h3 {
+  //   color: black;
+  //   text-shadow:
+  //     1px 0 0 #000,
+  //     0 -1px 0 #000,
+  //     0 1px 0 #000,
+  //     -1px 0 0 #000;
+}

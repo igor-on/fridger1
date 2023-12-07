@@ -19,6 +19,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { GroceriesListComponent } from './components/groceries-list/groceries-list.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { GroceriesListComponent } from './components/groceries-list/groceries-li
     RecipeCalendarComponent,
     AddEventDialogComponent,
     GroceriesListComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
