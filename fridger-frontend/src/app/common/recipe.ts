@@ -20,6 +20,6 @@ class RecipeIngredient {
   ) {}
 }
 
-class Ingredient {
+export class Ingredient {
   constructor(public name: string) {}
 }
