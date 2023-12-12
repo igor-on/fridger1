@@ -20,6 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { GroceriesListComponent } from './components/groceries-list/groceries-list.component';
 import { HomeComponent } from './components/home/home.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { HomeComponent } from './components/home/home.component';
     FormsModule,
     MatButtonModule,
     MatTableModule,
+    MatSidenavModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

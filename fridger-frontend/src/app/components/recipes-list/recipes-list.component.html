@@ -1,7 +1,8 @@
-<section class="recipes-list">
+<section class="recipes-list sm:p-14">
     <div class="upper-content">
         <div class="global-search">
             <input
+                class="w-80 sm:w-[40rem]"
                 type="text"
                 name="global-search"
                 id=""
@@ -9,9 +10,9 @@
                 placeholder="Search recipe by name, ingredient and etc..."
                 autocomplete="off" />
         </div>
-        <div class="options">
+        <!-- <div class="options">
             <h3>Options</h3>
-        </div>
+        </div> -->
     </div>
     <div class="main-content">
         <div class="title">
@@ -39,7 +40,8 @@
                 {{ message }}
             </div>
         </div>
-        <div class="recipes-list-wrapper grid">
+        <div
+            class="recipes-list-wrapper grid grid-cols-1 grid-rows-1 gap-16 md:grid-cols-2 md:grid-rows-2 2xl:grid-cols-3 2xl:grid-rows-3">
             <div class="recipe-box" *ngFor="let recipe of getGlobalFilteredRecipes()">
                 <!-- <a href="recipe-details.html"> -->
                 <div class="image-box" [routerLink]="['/recipe-details', recipe.id]">
@@ -47,7 +49,7 @@
                 </div>
                 <!-- </a> -->
                 <div class="name-box" color="orange" randBgColor>
-                    <p>{{ recipe.name }}</p>
+                    <p class="text-end text-base sm:text-center">{{ recipe.name }}</p>
                     <div class="h-100 m-1 flex w-5">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
