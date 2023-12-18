@@ -29,7 +29,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   @HostListener('window:resize', []) updateSidenav() {
-    if (window.innerWidth <= 1054) {
+    if (window.innerWidth <= 1024) {
       this.sidenavMode = 'over'; // lg
       // this.sidenavOpened = false;
       this.sidenav.close();

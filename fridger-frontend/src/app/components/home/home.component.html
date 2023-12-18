@@ -1,15 +1,12 @@
-<main class="main-wrapper">
-    <app-sidebar></app-sidebar>
-    <div class="w-[85%]">
-        <div class="bg-image flex-ce flex h-[35%] flex-col items-center justify-start bg-slate-300 p-16 text-white">
-            <h1 class="text-6xl">Welcome in your virtual fridger!</h1>
-            <h3 class="text-3xl">Preparing dishes has never been easier.</h3>
-        </div>
-        <div class="flex h-[65%] w-[100%]">
-            <section class="flex w-[50%] flex-col items-center py-3">
-                <h3 class="text-3xl">Last Groceries</h3>
-                <div class="flex h-[93%] w-[100%] flex-col items-center gap-3 overflow-y-scroll pt-3">
-                    <!-- <div class="bg-dirty-white w-[400px] rounded-lg border-2 border-black p-3">
+<div class="bg-image flex-ce flex h-[45%] flex-col items-center justify-start bg-slate-300 p-16 text-white">
+    <h1 class="text-center text-6xl">Welcome in your virtual fridger!</h1>
+    <h3 class="text-center text-3xl">Preparing dishes has never been easier.</h3>
+</div>
+<div class="flex h-[55%] w-[100%] flex-col md:flex-row">
+    <section class="flex w-[100%] flex-col items-center py-3 pb-0 md:w-[50%]">
+        <h3 class="text-3xl">Last Groceries</h3>
+        <div class="flex w-[100%] flex-col items-center gap-3 overflow-y-scroll pt-3 md:h-[93%]">
+            <!-- <div class="bg-dirty-white w-[400px] rounded-lg border-2 border-black p-3">
                         <h3>Grocery Shopping</h3>
                         <h5>from 2023-10-30 to 2023-12-07</h5>
                         <p>items count: 10</p>
@@ -39,72 +36,72 @@
                         <h5>from 2023-10-30 to 2023-12-07</h5>
                         <p>items count: 10</p>
                     </div> -->
-                    <div
-                        *ngFor="let groceries of groceriesList"
-                        class="recipe-box group min-w-[55%] !items-start hover:!min-h-[350px]">
-                        <!-- <a href="recipe-details.html"> -->
-                        <div class="image-box z-20 !h-[150px] text-7xl">
-                            <div
-                                class="circle-image z-[999] flex w-[150px] flex-col items-center justify-center bg-green-300">
-                                <div class="text-sm">items count:</div>
-                                <div class="text-7xl">{{ groceries.groceriesListIngredient.length }}</div>
-                            </div>
-                        </div>
-                        <!-- </a> -->
-                        <div class="name-box z-10 mt-6 !h-[105px]" color="orange" randBgColor>
-                            <div class="flex w-[80%] flex-col">
-                                <p class="text-2xl">Groceries</p>
-                                <p class="text-sm">From {{ groceries.startDate }} to {{ groceries.endDate }}</p>
-                            </div>
-                        </div>
-                        <div
-                            class="absolute top-28 mb-2 max-h-0 w-[80%] overflow-hidden rounded-md bg-black transition-all duration-300 group-hover:max-h-[200px]">
-                            <ul class="mb-1 mt-4 max-h-[200px] overflow-scroll text-white">
-                                <!-- Create a bunch, or not a bunch, of li's to see the timing. -->
-                                <li *ngFor="let ingr of groceries.groceriesListIngredient">
-                                    {{ ingr.ingredient.name }} {{ ingr.quantity }} {{ ingr.unit }}
-                                </li>
-                                <!-- <li>item 400 g</li> -->
-                                <!-- <li>item 400 g</li> -->
-                                <!-- <li>item 400 g</li> -->
-                                <!-- <li>item 400 g</li> -->
-                                <!-- <li>item 400 g</li> -->
-                            </ul>
-                        </div>
+            <div
+                *ngFor="let groceries of groceriesList"
+                class="recipe-box group min-w-[85%] !items-start lg:min-w-[80%] xl:hover:!min-h-[350px] 2xl:min-w-[65%]">
+                <!-- <a href="recipe-details.html"> -->
+                <div class="image-box z-20 !h-[150px] text-7xl">
+                    <div class="circle-image z-[999] flex w-[150px] flex-col items-center justify-center bg-green-300">
+                        <div class="text-sm">items count:</div>
+                        <div class="text-7xl">{{ groceries.groceriesListIngredient.length }}</div>
                     </div>
                 </div>
-            </section>
-            <section class="flex w-[50%] flex-col items-center border-l-4 border-black py-3">
-                <h3 class="text-3xl">Favorites</h3>
+                <!-- </a> -->
+                <div class="name-box z-10 mt-6 !h-[105px]" color="orange" randBgColor>
+                    <div class="ml-24 mr-4 flex w-[80%] flex-col md:ml-20 xl:ml-10">
+                        <p class="text-2xl">Groceries</p>
+                        <p class="text-sm">
+                            From {{ groceries.startDate | date: 'YYYY-MM-dd' }} to
+                            {{ groceries.endDate | date: 'YYYY-MM-dd' }}
+                        </p>
+                    </div>
+                </div>
                 <div
-                    class="flex h-[93%] w-[100%] flex-col items-center gap-3 overflow-x-visible overflow-y-scroll pt-3">
-                    <div *ngFor="let recipe of favoriteRecipes" class="recipe-box min-w-[55%]">
-                        <!-- <a href="recipe-details.html"> -->
-                        <div class="image-box">
-                            <img class="circle-image" [src]="recipe.imageUrl" alt="food-image" />
-                        </div>
-                        <!-- </a> -->
-                        <div class="name-box" color="orange" randBgColor>
-                            <p>{{ recipe.name }}</p>
-                            <div class="h-100 m-1 flex w-5">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="16"
-                                    height="16"
-                                    [ngStyle]="{ fill: recipe.favorite ? 'yellow' : 'white' }"
-                                    fill="white"
-                                    class="bi bi-star-fill pointer-events-auto z-[999] grow"
-                                    viewBox="0 0 16 16">
-                                    <path
-                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                                </svg>
-                            </div>
-                        </div>
-                        <!-- <div class="absolute right-0 top-7  h-3 w-3 bg-black"></div> -->
-                    </div>
-                    <!-- <div class="absolute right-0 top-7  h-3 w-3 bg-black"></div> -->
+                    class="absolute top-28 mb-2 max-h-0 w-[80%] overflow-hidden rounded-md bg-black transition-all duration-300 xl:group-hover:max-h-[200px]">
+                    <ul class="mb-1 mt-4 max-h-[200px] overflow-scroll text-white">
+                        <!-- Create a bunch, or not a bunch, of li's to see the timing. -->
+                        <li *ngFor="let ingr of groceries.groceriesListIngredient">
+                            {{ ingr.ingredient.name }} {{ ingr.quantity }} {{ ingr.unit }}
+                        </li>
+                        <!-- <li>item 400 g</li> -->
+                        <!-- <li>item 400 g</li> -->
+                        <!-- <li>item 400 g</li> -->
+                        <!-- <li>item 400 g</li> -->
+                        <!-- <li>item 400 g</li> -->
+                    </ul>
                 </div>
-            </section>
+            </div>
         </div>
-    </div>
-</main>
+    </section>
+    <section
+        class="flex w-[100%] flex-col items-center border-l-0 border-t-4 border-black py-3 pb-0 md:w-[50%] md:border-l-4 md:border-t-0">
+        <h3 class="text-3xl">Favorites</h3>
+        <div class="flex w-[100%] flex-col items-center gap-3 overflow-x-visible overflow-y-scroll pt-3 md:h-[93%]">
+            <div *ngFor="let recipe of favoriteRecipes" class="recipe-box min-w-[85%] lg:min-w-[80%] 2xl:min-w-[65%]">
+                <!-- <a href="recipe-details.html"> -->
+                <div class="image-box">
+                    <img class="circle-image" [src]="recipe.imageUrl" alt="food-image" />
+                </div>
+                <!-- </a> -->
+                <div class="name-box" color="orange" randBgColor>
+                    <p class="max-w-[15rem] text-center sm:max-w-none md:max-w-xs xl:max-w-none">{{ recipe.name }}</p>
+                    <div class="h-100 m-1 flex w-5">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            [ngStyle]="{ fill: recipe.favorite ? 'yellow' : 'white' }"
+                            fill="white"
+                            class="bi bi-star-fill pointer-events-auto z-[999] grow"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                        </svg>
+                    </div>
+                </div>
+                <!-- <div class="absolute right-0 top-7  h-3 w-3 bg-black"></div> -->
+            </div>
+            <!-- <div class="absolute right-0 top-7  h-3 w-3 bg-black"></div> -->
+        </div>
+    </section>
+</div>
