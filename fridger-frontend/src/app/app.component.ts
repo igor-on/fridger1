@@ -7,6 +7,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatDrawer, MatDrawerMode } from '@angular/material/sidenav';
+import { NavigationStart, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -20,9 +22,24 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   sidenavMode!: MatDrawerMode;
   // sidenavOpened!: boolean;
+  sidenavHidden = false;
+
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     this.sidenavMode = window.innerWidth <= 1054 ? 'over' : 'side';
+
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationStart))
+      .subscribe(el => {
+        if ((<NavigationStart>el).url.includes('/recipe-form')) {
+          this.sidenavHidden = true;
+          this.sidenav.close();
+        } else {
+          this.sidenavHidden = false;
+          this.sidenav.open();
+        }
+      });
   }
   ngAfterViewInit(): void {
     window.innerWidth < 1054 ? this.sidenav.close() : this.sidenav.open();

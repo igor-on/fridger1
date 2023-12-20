@@ -1,6 +1,6 @@
 <mat-drawer-container class="main-wrapper">
     <!-- <div class="h-[100%] w-[15rem] bg-black"></div> -->
-    <mat-drawer #drawer [mode]="sidenavMode">
+    <mat-drawer [hidden]="sidenavHidden" #drawer [mode]="sidenavMode">
         <app-sidebar></app-sidebar>
     </mat-drawer>
     <mat-drawer-content>
