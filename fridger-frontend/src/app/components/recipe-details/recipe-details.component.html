@@ -1,22 +1,9 @@
-<h1 class="logo hover-scale">
+<!-- <h1 class="logo hover-scale">
     <a href="index.html"> Fridger </a>
-</h1>
+</h1> -->
 
-<section class="main-wrapper">
-    <div class="left-section">
-        <div class="image-box">
-            <div>
-                <img class="circle-image" [src]="recipe?.imageUrl" alt="food-image" />
-                <!-- <a href="edit-recipe.html"> -->
-                <div class="badge edit" [routerLink]="['/recipe-form', recipe?.id]">
-                    <i class="bi bi-pencil-fill"></i>
-                </div>
-                <!-- </a> -->
-                <div class="badge delete" (click)="onDelete()">
-                    <i class="bi bi-trash3-fill"></i>
-                </div>
-            </div>
-        </div>
+<section class="my-4 flex !flex-col justify-between md:my-0 md:h-[100dvh] md:h-[100vh] md:!flex-row">
+    <div class="left-section p-4 !pt-16 md:order-first md:!w-1/2 md:p-8">
         <div class="content">
             <h1>{{ recipe?.name }}</h1>
             <div class="additional-info">
@@ -41,14 +28,56 @@
             </div>
         </div>
     </div>
-    <div class="right-section">
-        <!-- <p>20 minutes</p>
-        <p>630 calories</p>
-        <p>Beginner</p> -->
-        <div class="ingredients-list">
+    <div
+        class="right-section relative order-first flex max-w-none flex-col justify-start overflow-x-visible py-8 pl-8 pr-8 md:order-last md:!w-1/2 md:max-w-[50%] md:flex-row md:justify-end md:pl-0">
+        <!-- <div class="image-box z-[999] h-full bg-dirty-white"> -->
+        <!-- <div class="h-full"> -->
+        <!-- <img
+            class="absolute left-[-12em] top-0 !h-[500px] !w-[500px] rounded-[50%]"
+            [src]="recipe?.imageUrl"
+            alt="food-image" /> -->
+        <!-- <div class="badge edit" [routerLink]="['/recipe-form', recipe?.id]">
+            <i class="bi bi-pencil-fill"></i>
+        </div>
+        <div class="badge delete" (click)="onDelete()">
+            <i class="bi bi-trash3-fill"></i>
+        </div> -->
+        <!-- </div> -->
+        <!-- </div> -->
+        <!-- <div class="z-[9999] h-full w-[500px] bg-red-500"></div> -->
+        <div class="right-[20rem] top-8 block h-[50%] md:hidden xl:absolute xl:block xl:w-[55%]">
+            <img class="h-[w-[100%]] w-[100%] rounded-[50%] shadow" [src]="recipe?.imageUrl" alt="food-image" />
+            <div class="relative md:static">
+                <div
+                    class="badge edit left-0 top-[-4rem] block shadow md:absolute md:left-12 md:top-0"
+                    [routerLink]="['/recipe-form', recipe?.id]">
+                    <i class="bi bi-pencil-fill"></i>
+                </div>
+                <div
+                    class="badge delete right-0 top-[-4rem] block shadow md:absolute md:left-0 md:top-[3.9rem]"
+                    (click)="onDelete()">
+                    <i class="bi bi-trash3-fill"></i>
+                </div>
+            </div>
+        </div>
+        <div class="hidden h-full rounded-[3rem] bg-[var(--black)] p-8 text-lg text-[var(--background-white)] md:block">
+            <div class="relative mb-8 hidden md:block xl:hidden">
+                <img class="h-[w-[100%]] w-[100%] rounded-[50%] shadow" [src]="recipe?.imageUrl" alt="food-image" />
+                <div class="">
+                    <div
+                        class="badge edit absolute left-0 top-[-3rem] !h-20 !w-20 shadow"
+                        [routerLink]="['/recipe-form', recipe?.id]">
+                        <i class="bi bi-pencil-fill"></i>
+                    </div>
+                    <div class="badge delete ! absolute left-[-2rem] top-2 !h-20 !w-20 shadow" (click)="onDelete()">
+                        <i class="bi bi-trash3-fill"></i>
+                    </div>
+                </div>
+            </div>
+
             <h2>Ingredients</h2>
 
-            <ul>
+            <ul class="m-8 !pl-0 text-xl">
                 <li *ngFor="let recipeIngr of recipe?.recipeIngredients">
                     <div>{{ recipeIngr.quantity }} {{ recipeIngr.unit }}</div>
 
@@ -60,5 +89,20 @@
                 </li>
             </ul>
         </div>
+    </div>
+    <div class="mx-4 h-full rounded-[3rem] bg-[var(--black)] p-4 text-lg text-[var(--background-white)] md:hidden">
+        <h2>Ingredients</h2>
+
+        <ul class="m-8 !pl-0 text-xl">
+            <li *ngFor="let recipeIngr of recipe?.recipeIngredients">
+                <div>{{ recipeIngr.quantity }} {{ recipeIngr.unit }}</div>
+
+                |
+
+                <div>
+                    {{ recipeIngr.ingredient.name }}
+                </div>
+            </li>
+        </ul>
     </div>
 </section>

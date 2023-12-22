@@ -35,7 +35,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         if ((<NavigationStart>el).url.includes('/recipe-form')) {
           this.sidenavHidden = true;
           this.sidenav.close();
-        } else {
+        } else if (window.innerWidth > 1054) {
           this.sidenavHidden = false;
           this.sidenav.open();
         }
