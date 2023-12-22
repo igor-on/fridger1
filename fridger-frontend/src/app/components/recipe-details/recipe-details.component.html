@@ -2,9 +2,9 @@
     <a href="index.html"> Fridger </a>
 </h1> -->
 
-<section class="my-4 flex !flex-col justify-between md:my-0 md:h-[100dvh] md:h-[100vh] md:!flex-row">
+<section class="flex !flex-col justify-between md:h-[100dvh] md:h-[100vh] md:!flex-row">
     <div class="left-section p-4 !pt-16 md:order-first md:!w-1/2 md:p-8">
-        <div class="content">
+        <div class="content mt-8">
             <h1>{{ recipe?.name }}</h1>
             <div class="additional-info">
                 <!-- <div class="tags">
@@ -45,7 +45,7 @@
         <!-- </div> -->
         <!-- </div> -->
         <!-- <div class="z-[9999] h-full w-[500px] bg-red-500"></div> -->
-        <div class="right-[20rem] top-8 block h-[50%] md:hidden xl:absolute xl:block xl:w-[55%]">
+        <div class="right-[22rem] top-8 block h-[50%] md:hidden xl:absolute xl:block xl:w-[55%]">
             <img class="h-[w-[100%]] w-[100%] rounded-[50%] shadow" [src]="recipe?.imageUrl" alt="food-image" />
             <div class="relative md:static">
                 <div
@@ -60,7 +60,8 @@
                 </div>
             </div>
         </div>
-        <div class="hidden h-full rounded-[3rem] bg-[var(--black)] p-8 text-lg text-[var(--background-white)] md:block">
+        <div
+            class="hidden h-full w-full rounded-[3rem] bg-[var(--black)] p-8 text-lg text-[var(--background-white)] md:block md:w-[350px] xl:w-[400px]">
             <div class="relative mb-8 hidden md:block xl:hidden">
                 <img class="h-[w-[100%]] w-[100%] rounded-[50%] shadow" [src]="recipe?.imageUrl" alt="food-image" />
                 <div class="">
@@ -90,7 +91,7 @@
             </ul>
         </div>
     </div>
-    <div class="mx-4 h-full rounded-[3rem] bg-[var(--black)] p-4 text-lg text-[var(--background-white)] md:hidden">
+    <div class="mx-4 mb-4 h-full rounded-[3rem] bg-[var(--black)] p-4 text-lg text-[var(--background-white)] md:hidden">
         <h2>Ingredients</h2>
 
         <ul class="m-8 !pl-0 text-xl">
