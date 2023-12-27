@@ -42,12 +42,18 @@
         </div>
         <div
             class="recipes-list-wrapper grid grid-cols-1 grid-rows-1 gap-16 md:grid-cols-2 md:grid-rows-2 2xl:grid-cols-3 2xl:grid-rows-3">
+            <!-- Loading skeletons -->
+            <div
+                class="recipe-box"
+                [ngStyle]="{ display: recipesLoading ? 'block' : 'none' }"
+                *ngFor="let mock of [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                <p-skeleton class="w-full" height="8rem" borderRadius="16px"></p-skeleton>
+            </div>
             <div class="recipe-box" *ngFor="let recipe of getGlobalFilteredRecipes()">
                 <!-- <a href="recipe-details.html"> -->
                 <div class="image-box w-[150px]" [routerLink]="['/recipe-details', recipe.id]">
                     <img class="circle-image" [src]="recipe.imageUrl" alt="food-image" />
                 </div>
-                <!-- </a> -->
                 <div
                     class="name-box cursor-pointer"
                     [routerLink]="['/recipe-details', recipe.id]"

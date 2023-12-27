@@ -180,7 +180,8 @@
   position: relative;
 }
 
-img ~ div .badge {
+img ~ div .badge,
+p-skeleton ~ div .badge {
   position: absolute;
   display: flex;
   align-items: center;

@@ -6,6 +6,12 @@
     <section class="flex w-[100%] flex-col items-center py-3 pb-0 md:w-[50%]">
         <h3 class="text-3xl">Last Groceries</h3>
         <div class="flex w-[100%] flex-col items-center gap-3 overflow-y-scroll pt-3 md:h-[93%]">
+            <div
+                class="recipe-box min-w-[85%] !items-start lg:min-w-[80%] 2xl:min-w-[65%]"
+                [ngStyle]="{ display: groceriesLoading ? 'block' : 'none' }"
+                *ngFor="let mock of [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                <p-skeleton class="w-full" height="8rem" borderRadius="16px"></p-skeleton>
+            </div>
             <!-- <div class="bg-dirty-white w-[400px] rounded-lg border-2 border-black p-3">
                         <h3>Grocery Shopping</h3>
                         <h5>from 2023-10-30 to 2023-12-07</h5>
@@ -46,7 +52,6 @@
                         <div class="text-7xl">{{ groceries.groceriesListIngredient.length }}</div>
                     </div>
                 </div>
-                <!-- </a> -->
                 <div class="name-box z-10 mt-6 !h-[105px]" color="orange" randBgColor>
                     <div class="ml-24 mr-4 flex w-[80%] flex-col md:ml-20 xl:ml-10">
                         <p class="text-2xl">Groceries</p>
@@ -59,15 +64,9 @@
                 <div
                     class="absolute top-28 mb-2 max-h-0 w-[80%] overflow-hidden rounded-md bg-black transition-all duration-300 xl:group-hover:max-h-[200px]">
                     <ul class="mb-1 mt-4 max-h-[200px] overflow-scroll text-white">
-                        <!-- Create a bunch, or not a bunch, of li's to see the timing. -->
                         <li *ngFor="let ingr of groceries.groceriesListIngredient">
                             {{ ingr.ingredient.name }} {{ ingr.quantity }} {{ ingr.unit }}
                         </li>
-                        <!-- <li>item 400 g</li> -->
-                        <!-- <li>item 400 g</li> -->
-                        <!-- <li>item 400 g</li> -->
-                        <!-- <li>item 400 g</li> -->
-                        <!-- <li>item 400 g</li> -->
                     </ul>
                 </div>
             </div>
@@ -77,12 +76,16 @@
         class="flex w-[100%] flex-col items-center border-l-0 border-t-4 border-black py-3 pb-0 md:w-[50%] md:border-l-4 md:border-t-0">
         <h3 class="text-3xl">Favorites</h3>
         <div class="flex w-[100%] flex-col items-center gap-3 overflow-x-visible overflow-y-scroll pt-3 md:h-[93%]">
+            <div
+                class="recipe-box min-w-[85%] lg:min-w-[80%] 2xl:min-w-[65%]"
+                [ngStyle]="{ display: favoritesLoading ? 'block' : 'none' }"
+                *ngFor="let mock of [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                <p-skeleton class="w-full" height="8rem" borderRadius="16px"></p-skeleton>
+            </div>
             <div *ngFor="let recipe of favoriteRecipes" class="recipe-box min-w-[85%] lg:min-w-[80%] 2xl:min-w-[65%]">
-                <!-- <a href="recipe-details.html"> -->
                 <div class="image-box">
                     <img class="circle-image" [src]="recipe.imageUrl" alt="food-image" />
                 </div>
-                <!-- </a> -->
                 <div class="name-box" color="orange" randBgColor>
                     <p class="max-w-[15rem] text-center sm:max-w-none md:max-w-xs xl:max-w-none">{{ recipe.name }}</p>
                     <div class="h-100 m-1 flex w-5">
@@ -99,7 +102,6 @@
                         </svg>
                     </div>
                 </div>
-                <!-- <div class="absolute right-0 top-7  h-3 w-3 bg-black"></div> -->
             </div>
             <!-- <div class="absolute right-0 top-7  h-3 w-3 bg-black"></div> -->
         </div>

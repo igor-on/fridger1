@@ -15,6 +15,8 @@ export class RecipesListComponent implements OnInit, OnDestroy {
 
   recipes: Recipe[] = [];
 
+  recipesLoading = false;
+
   message: string = '';
   messageSubscription?: Subscription;
 
@@ -35,8 +37,10 @@ export class RecipesListComponent implements OnInit, OnDestroy {
   }
 
   handleRecipes() {
+    this.recipesLoading = true;
     this.recipeService.getRecipes().subscribe(response => {
       this.recipes = response;
+      this.recipesLoading = false;
       // console.log(`Recipes arrived: ${JSON.stringify(this.recipes)}`)
     });
   }

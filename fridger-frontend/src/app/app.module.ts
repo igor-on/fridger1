@@ -22,6 +22,8 @@ import { GroceriesListComponent } from './components/groceries-list/groceries-li
 import { HomeComponent } from './components/home/home.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
+import { SkeletonModule } from 'primeng/skeleton';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,6 +50,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatButtonModule,
     MatTableModule,
     MatSidenavModule,
+    SkeletonModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

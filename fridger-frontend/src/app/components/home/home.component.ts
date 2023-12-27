@@ -16,22 +16,29 @@ export class HomeComponent implements OnInit {
   groceriesList: GroceriesList[] = [];
   favoriteRecipes: Recipe[] = [];
 
+  groceriesLoading = false;
+  favoritesLoading = false;
+
   constructor(
     private groceriesService: GroceriesService,
     private recipeService: RecipeService
   ) {}
 
   ngOnInit(): void {
+    this.groceriesLoading = true;
     this.groceriesService.getGroceriesList().subscribe(res => {
       console.log('getGroceriesList');
       console.log(res);
       this.groceriesList = res.data;
+      this.groceriesLoading = false;
     });
 
+    this.favoritesLoading = true;
     this.recipeService.getFavoriteRecipes().subscribe(res => {
       console.log('getFavortieRecipes');
       console.log(res);
       this.favoriteRecipes = res.data;
+      this.favoritesLoading = false;
     });
   }
 }
