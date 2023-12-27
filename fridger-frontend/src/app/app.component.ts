@@ -32,7 +32,10 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.router.events
       .pipe(filter(event => event instanceof NavigationStart))
       .subscribe(el => {
-        if ((<NavigationStart>el).url.includes('/recipe-form')) {
+        if (
+          (<NavigationStart>el).url.includes('/recipe-form') &&
+          window.innerWidth > 1054
+        ) {
           this.sidenavHidden = true;
           this.sidenav.close();
         } else if (window.innerWidth > 1054) {

@@ -51,7 +51,7 @@ export class RecipeCalendarComponent implements OnInit {
   stationaryView = {
     toolbar: {
       center: 'addEventButton',
-      start: 'title,timeGridDay,timeGridWeek,dayGridMonth',
+      start: 'title,dayGridDay,dayGridWeek,dayGridMonth',
       end: 'prev,next,today',
     },
     titleFormat: {
@@ -71,9 +71,7 @@ export class RecipeCalendarComponent implements OnInit {
     },
     defaultTimedEventDuration: '00:00',
     initialView:
-      window.innerWidth <= this.MAX_MOBILE_WIDTH
-        ? 'timeGridDay'
-        : 'timeGridWeek',
+      window.innerWidth <= this.MAX_MOBILE_WIDTH ? 'dayGridDay' : 'dayGridWeek',
     plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
     headerToolbar:
       window.innerWidth <= this.MAX_MOBILE_WIDTH
@@ -246,7 +244,7 @@ export class RecipeCalendarComponent implements OnInit {
 
   @HostListener('window:resize', []) updateCalendarView() {
     if (window.innerWidth <= this.MAX_MOBILE_WIDTH) {
-      this.calendar.getApi().changeView('timeGridDay');
+      this.calendar.getApi().changeView('dayGridDay');
       this.calendar
         .getApi()
         .setOption('headerToolbar', this.mobileView.toolbar);
@@ -254,7 +252,7 @@ export class RecipeCalendarComponent implements OnInit {
         .getApi()
         .setOption('titleFormat', this.mobileView.titleFormat);
     } else {
-      this.calendar.getApi().changeView('timeGridWeek');
+      this.calendar.getApi().changeView('dayGridWeek');
       this.calendar
         .getApi()
         .setOption('headerToolbar', this.stationaryView.toolbar);

@@ -4,7 +4,7 @@
 
 <section class="flex !flex-col justify-between md:h-[100dvh] md:h-[100vh] md:!flex-row">
     <div class="left-section p-4 !pt-16 md:order-first md:!w-1/2 md:p-8">
-        <div class="content mt-8">
+        <div class="content mt-8 gap-4 md:gap-12">
             <h1>{{ recipe?.name }}</h1>
             <div class="additional-info">
                 <!-- <div class="tags">
@@ -46,7 +46,7 @@
         <!-- </div> -->
         <!-- <div class="z-[9999] h-full w-[500px] bg-red-500"></div> -->
         <div class="right-[22rem] top-8 block h-[50%] md:hidden xl:absolute xl:block xl:w-[55%]">
-            <img class="h-[w-[100%]] w-[100%] rounded-[50%] shadow" [src]="recipe?.imageUrl" alt="food-image" />
+            <img class="w-[100%] rounded-[50%] shadow" [src]="recipe?.imageUrl" alt="food-image" />
             <div class="relative md:static">
                 <div
                     class="badge edit left-0 top-[-4rem] block shadow md:absolute md:left-12 md:top-0"
@@ -62,8 +62,11 @@
         </div>
         <div
             class="hidden h-full w-full rounded-[3rem] bg-[var(--black)] p-8 text-lg text-[var(--background-white)] md:block md:w-[350px] xl:w-[400px]">
-            <div class="relative mb-8 hidden md:block xl:hidden">
-                <img class="h-[w-[100%]] w-[100%] rounded-[50%] shadow" [src]="recipe?.imageUrl" alt="food-image" />
+            <div class="relative mb-8 hidden h-72 md:block xl:hidden">
+                <img
+                    class="h-[100%] w-[100%] rounded-[50%] bg-white shadow"
+                    [src]="recipe?.imageUrl"
+                    alt="food-image" />
                 <div class="">
                     <div
                         class="badge edit absolute left-0 top-[-3rem] !h-20 !w-20 shadow"

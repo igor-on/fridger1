@@ -44,11 +44,15 @@
             class="recipes-list-wrapper grid grid-cols-1 grid-rows-1 gap-16 md:grid-cols-2 md:grid-rows-2 2xl:grid-cols-3 2xl:grid-rows-3">
             <div class="recipe-box" *ngFor="let recipe of getGlobalFilteredRecipes()">
                 <!-- <a href="recipe-details.html"> -->
-                <div class="image-box" [routerLink]="['/recipe-details', recipe.id]">
+                <div class="image-box w-[150px]" [routerLink]="['/recipe-details', recipe.id]">
                     <img class="circle-image" [src]="recipe.imageUrl" alt="food-image" />
                 </div>
                 <!-- </a> -->
-                <div class="name-box" color="orange" randBgColor>
+                <div
+                    class="name-box cursor-pointer"
+                    [routerLink]="['/recipe-details', recipe.id]"
+                    color="orange"
+                    randBgColor>
                     <p class="text-base sm:text-center">{{ recipe.name }}</p>
                     <div class="h-100 m-1 flex w-5">
                         <svg
