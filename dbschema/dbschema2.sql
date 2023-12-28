@@ -10,7 +10,8 @@ CREATE TABLE IF NOT EXISTS `recipes` (
   `description` varchar(255),
   `instructions` varchar(255) NOT NULL,
   `image_url` varchar(255),
-  `link` varchar(255)
+  `link` varchar(255),
+  `favorite` boolean
 );
 
 CREATE TABLE IF NOT EXISTS `ingredients` (
@@ -36,6 +37,22 @@ CREATE TABLE IF NOT EXISTS `planned_recipe` (
   CONSTRAINT FK_planned_recipe FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`)
 );
 
+CREATE TABLE IF NOT EXISTS `groceries_lists` (
+`id` bigint PRIMARY KEY AUTO_INCREMENT,
+`start_date` datetime NOT NULL,
+`end_date` datetime NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS `groceries_list_ingredient` (
+`id` bigint PRIMARY KEY AUTO_INCREMENT,
+`groceries_list_id` bigint NOT NULL,
+`ingredient_id` bigint NOT NULL,
+`quantity` int NOT NULL,
+`unit` varchar(255) NOT NULL,
+  CONSTRAINT FK_groceries_list_ingredient FOREIGN KEY (`groceries_list_id`) REFERENCES `groceries_lists` (`id`),
+  CONSTRAINT FK_ingredient_groceries_list_ingredient FOREIGN KEY (`ingredient_id`) REFERENCES `ingredients` (`id`)
+);
+
 -- ALTER TABLE `recipe_ingredient` ADD FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`);
 
 -- ALTER TABLE `planned_recipe` ADD FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`);
@@ -47,6 +64,13 @@ CREATE TABLE IF NOT EXISTS `planned_recipe` (
 -- select * from recipe_ingredient;
 -- alter table recipes modify instructions varchar(1000);
 
+-- INSERT INTO groceries_lists (id, start_date, end_date) VALUES (1, '2023-12-06T10:00:00','2023-12-12T10:00:00');
+
+-- INSERT INTO groceries_list_ingredient VALUES (1, 1, 6, 2, 'cale'),  (2, 1, 11, 200, 'gram');
+
+
+-- select * from groceries_lists;
+-- select * from groceries_list_ingredient;
 
 
 

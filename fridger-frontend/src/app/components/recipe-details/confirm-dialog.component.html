@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Delete recipe</h1>
+<div mat-dialog-content>
+    Are you sure you want to delete recipe? <br />
+    This will also delete all planned recipes with this recipe.
+</div>
+<div mat-dialog-actions class="!px-6">
+    <button class="btn-error mr-4" [mat-dialog-close]="false">No</button>
+    <button class="btn-success" [mat-dialog-close]="true" cdkFocusInitial>Ok</button>
+</div>

@@ -1,56 +1,58 @@
-<h1 class="logo hover-scale">
-    <a href="index.html"> Fridger </a>
-</h1>
-
 <form [formGroup]="recipeForm" (ngSubmit)="onCreate()">
-    <div class="main-wrapper">
-        <section class="left-section">
-            <div class="input">
-                <label for="name">Name</label>
-                <input
-                    #name=""
-                    formControlName="name"
-                    type="text"
-                    name="name"
-                    id="name"
-                    [ngClass]="{ invalid: inputInvalid('name') }"
-                    placeholder="name for your recipe..." />
-                <div *ngIf="inputInvalid('name')" class="ml-2 text-red-500">
-                    <div *ngIf="inputErrors('name')!['required']">Name is required</div>
-                    <div *ngIf="inputErrors('name')!['whitespace']">Name can't have only white spaces</div>
-                </div>
-            </div>
+    <h1 class="logo z-[999] flex w-[100%] justify-between">
+        <a class="duration-300 hover:scale-125 hover:text-black" href="index.html"> Fridger </a>
+        <button [disabled]="!recipeForm.valid" class="btn-success h-10 w-40" type="submit">SUBMIT</button>
+    </h1>
 
-            <div class="input">
-                <label for="desc">Description</label>
-                <textarea
-                    formControlName="description"
-                    name="desc"
-                    id="desc"
-                    [ngClass]="{ invalid: inputInvalid('description') }"
-                    placeholder="describe your recipe in few words..."></textarea>
-                <div *ngIf="inputInvalid('description')" class="ml-2 text-red-500">
-                    <div *ngIf="inputErrors('description')!['required']">Description is required</div>
-                    <div *ngIf="inputErrors('description')!['maxlength']">Description max length is 255 chars</div>
+    <div class="main-wrapper !block">
+        <div class="flex flex-col md:flex-row">
+            <section class="left-section w-[100%] md:w-[50%]">
+                <div class="input">
+                    <label for="name">Name</label>
+                    <input
+                        #name=""
+                        formControlName="name"
+                        type="text"
+                        name="name"
+                        id="name"
+                        [ngClass]="{ invalid: inputInvalid('name') }"
+                        placeholder="name for your recipe..." />
+                    <div *ngIf="inputInvalid('name')" class="ml-2 text-red-500">
+                        <div *ngIf="inputErrors('name')!['required']">Name is required</div>
+                        <div *ngIf="inputErrors('name')!['whitespace']">Name can't have only white spaces</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="input">
-                <label for="link">Video link</label>
-                <input
-                    formControlName="link"
-                    type="text"
-                    name="link"
-                    id="link"
-                    [ngClass]="{ invalid: inputInvalid('link') }"
-                    placeholder="https://youtube.com/..." />
-                <div *ngIf="inputInvalid('link')" class="ml-2 text-red-500">
-                    <div *ngIf="inputErrors('link')!['whitespace']">Link can't have only white spaces</div>
-                    <div *ngIf="inputErrors('link')!['maxlength']">Link max length is 255 chars</div>
+                <div class="input">
+                    <label for="desc">Description</label>
+                    <textarea
+                        formControlName="description"
+                        name="desc"
+                        id="desc"
+                        [ngClass]="{ invalid: inputInvalid('description') }"
+                        placeholder="describe your recipe in few words..."></textarea>
+                    <div *ngIf="inputInvalid('description')" class="ml-2 text-red-500">
+                        <div *ngIf="inputErrors('description')!['required']">Description is required</div>
+                        <div *ngIf="inputErrors('description')!['maxlength']">Description max length is 255 chars</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="input">
+                <div class="input">
+                    <label for="link">Video link</label>
+                    <input
+                        formControlName="link"
+                        type="text"
+                        name="link"
+                        id="link"
+                        [ngClass]="{ invalid: inputInvalid('link') }"
+                        placeholder="https://youtube.com/..." />
+                    <div *ngIf="inputInvalid('link')" class="ml-2 text-red-500">
+                        <div *ngIf="inputErrors('link')!['whitespace']">Link can't have only white spaces</div>
+                        <div *ngIf="inputErrors('link')!['maxlength']">Link max length is 255 chars</div>
+                    </div>
+                </div>
+
+                <!-- <div class="input">
                 <label for="link">Tags</label>
                 <div class="tags edit">
                     <div color="pink">#Spaghetii</div>
@@ -70,169 +72,141 @@
                     <div color="brown">#Pomodoro</div>
                     <div color="light-green">#Italian</div>
                 </div>
-            </div>
+            </div> -->
 
-            <div class="flex-box image-input-wrapper">
-                <div class="input image">
-                    <label for="image">Photo</label>
-                    <input
-                        #imageUrlInput
-                        formControlName="imageUrl"
-                        type="text"
-                        [ngClass]="{ invalid: inputInvalid('imageUrl') }"
-                        placeholder="link to photo..." />
-                    <div *ngIf="inputInvalid('imageUrl')" class="ml-2 text-red-500">
-                        <div *ngIf="inputErrors('imageUrl')!['whitespace']">Image url can't have only white spaces</div>
-                        <div *ngIf="inputErrors('imageUrl')!['maxlength']">Image url max length is 255 chars</div>
+                <div class="flex-box image-input-wrapper">
+                    <div class="input image">
+                        <label for="image">Photo</label>
+                        <input
+                            #imageUrlInput
+                            formControlName="imageUrl"
+                            type="text"
+                            [ngClass]="{ invalid: inputInvalid('imageUrl') }"
+                            placeholder="link to photo..." />
+                        <div *ngIf="inputInvalid('imageUrl')" class="ml-2 text-red-500">
+                            <div *ngIf="inputErrors('imageUrl')!['whitespace']">
+                                Image url can't have only white spaces
+                            </div>
+                            <div *ngIf="inputErrors('imageUrl')!['maxlength']">Image url max length is 255 chars</div>
+                        </div>
+                    </div>
+                    <div class="image-box h-36 w-36">
+                        <img class="circle-image" [src]="imageUrlInput.value" alt="food-image" />
                     </div>
                 </div>
-                <div class="image-box">
-                    <img class="circle-image" [src]="imageUrlInput.value" alt="food-image" />
-                </div>
-            </div>
-        </section>
-        <section class="right-section2">
-            <div class="input">
-                <label for="instructions">Instructions</label>
-                <textarea
-                    formControlName="instructions"
-                    class="instructions"
-                    name="instructions"
-                    id="instructions"
-                    [ngClass]="{ invalid: inputInvalid('instructions') }"
-                    placeholder="Write steps..."></textarea>
-                <div *ngIf="inputInvalid('instructions')" class="ml-2 text-red-500">
-                    <div *ngIf="inputErrors('instructions')!['required']">Instructions is required</div>
-                    <div *ngIf="inputErrors('instructions')!['maxlength']">Instructions max length is 1000 chars</div>
-                    <div *ngIf="inputErrors('instructions')!['whitespace']">
-                        Instructions can't have only white spaces
+            </section>
+            <section class="right-section2 w-[100%] !pt-8 md:w-[50%] md:!pt-28">
+                <div class="input h-[100%]">
+                    <label for="instructions">Instructions</label>
+                    <textarea
+                        formControlName="instructions"
+                        class="instructions"
+                        name="instructions"
+                        id="instructions"
+                        [ngClass]="{ invalid: inputInvalid('instructions') }"
+                        placeholder="Write steps..."></textarea>
+                    <div *ngIf="inputInvalid('instructions')" class="ml-2 text-red-500">
+                        <div *ngIf="inputErrors('instructions')!['required']">Instructions is required</div>
+                        <div *ngIf="inputErrors('instructions')!['maxlength']">
+                            Instructions max length is 1000 chars
+                        </div>
+                        <div *ngIf="inputErrors('instructions')!['whitespace']">
+                            Instructions can't have only white spaces
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
+        </div>
+        <div class="input p-8" formArrayName="recipeIngredients">
+            <label for="ingredients">Ingredients</label>
 
-            <div class="input" formArrayName="recipeIngredients">
-                <label for="ingredients">Ingredients</label>
-
-                <div class="recipe-ingredients">
-                    <div
-                        class="ingredient flex-box-raw"
-                        *ngFor="let ingredientsCtrl of ingrControls; index as i"
-                        [formGroupName]="i">
-                        <div class="ingr-input flex-box-vertical" formGroupName="ingredient">
-                            <label for="ingr-name">Name</label>
-                            <input
-                                formControlName="name"
-                                type="text"
-                                name="ingr-name"
-                                id="ingr-name"
-                                [ngClass]="{
-                                    invalid:
-                                        !ingredientsCtrl.get('ingredient')?.get('name')?.valid &&
-                                        ingredientsCtrl.get('ingredient')?.get('name')?.touched
-                                }"
-                                placeholder="flour" />
-                            <div
-                                class="ml-2 text-red-500"
-                                *ngIf="
+            <div class="recipe-ingredients flex flex-col gap-8">
+                <div
+                    class="mt-4 flex flex-col gap-4 md:flex-row"
+                    *ngFor="let ingredientsCtrl of ingrControls; index as i"
+                    [formGroupName]="i">
+                    <div class="ingr-input flex-box-vertical" formGroupName="ingredient">
+                        <label for="ingr-name">Name</label>
+                        <input
+                            formControlName="name"
+                            type="text"
+                            name="ingr-name"
+                            id="ingr-name"
+                            [ngClass]="{
+                                invalid:
                                     !ingredientsCtrl.get('ingredient')?.get('name')?.valid &&
                                     ingredientsCtrl.get('ingredient')?.get('name')?.touched
-                                ">
-                                <div *ngIf="(ingredientsCtrl.get('ingredient')?.get('name')?.errors)!['required']">
-                                    Name is required
-                                </div>
-                                <div *ngIf="(ingredientsCtrl.get('ingredient')?.get('name')?.errors)!['maxlength']">
-                                    Name max length is 255 chars
-                                </div>
-                                <div *ngIf="(ingredientsCtrl.get('ingredient')?.get('name')?.errors)!['whitespace']">
-                                    Name can't have only white spaces
-                                </div>
+                            }"
+                            placeholder="flour" />
+                        <div
+                            class="ml-2 text-red-500"
+                            *ngIf="
+                                !ingredientsCtrl.get('ingredient')?.get('name')?.valid &&
+                                ingredientsCtrl.get('ingredient')?.get('name')?.touched
+                            ">
+                            <div *ngIf="(ingredientsCtrl.get('ingredient')?.get('name')?.errors)!['required']">
+                                Name is required
+                            </div>
+                            <div *ngIf="(ingredientsCtrl.get('ingredient')?.get('name')?.errors)!['maxlength']">
+                                Name max length is 255 chars
+                            </div>
+                            <div *ngIf="(ingredientsCtrl.get('ingredient')?.get('name')?.errors)!['whitespace']">
+                                Name can't have only white spaces
                             </div>
                         </div>
-                        <div class="ingr-input flex-box-vertical">
-                            <label for="ingr-quantity">Quantity</label>
-                            <input
-                                formControlName="quantity"
-                                type="number"
-                                min="0"
-                                name="ingr-quantity"
-                                id="ingr-quantity"
-                                [ngClass]="{
-                                    invalid:
-                                        !ingredientsCtrl.get('quantity')?.valid &&
-                                        ingredientsCtrl.get('quantity')?.touched
-                                }"
-                                placeholder="100" />
-                            <div
-                                class="ml-2 text-red-500"
-                                *ngIf="
+                    </div>
+                    <div class="ingr-input flex-box-vertical">
+                        <label for="ingr-quantity">Quantity</label>
+                        <input
+                            formControlName="quantity"
+                            type="number"
+                            min="0"
+                            name="ingr-quantity"
+                            id="ingr-quantity"
+                            [ngClass]="{
+                                invalid:
                                     !ingredientsCtrl.get('quantity')?.valid && ingredientsCtrl.get('quantity')?.touched
-                                ">
-                                Quantity is required
+                            }"
+                            placeholder="100" />
+                        <div
+                            class="ml-2 text-red-500"
+                            *ngIf="!ingredientsCtrl.get('quantity')?.valid && ingredientsCtrl.get('quantity')?.touched">
+                            Quantity is required
+                        </div>
+                    </div>
+                    <div class="ingr-input flex-box-vertical">
+                        <label for="ingr-unit">Unit</label>
+                        <input
+                            formControlName="unit"
+                            type="text"
+                            name="ingr-unit"
+                            id="ingr-unit"
+                            [ngClass]="{
+                                invalid: !ingredientsCtrl.get('unit')?.valid && ingredientsCtrl.get('unit')?.touched
+                            }"
+                            placeholder="g" />
+                        <div
+                            class="ml-2 text-red-500"
+                            *ngIf="!ingredientsCtrl.get('unit')?.valid && ingredientsCtrl.get('unit')?.touched">
+                            <div *ngIf="(ingredientsCtrl.get('unit')?.errors)!['whitespace']">
+                                Unit can't have only white spaces
+                            </div>
+                            <div *ngIf="(ingredientsCtrl.get('unit')?.errors)!['required']">Unit is required</div>
+                            <div *ngIf="(ingredientsCtrl.get('unit')?.errors)!['maxlength']">
+                                Unit max length is 255 chars
                             </div>
                         </div>
-                        <div class="ingr-input flex-box-vertical">
-                            <label for="ingr-unit">Unit</label>
-                            <input
-                                formControlName="unit"
-                                type="text"
-                                name="ingr-unit"
-                                id="ingr-unit"
-                                [ngClass]="{
-                                    invalid: !ingredientsCtrl.get('unit')?.valid && ingredientsCtrl.get('unit')?.touched
-                                }"
-                                placeholder="g" />
-                            <div
-                                class="ml-2 text-red-500"
-                                *ngIf="!ingredientsCtrl.get('unit')?.valid && ingredientsCtrl.get('unit')?.touched">
-                                <div *ngIf="(ingredientsCtrl.get('unit')?.errors)!['whitespace']">
-                                    Unit can't have only white spaces
-                                </div>
-                                <div *ngIf="(ingredientsCtrl.get('unit')?.errors)!['required']">Unit is required</div>
-                                <div *ngIf="(ingredientsCtrl.get('unit')?.errors)!['maxlength']">
-                                    Unit max length is 255 chars
-                                </div>
-                            </div>
+                    </div>
+                    <div class="buttons flex-box-center" *ngIf="i == ingrControls.length - 1">
+                        <div class="button flex-box-center" (click)="onAddRecipeIngredient()">
+                            <i class="bi bi-plus" style="font-size: 32px"> </i>
                         </div>
-                        <div class="buttons flex-box-center" *ngIf="i == 0">
-                            <div class="button flex-box-center" (click)="onAddRecipeIngredient()">
-                                <i class="bi bi-plus" style="font-size: 32px"> </i>
-                            </div>
-                            <div class="button flex-box-center" (click)="onDeleteRecipeIngredient()">
-                                <i class="bi bi-dash" style="font-size: 32px"></i>
-                            </div>
+                        <div class="button flex-box-center" (click)="onDeleteRecipeIngredient()">
+                            <i class="bi bi-dash" style="font-size: 32px"></i>
                         </div>
                     </div>
                 </div>
-                <!-- <div class="ingredient-input flex-box-raw">
-                    <div class="flex-box-vertical">
-                        <label for="ingr-name">Name</label>
-                        <input type="text" name="ingr-name" id="ingr-name" placeholder="flour">
-                    </div>
-                    <div class="flex-box-vertical">
-                        <label for="ingr-quantity">Quantity</label>
-                        <input type="number" min="0" name="ingr-quantity" id="ingr-quantity" placeholder="100">
-                    </div>
-                    <div class="flex-box-vertical">
-                        <label for="ingr-unit">Unit</label>
-                        <input type="text" name="ingr-unit" id="ingr-unit" placeholder="g">
-                    </div>
-                </div>
-                <div class="ingredient-input flex-box-raw">
-                    <div class="flex-box-vertical">
-                        <label for="ingr-name">Name</label>
-                        <input type="text" name="ingr-name" id="ingr-name" placeholder="flour">
-                    </div>
-                    <div class="flex-box-vertical">
-                        <label for="ingr-quantity">Quantity</label>
-                        <input type="number" min="0" name="ingr-quantity" id="ingr-quantity" placeholder="100">
-                    </div>
-                    <div class="flex-box-vertical">
-                        <label for="ingr-unit">Unit</label>
-                        <input type="text" name="ingr-unit" id="ingr-unit" placeholder="g">
-                    </div>
-                </div> -->
             </div>
-            <button [disabled]="!recipeForm.valid" class="btn btn-success" type="submit">SUBMIT</button>
-        </section>
+        </div>
     </div>
 </form>

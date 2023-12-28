@@ -8,7 +8,10 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RecipesListComponent } from './components/recipes-list/recipes-list.component';
 import { ColorsDirective } from './common/colors.directive';
 import { AppRoutingModule } from './app-routing.module';
-import { RecipeDetailsComponent } from './components/recipe-details/recipe-details.component';
+import {
+  ConfirmDialogComponent,
+  RecipeDetailsComponent,
+} from './components/recipe-details/recipe-details.component';
 import { RecipeFormComponent } from './components/recipe-form/recipe-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RecipeCalendarComponent } from './components/recipe-calendar/recipe-calendar.component';
@@ -19,6 +22,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { GroceriesListComponent } from './components/groceries-list/groceries-list.component';
+import { HomeComponent } from './components/home/home.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+
+import { SkeletonModule } from 'primeng/skeleton';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -32,6 +40,8 @@ import { GroceriesListComponent } from './components/groceries-list/groceries-li
     RecipeCalendarComponent,
     AddEventDialogComponent,
     GroceriesListComponent,
+    HomeComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,6 +54,9 @@ import { GroceriesListComponent } from './components/groceries-list/groceries-li
     FormsModule,
     MatButtonModule,
     MatTableModule,
+    MatSidenavModule,
+    SkeletonModule,
+    ToastModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

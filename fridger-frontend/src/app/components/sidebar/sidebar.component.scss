@@ -1,73 +1,73 @@
 :host {
-    width: 15%;
+  width: 15rem;
+  //   min-width: 240px;
+  //   width: 15%;
 }
 
 .red {
-    background-color: red;
+  background-color: red;
 }
 
 .sidebar {
-    height: 100%;
-    padding: 2em;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  height: 100%;
+  padding: 2em;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 
+  h1 {
+    margin-bottom: 5rem;
+    font-weight: bolder;
+    transition: 0.2s;
+  }
 
-    h1 {
-        margin-bottom: 5rem;
-        font-weight: bolder;
-        transition: .2s;
-    }
+  h4 {
+    color: var(--grey);
+    font-weight: bolder;
+  }
 
-    h4 {
-        color: var(--grey);
-        font-weight: bolder;
-    }
+  .sidebar-options {
+    margin-top: 1em;
+    padding-left: 0;
 
-    .sidebar-options {
-        margin-top: 1em;
-        padding-left: 0;
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.8em;
+      padding: 0.5em;
+      border-radius: 75px;
+      list-style: none;
+      cursor: pointer;
+      transition: 0.2s;
 
-        .option {
-            display: flex;
-            align-items: center;
-            gap: .8em;
-            padding: .5em;
-            border-radius: 75px;
-            list-style: none;
-            cursor: pointer;
-            transition: .2s;
+      &:not(:last-child) {
+        margin-bottom: 1rem;
+      }
 
-            &:not(:last-child) {
-                margin-bottom: 1rem;
-            }
+      a {
+        color: var(--black);
+        text-decoration: none;
+      }
 
-            a {
-                color: var(--black);
-                text-decoration: none;
-            }
+      &:hover {
+        background-color: var(--black);
+        color: var(--background-white);
+        scale: 1.2;
 
-            &:hover {
-                background-color: var(--black);
-                color: var(--background-white);
-                scale: 1.2;
-
-                a {
-                    color: var(--background-white);
-                }
-            }
-            
-            &.active {
-                background-color: var(--black);
-                color: var(--background-white);
-                scale: 1.2;
-    
-                a {
-                    color: var(--background-white);
-                }
-            }
+        a {
+          color: var(--background-white);
         }
-    }
+      }
 
+      &.active {
+        background-color: var(--black);
+        color: var(--background-white);
+        scale: 1.2;
+
+        a {
+          color: var(--background-white);
+        }
+      }
+    }
+  }
 }
 
 // .sidebar h1 {

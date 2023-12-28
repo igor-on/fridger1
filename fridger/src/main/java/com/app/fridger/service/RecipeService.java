@@ -65,6 +65,7 @@ public class RecipeService {
         dbRecipe.setInstructions(recipe.getInstructions());
         dbRecipe.setImageUrl(recipe.getImageUrl());
         dbRecipe.setLink(recipe.getLink());
+        dbRecipe.setFavorite(recipe.getFavorite());
 
 
         List<RecipeIngredient> recipeIngredients = recipe.getRecipeIngredients();
@@ -132,5 +133,21 @@ public class RecipeService {
         }
 
         return recipeRepositoryById.get();
+    }
+
+    public List<Recipe> getFavorites() {
+        return recipeRepository.findByFavoriteTrue();
+    }
+
+    @Transactional
+    public Recipe changeFavorites(Recipe recipe) {
+        Optional<Recipe> byId = recipeRepository.findById(recipe.getId());
+
+        if (byId.isEmpty()) {
+            throw new EmptyResultDataAccessException("Cannot find recipe to update - id: " + recipe.getId(), 1);
+        }
+
+        byId.get().setFavorite(!byId.get().getFavorite());
+        return byId.get();
     }
 }

@@ -35,6 +35,18 @@ export class RecipeService {
 
     return this.httpClient.delete<DeleteRecipeResponse>(url);
   }
+
+  toggleFavorite(recipe: Recipe): Observable<PostRecipeResponse> {
+    const url = `${this.url}/favorite`;
+
+    return this.httpClient.put<PostRecipeResponse>(url, recipe);
+  }
+
+  getFavoriteRecipes(): Observable<GetRecipeResponse> {
+    const url = `${this.url}/favorite`;
+
+    return this.httpClient.get<GetRecipeResponse>(url);
+  }
 }
 
 interface PostRecipeResponse {
@@ -43,5 +55,10 @@ interface PostRecipeResponse {
 }
 
 interface DeleteRecipeResponse {
+  message: string;
+}
+
+interface GetRecipeResponse {
+  data: Recipe[];
   message: string;
 }

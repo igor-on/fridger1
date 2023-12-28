@@ -1,13 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import {
   CalendarOptions,
   EventClickArg,
   EventDropArg,
+  FormatterInput,
 } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import timeGridPlugin from '@fullcalendar/timegrid';
 import { AddEventDialogComponent } from './add-event-dialog/add-event-dialog.component';
 import {
   CalendarService,
@@ -18,11 +20,13 @@ import { ActivatedRoute } from '@angular/router';
 import { Recipe } from 'src/app/common/recipe';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { MessageService as PrimengMessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-recipe-calendar',
   templateUrl: './recipe-calendar.component.html',
   styleUrls: ['./recipe-calendar.component.scss'],
+  providers: [PrimengMessageService],
 })
 export class RecipeCalendarComponent implements OnInit {
   // references the #calendar in the template
@@ -30,6 +34,34 @@ export class RecipeCalendarComponent implements OnInit {
 
   recipes!: Recipe[];
   plannedRecipes!: PlannedRecipe[];
+
+  readonly MAX_MOBILE_WIDTH = 768;
+
+  mobileView = {
+    toolbar: {
+      start: 'title',
+      center: 'addEventButton',
+      end: 'prev,next,today',
+    },
+    titleFormat: {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    } as FormatterInput,
+  };
+
+  stationaryView = {
+    toolbar: {
+      center: 'addEventButton',
+      start: 'title,dayGridDay,dayGridWeek,dayGridMonth',
+      end: 'prev,next,today',
+    },
+    titleFormat: {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    } as FormatterInput,
+  };
 
   calendarOptions: CalendarOptions = {
     timeZone: 'locale',
@@ -40,12 +72,17 @@ export class RecipeCalendarComponent implements OnInit {
       hour12: false,
     },
     defaultTimedEventDuration: '00:00',
-    initialView: 'dayGridWeek',
-    plugins: [dayGridPlugin, interactionPlugin],
-    headerToolbar: {
-      center: 'addEventButton',
-      start: 'title,dayGridWeek,dayGridMonth',
-    },
+    initialView:
+      window.innerWidth <= this.MAX_MOBILE_WIDTH ? 'dayGridDay' : 'dayGridWeek',
+    plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
+    headerToolbar:
+      window.innerWidth <= this.MAX_MOBILE_WIDTH
+        ? this.mobileView.toolbar
+        : this.stationaryView.toolbar,
+    titleFormat:
+      window.innerWidth <= this.MAX_MOBILE_WIDTH
+        ? this.mobileView.titleFormat
+        : this.stationaryView.titleFormat,
     editable: true,
     events: this.fetchEvents.bind(this),
     customButtons: {
@@ -64,7 +101,8 @@ export class RecipeCalendarComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private calendarService: CalendarService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private messageService: PrimengMessageService
   ) {}
 
   ngOnInit(): void {
@@ -156,6 +194,7 @@ export class RecipeCalendarComponent implements OnInit {
               imageUrl: '',
               link: '',
               recipeIngredients: [],
+              favorite: false,
             },
             done: result.done,
           };
@@ -171,6 +210,11 @@ export class RecipeCalendarComponent implements OnInit {
                 console.log(result);
                 this.calendar.getApi().refetchEvents();
               });
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: `Planned recipe with id: ${eventId} updated`,
+            });
           } else {
             console.log('Creating...');
             this.calendarService
@@ -179,6 +223,11 @@ export class RecipeCalendarComponent implements OnInit {
                 console.log(result);
                 this.calendar.getApi().refetchEvents();
               });
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: `Planned recipe added`,
+            });
           }
         }
       );
@@ -204,5 +253,25 @@ export class RecipeCalendarComponent implements OnInit {
 
   test() {
     // this.calendar.getApi().getEvents()[0].set;
+  }
+
+  @HostListener('window:resize', []) updateCalendarView() {
+    if (window.innerWidth <= this.MAX_MOBILE_WIDTH) {
+      this.calendar.getApi().changeView('dayGridDay');
+      this.calendar
+        .getApi()
+        .setOption('headerToolbar', this.mobileView.toolbar);
+      this.calendar
+        .getApi()
+        .setOption('titleFormat', this.mobileView.titleFormat);
+    } else {
+      this.calendar.getApi().changeView('dayGridWeek');
+      this.calendar
+        .getApi()
+        .setOption('headerToolbar', this.stationaryView.toolbar);
+      this.calendar
+        .getApi()
+        .setOption('titleFormat', this.stationaryView.titleFormat);
+    }
   }
 }

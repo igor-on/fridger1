@@ -65,4 +65,28 @@ public class RecipeController {
 
         return result;
     }
+
+    @GetMapping("/recipes/favorite")
+    public Map<String, Object> getFavoriteRecipes() {
+        HashMap<String, Object> result = new HashMap<>();
+        List<Recipe> recipes = recipeService.getFavorites();
+
+        result.put("message", "Successfully fetched favorite recipes");
+        result.put("data", recipes);
+
+        return result;
+    }
+
+    @PutMapping("/recipes/favorite")
+    public Map<String, Object> changeFavorite(@Valid @RequestBody Recipe recipe) {
+
+        HashMap<String, Object> result = new HashMap<>();
+        Recipe dbRecipe = recipeService.changeFavorites(recipe);
+
+        result.put("message", "Successfully fetched favorite recipes");
+        result.put("data", dbRecipe);
+
+
+        return result;
+    }
 }

@@ -36,7 +36,7 @@ export class GroceriesListComponent {
     }
 
     this.groceriesService
-      .getGroceriesList(this.startDate, this.endDate)
+      .generateGroceriesList(this.startDate, this.endDate)
       .subscribe(res => {
         console.log(res);
         this.groceriesList = res.data;

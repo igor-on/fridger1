@@ -3,8 +3,8 @@
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  width: 50%;
-  max-width: 50%;
+  // width: 50%;
+  // max-width: 50%;
   overflow: scroll;
   padding: 7rem 2rem 2rem 2rem;
 }
@@ -19,7 +19,7 @@
 }
 
 .left-section label,
-.right-section2 label {
+label {
   color: var(--black);
   font-weight: 800;
   /* font-weight: bolder; */
@@ -53,12 +53,12 @@ textarea.invalid {
   border: 2px solid red !important;
 }
 
-.right-section2 .input {
+.input {
   display: flex;
   flex-direction: column;
 }
 
-.right-section2 input {
+input {
   padding: 0.5rem;
   outline-color: transparent;
   border: 2px solid transparent;
@@ -72,25 +72,25 @@ textarea.invalid {
   border: 2px solid transparent;
   background-color: lightgray;
   border-radius: 0.5rem;
-  height: 25rem;
+  height: 100%;
 }
 
-.right-section2 input:focus,
+input:focus,
 .right-section2 textarea:focus {
   border: 2px solid black;
 }
 
-.right-section2 .ingredient {
+.ingredient {
   /* width: 80%; */
   margin-top: 1rem;
   gap: 3rem;
 }
 
-.right-section2 .ingredient .buttons {
+.buttons {
   margin-top: 1.3rem;
 }
 
-.right-section2 .ingredient .buttons .button {
+.buttons .button {
   width: 36px;
   height: 36px;
   // background-color: var(--pastel-green);
@@ -103,14 +103,14 @@ textarea.invalid {
   }
 }
 
-.right-section2 .ingredient .buttons .button:not(:last-child) {
+.buttons .button:not(:last-child) {
   background-color: var(--pastel-green);
   /* border-color: var(--pastel-green); */
   /* outline-color: transparent; */
   margin-right: 1rem;
 }
 
-.right-section2 .ingredient .buttons .button:last-child {
+.buttons .button:last-child {
   background-color: rgb(223, 137, 137);
 }
 
@@ -148,11 +148,10 @@ textarea.invalid {
 
 .recipe-ingredients {
   // background-color: var(--pastel-green);
-  min-height: 17rem;
-  max-height: 17rem;
-  overflow-y: scroll;
-  padding-right: 5rem;
-  margin-bottom: 0;
+  // max-height: 17rem;
+  // overflow-y: scroll;
+  // padding-right: 5rem;
+  // margin-bottom: 0;
 }
 
 /* width */

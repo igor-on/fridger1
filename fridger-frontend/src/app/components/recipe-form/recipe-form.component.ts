@@ -80,6 +80,7 @@ export class RecipeFormComponent implements OnInit {
         ]),
       }),
     ]);
+    let favorite = new FormControl(false);
 
     if (this.editMode) {
       console.log('edit mode');
@@ -92,6 +93,7 @@ export class RecipeFormComponent implements OnInit {
         instructions.setValue(data.instructions);
         link.setValue(data.link);
         imageUrl.setValue(data.imageUrl);
+        favorite.setValue(data.favorite);
 
         // this.onDeleteRecipeIngredient();
 
@@ -130,6 +132,7 @@ export class RecipeFormComponent implements OnInit {
       link: link,
       imageUrl: imageUrl,
       recipeIngredients: recipeIngredients,
+      favorite: favorite,
     });
   }
 
@@ -158,7 +161,7 @@ export class RecipeFormComponent implements OnInit {
   }
 
   private _handleResponse(response: any) {
-    this.router.navigate(['/']);
+    this.router.navigate(['/recipes']);
     this.messageService.sendMessage(response.message);
   }
 
