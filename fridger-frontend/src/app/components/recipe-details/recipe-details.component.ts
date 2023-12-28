@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Recipe } from 'src/app/common/recipe';
 import { MessageService } from 'src/app/services/message.service';
@@ -17,7 +18,8 @@ export class RecipeDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private recipeService: RecipeService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -38,10 +40,22 @@ export class RecipeDetailsComponent implements OnInit {
   }
 
   onDelete() {
-    this.recipeService.deleteRecipe(this.recipe!.id).subscribe(response => {
-      console.log(response);
-      this.router.navigate(['/']);
-      this.messageService.sendMessage(response.message);
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().subscribe(continuee => {
+      if (continuee) {
+        this.recipeService.deleteRecipe(this.recipe!.id).subscribe(response => {
+          console.log(response);
+          this.router.navigate(['/recipes']);
+          this.messageService.sendMessage(response.message);
+        });
+      }
     });
   }
 }
+
+@Component({
+  selector: 'confirm-dialog',
+  templateUrl: './confirm-dialog.component.html',
+})
+export class ConfirmDialogComponent {}

@@ -215,7 +215,7 @@ p-skeleton ~ div .badge {
   }
 }
 
-img ~ .badge:hover {
+img ~ div .badge:hover {
   scale: 1.2;
   // z-index: 999 !important;
 }

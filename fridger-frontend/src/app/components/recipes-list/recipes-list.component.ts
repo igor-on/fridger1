@@ -1,14 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Subscription, filter } from 'rxjs';
+import { Subscription, delay, filter } from 'rxjs';
 import { Recipe } from 'src/app/common/recipe';
 import { MessageService } from 'src/app/services/message.service';
+import { MessageService as PrimengMessageService } from 'primeng/api';
 import { RecipeService } from 'src/app/services/recipe.service';
 
 @Component({
   selector: 'app-recipes-list',
   templateUrl: './recipes-list.component.html',
   styleUrls: ['./recipes-list.component.scss'],
+  providers: [PrimengMessageService],
 })
 export class RecipesListComponent implements OnInit, OnDestroy {
   globalFilter: FormControl = new FormControl('');
@@ -22,7 +24,8 @@ export class RecipesListComponent implements OnInit, OnDestroy {
 
   constructor(
     private recipeService: RecipeService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private primengMessageService: PrimengMessageService
   ) {}
 
   ngOnInit(): void {
@@ -31,9 +34,17 @@ export class RecipesListComponent implements OnInit, OnDestroy {
   }
 
   handleMessages() {
-    this.messageSubscription = this.messageService.message.subscribe(
-      newMessage => (this.message = newMessage)
-    );
+    this.messageSubscription = this.messageService.message
+      .pipe(delay(100))
+      .subscribe(newMessage => {
+        console.log(`New message arrived: ${newMessage}`);
+        this.primengMessageService.clear();
+        this.primengMessageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: newMessage,
+        });
+      });
   }
 
   handleRecipes() {
@@ -69,7 +80,8 @@ export class RecipesListComponent implements OnInit, OnDestroy {
     );
   }
 
-  toggleFavorite(recipe: Recipe) {
+  toggleFavorite(recipe: Recipe, event: MouseEvent) {
+    event.stopPropagation();
     this.recipeService.toggleFavorite(recipe).subscribe(response => {
       let listRecipe: Recipe | undefined = this.recipes.find(
         r => r.id === recipe.id
@@ -77,6 +89,14 @@ export class RecipesListComponent implements OnInit, OnDestroy {
       if (listRecipe) {
         listRecipe.favorite = response.data.favorite;
       }
+      this.primengMessageService.clear();
+      this.primengMessageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: `${listRecipe?.favorite ? 'Added' : 'Removed'} recipe ${
+          listRecipe?.favorite ? 'to' : 'from'
+        } favorites`,
+      });
     });
   }
 

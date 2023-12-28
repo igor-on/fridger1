@@ -8,7 +8,10 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RecipesListComponent } from './components/recipes-list/recipes-list.component';
 import { ColorsDirective } from './common/colors.directive';
 import { AppRoutingModule } from './app-routing.module';
-import { RecipeDetailsComponent } from './components/recipe-details/recipe-details.component';
+import {
+  ConfirmDialogComponent,
+  RecipeDetailsComponent,
+} from './components/recipe-details/recipe-details.component';
 import { RecipeFormComponent } from './components/recipe-form/recipe-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RecipeCalendarComponent } from './components/recipe-calendar/recipe-calendar.component';
@@ -23,6 +26,7 @@ import { HomeComponent } from './components/home/home.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { SkeletonModule } from 'primeng/skeleton';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -37,6 +41,7 @@ import { SkeletonModule } from 'primeng/skeleton';
     AddEventDialogComponent,
     GroceriesListComponent,
     HomeComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,6 +56,7 @@ import { SkeletonModule } from 'primeng/skeleton';
     MatTableModule,
     MatSidenavModule,
     SkeletonModule,
+    ToastModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
