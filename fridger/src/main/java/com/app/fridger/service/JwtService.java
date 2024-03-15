@@ -1,6 +1,7 @@
 package com.app.fridger.service;
 
 import com.app.fridger.entity.User;
+import com.app.fridger.model.TokenData;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,19 +22,39 @@ import java.util.function.Function;
 @Log4j2
 public class JwtService {
 
-    public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
+    public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437"; // TODO: make different secrets for ACCESS and REFRESH
+    private final long ACCESS_TOKEN_EXP_TIME = 30000;
+    private final long REFRESH_TOKEN_EXP_TIME = 48 * 60 * 60 * 1000;
 
-    public String generateToken(String userName) {
+    public TokenData generateToken(String userName) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userName);
+        String token = createToken(claims, userName, ACCESS_TOKEN_EXP_TIME);
+        return TokenData.builder()
+                .token(token)
+                .expirationDate(extractExpiration(token).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
+                .build();
     }
 
-    private String createToken(Map<String, Object> claims, String userName) {
+    public String generateRefreshToken(String userName) {
+        Map<String, Object> claims = new HashMap<>();
+        return createToken(claims, userName, REFRESH_TOKEN_EXP_TIME);
+    }
+
+    public TokenData refreshAccessToken(String refreshToken) {
+        String username = extractUsername(refreshToken);
+        if (validateToken(refreshToken, username)) {
+            return generateToken(username);
+        }
+
+        throw new RuntimeException("Invalid refresh token");
+    }
+
+    private String createToken(Map<String, Object> claims, String userName, long tokenExpTime) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userName)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 3000000))
+                .setExpiration(new Date(System.currentTimeMillis() + tokenExpTime))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
     }
 
@@ -69,9 +91,9 @@ public class JwtService {
         return extractExpiration(token).before(new Date());
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
+    public Boolean validateToken(String token, String udUsername) {
         final String username = extractUsername(token);
-        log.info("validateToken: " +  (username.equals(userDetails.getUsername()) && !isTokenExpired(token)));
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        log.info("validateToken: " +  (username.equals(udUsername) && !isTokenExpired(token)));
+        return (username.equals(udUsername) && !isTokenExpired(token));
     }
 }

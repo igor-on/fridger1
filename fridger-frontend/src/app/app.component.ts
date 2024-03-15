@@ -9,6 +9,7 @@ import {
 import { MatDrawer, MatDrawerMode } from '@angular/material/sidenav';
 import { NavigationStart, Router } from '@angular/router';
 import { filter } from 'rxjs';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -24,9 +25,15 @@ export class AppComponent implements OnInit, AfterViewInit {
   // sidenavOpened!: boolean;
   sidenavHidden = false;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
+    this.authService.login('s', 'S');
+    this.authService.listenForTokenRefresh();
+
     this.sidenavMode = window.innerWidth <= 1054 ? 'over' : 'side';
 
     this.router.events
