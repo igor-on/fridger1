@@ -34,6 +34,7 @@ export class RecipesListComponent implements OnInit, OnDestroy {
   }
 
   handleMessages() {
+    // TODO: move this to app component
     this.messageSubscription = this.messageService.message
       .pipe(delay(100))
       .subscribe(newMessage => {

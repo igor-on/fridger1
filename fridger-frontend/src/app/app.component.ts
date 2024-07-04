@@ -31,7 +31,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.authService.login('s', 'S');
     this.authService.listenForTokenRefresh();
 
     this.sidenavMode = window.innerWidth <= 1054 ? 'over' : 'side';
@@ -43,6 +42,9 @@ export class AppComponent implements OnInit, AfterViewInit {
           (<NavigationStart>el).url.includes('/recipe-form') &&
           window.innerWidth > 1054
         ) {
+          this.sidenavHidden = true;
+          this.sidenav.close();
+        } else if ((<NavigationStart>el).url.includes('/login')) {
           this.sidenavHidden = true;
           this.sidenav.close();
         } else if (window.innerWidth > 1054) {

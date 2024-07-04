@@ -7,20 +7,40 @@ import { RecipeCalendarComponent } from './components/recipe-calendar/recipe-cal
 import { recipesResolver } from './recipesResolver';
 import { GroceriesListComponent } from './components/groceries-list/groceries-list.component';
 import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/login/login.component';
+import { authGuard } from './guards/authGuard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
-  { path: 'recipes', component: RecipesComponent },
-  { path: 'recipe-details/:id', component: RecipeDetailsComponent },
-  { path: 'recipe-form', component: RecipeFormComponent },
-  { path: 'recipe-form/:id', component: RecipeFormComponent },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'home', component: HomeComponent, canActivate: [authGuard] },
+  { path: 'recipes', component: RecipesComponent, canActivate: [authGuard] },
+  {
+    path: 'recipe-details/:id',
+    component: RecipeDetailsComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'recipe-form',
+    component: RecipeFormComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'recipe-form/:id',
+    component: RecipeFormComponent,
+    canActivate: [authGuard],
+  },
   {
     path: 'calendar',
     component: RecipeCalendarComponent,
     resolve: { recipes: recipesResolver },
+    canActivate: [authGuard],
   },
-  { path: 'groceries', component: GroceriesListComponent },
+  {
+    path: 'groceries',
+    component: GroceriesListComponent,
+    canActivate: [authGuard],
+  },
 ];
 
 @NgModule({

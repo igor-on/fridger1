@@ -28,6 +28,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { SkeletonModule } from 'primeng/skeleton';
 import { ToastModule } from 'primeng/toast';
 import { AuthInterceptor } from './http-interceptors/auth-interceptor';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { AuthInterceptor } from './http-interceptors/auth-interceptor';
     GroceriesListComponent,
     HomeComponent,
     ConfirmDialogComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

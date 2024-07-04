@@ -126,6 +126,11 @@ export class RecipeCalendarComponent implements OnInit {
 
     this.calendarService.updatePlannedRecipe(data).subscribe(result => {
       console.log(result);
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: `Planned recipe updated`,
+      });
     });
   }
 
