@@ -53,43 +53,4 @@ public class RecipeCalendarService {
 
         return plannedRecipeRepository.save(dbPlannedRecipe);
     }
-
-    // TODO: think about native query for this
-    public List<ShoppingProduct> getIngredientsListFromPlannedRecipes() {
-        List<PlannedRecipe> plannedRecipes = plannedRecipeRepository.findAll();
-
-        // get every recipeIngredient withing planned recipes
-        List<RecipeIngredient> recipeIngredients = plannedRecipes.stream()
-                .map(PlannedRecipe::getRecipe)
-                .map(Recipe::getRecipeIngredients)
-                .flatMap(Collection::stream)
-                .toList();
-
-        log.info("Planned ingredients size:  " + recipeIngredients.size());
-
-        ArrayList<ShoppingProduct> shoppingList = new ArrayList<>();
-        HashMap<String, Boolean> checkList = new HashMap<>();
-
-        for (RecipeIngredient recipeIngredient : recipeIngredients) {
-
-            if (checkList.containsKey(recipeIngredient.getIngredient().getName())) {
-                continue;
-            }
-
-            // check if recipeIngredient has duplicates
-            List<RecipeIngredient> duplicates = recipeIngredients.stream()
-                    .filter(ri -> ri.getIngredient().getName().equals(recipeIngredient.getIngredient().getName()))
-                    .toList();
-
-            log.info("Duplicates size: " + duplicates.size());
-
-            ShoppingProduct shoppingProduct = new ShoppingProduct(duplicates);
-            shoppingList.add(shoppingProduct);
-            checkList.put(shoppingProduct.getIngredientName(), true);
-        }
-
-        log.info("Shopping products size:  " + shoppingList.size());
-
-        return shoppingList;
-    }
 }
