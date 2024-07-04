@@ -38,7 +38,11 @@ export class AuthService {
     localStorage.removeItem('expirationDate');
     this.router.navigate(['/login']);
     if (session_expired) {
-      this.messageService.sendMessage('Session expired, please log in again');
+      this.messageService.sendMessage({
+        severity: 'info',
+        summary: 'Session expired',
+        detail: 'Please log in again',
+      });
     } else {
       this.messageService.sendMessage('Successfully logged out');
     }
@@ -61,7 +65,11 @@ export class AuthService {
         },
         error: err => {
           console.log('error logging in...', err);
-          this.messageService.sendMessage(err.error.message);
+          this.messageService.sendMessage({
+            severity: 'error',
+            summary: 'Error logging in',
+            detail: err.error.message,
+          });
         },
       });
   }

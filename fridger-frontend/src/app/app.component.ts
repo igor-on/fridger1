@@ -72,11 +72,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       .subscribe(newMessage => {
         console.log(`New message arrived: ${newMessage}`);
         this.primengMessageService.clear();
-        this.primengMessageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: newMessage,
-        });
+        this.primengMessageService.add(newMessage);
       });
   }
 
