@@ -83,6 +83,7 @@ public class RecipeService {
             log.info("Deleting dbRecipeIngredient..." + dbRi.getId());
             recipeIngredientRepository.delete(dbRi);
         });
+        // TODO: is code 71:85 needed?
         dbRecipe.getRecipeIngredients().clear();
 
         // Populate recipeIngredients from start

@@ -62,7 +62,7 @@ public class SecurityConfig {
 
         return http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers( "/auth/addNewUser", "/auth/generateToken", "/auth/refresh-token").permitAll()
+                .requestMatchers( "/auth/addNewUser", "/auth/authenticate", "/auth/refresh-token").permitAll()
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/**", "/auth/user/**")

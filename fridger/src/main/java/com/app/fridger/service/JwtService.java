@@ -23,7 +23,7 @@ import java.util.function.Function;
 public class JwtService {
 
     public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437"; // TODO: make different secrets for ACCESS and REFRESH
-    private final long ACCESS_TOKEN_EXP_TIME = 30000;
+    private final long ACCESS_TOKEN_EXP_TIME = 1000 * 60 * 60;
     private final long REFRESH_TOKEN_EXP_TIME = 48 * 60 * 60 * 1000;
 
     public TokenData generateToken(String userName) {
