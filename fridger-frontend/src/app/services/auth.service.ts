@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../common/User';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,8 @@ export class AuthService {
 
   constructor(
     private httpClient: HttpClient,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) {}
 
   listenForTokenRefresh() {
@@ -31,10 +33,15 @@ export class AuthService {
     );
   }
 
-  logout() {
+  logout(session_expired = false) {
     localStorage.removeItem('token');
     localStorage.removeItem('expirationDate');
     this.router.navigate(['/login']);
+    if (session_expired) {
+      this.messageService.sendMessage('Session expired, please log in again');
+    } else {
+      this.messageService.sendMessage('Successfully logged out');
+    }
   }
 
   login(username: string, password: string) {
@@ -54,6 +61,7 @@ export class AuthService {
         },
         error: err => {
           console.log('error logging in...', err);
+          this.messageService.sendMessage(err.error.message);
         },
       });
   }
@@ -83,6 +91,7 @@ export class AuthService {
         },
         error: err => {
           console.log('error refreshing token, logging out...', err);
+          this.logout(true);
         },
         // complete: () => {},
       });

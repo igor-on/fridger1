@@ -9,6 +9,9 @@
                     type="text"
                     placeholder="Username"
                     [formControl]="username" />
+                <p *ngIf="!username.valid && username.dirty" class="text-xs italic text-red-500">
+                    Username is required.
+                </p>
             </div>
             <div class="mb-6">
                 <label class="mb-2 block text-sm font-bold text-gray-700" for="password"> Password </label>
@@ -17,8 +20,11 @@
                     id="password"
                     type="password"
                     placeholder="******************"
-                    [formControl]="password" />
-                <!-- <p class="text-xs italic text-red-500">Please choose a password.</p> -->
+                    [formControl]="password"
+                    (keydown.enter)="onSignIn()" />
+                <p *ngIf="!password.valid && password.dirty" class="text-xs italic text-red-500">
+                    Password is required.
+                </p>
             </div>
             <div class="flex items-center justify-center">
                 <button

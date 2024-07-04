@@ -8,13 +8,16 @@ import {
 } from '@angular/core';
 import { MatDrawer, MatDrawerMode } from '@angular/material/sidenav';
 import { NavigationStart, Router } from '@angular/router';
-import { filter } from 'rxjs';
+import { Subscription, delay, filter } from 'rxjs';
 import { AuthService } from './services/auth.service';
+import { MessageService } from './services/message.service';
+import { MessageService as PrimengMessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  providers: [PrimengMessageService],
 })
 export class AppComponent implements OnInit, AfterViewInit {
   title = 'fridger-frontend';
@@ -25,12 +28,17 @@ export class AppComponent implements OnInit, AfterViewInit {
   // sidenavOpened!: boolean;
   sidenavHidden = false;
 
+  messageSubscription?: Subscription;
+
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private messageService: MessageService,
+    private primengMessageService: PrimengMessageService
   ) {}
 
   ngOnInit(): void {
+    this.handleMessages();
     this.authService.listenForTokenRefresh();
 
     this.sidenavMode = window.innerWidth <= 1054 ? 'over' : 'side';
@@ -55,6 +63,21 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit(): void {
     window.innerWidth < 1054 ? this.sidenav.close() : this.sidenav.open();
+  }
+
+  handleMessages() {
+    // TODO: move this to app component
+    this.messageSubscription = this.messageService.message
+      .pipe(delay(100))
+      .subscribe(newMessage => {
+        console.log(`New message arrived: ${newMessage}`);
+        this.primengMessageService.clear();
+        this.primengMessageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: newMessage,
+        });
+      });
   }
 
   @HostListener('window:resize', []) updateSidenav() {
