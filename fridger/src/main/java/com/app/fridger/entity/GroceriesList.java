@@ -31,6 +31,10 @@ public class GroceriesList {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "groceriesList")
     private List<GroceriesListIngredient> groceriesListIngredient;
 
+    @ManyToOne
+    @JoinColumn(name = "username")
+    private User user;
+
     public void add(GroceriesListIngredient ingredient) {
         if (ingredient != null) {
             if (groceriesListIngredient == null) {

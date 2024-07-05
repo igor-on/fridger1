@@ -1,16 +1,28 @@
 import { Injectable } from '@angular/core';
+import { Message } from 'primeng/api';
 import { ReplaySubject, Subject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MessageService {
+  message = new ReplaySubject<Message>();
 
-  message = new ReplaySubject<string>();
+  constructor() {}
 
-  constructor() { }
+  sendMessage(message: Message | string) {
+    let msg: Message = {
+      severity: 'success',
+      summary: 'success',
+      detail: 'No message provided',
+    };
 
-  sendMessage(message: string) {
-    this.message.next(message)
+    if (typeof message === 'string') {
+      msg.detail = message;
+    } else {
+      msg = message;
+    }
+
+    this.message.next(msg);
   }
 }

@@ -1,7 +1,9 @@
 DROP TABLE IF EXISTS recipe_ingredient;
 DROP TABLE IF EXISTS planned_recipe;
 DROP TABLE IF EXISTS recipes;
+DROP TABLE IF EXISTS groceries_list_ingredient;
 DROP TABLE IF EXISTS ingredients;
+DROP TABLE IF EXISTS groceries_lists;
 
 
 CREATE TABLE IF NOT EXISTS `recipes` (
@@ -11,7 +13,9 @@ CREATE TABLE IF NOT EXISTS `recipes` (
   `instructions` varchar(255) NOT NULL,
   `image_url` varchar(255),
   `link` varchar(255),
-  `favorite` boolean
+  `favorite` boolean,
+  `username` varchar(50),
+  CONSTRAINT FK_username_recipe FOREIGN KEY (`username`) REFERENCES `users` (`username`)
 );
 
 CREATE TABLE IF NOT EXISTS `ingredients` (
@@ -40,7 +44,9 @@ CREATE TABLE IF NOT EXISTS `planned_recipe` (
 CREATE TABLE IF NOT EXISTS `groceries_lists` (
 `id` bigint PRIMARY KEY AUTO_INCREMENT,
 `start_date` datetime NOT NULL,
-`end_date` datetime NOT NULL
+`end_date` datetime NOT NULL,
+`username` varchar(50),
+CONSTRAINT FK_username_groceries_list FOREIGN KEY (`username`) REFERENCES `users` (`username`)
 );
 
 CREATE TABLE IF NOT EXISTS `groceries_list_ingredient` (
@@ -53,14 +59,36 @@ CREATE TABLE IF NOT EXISTS `groceries_list_ingredient` (
   CONSTRAINT FK_ingredient_groceries_list_ingredient FOREIGN KEY (`ingredient_id`) REFERENCES `ingredients` (`id`)
 );
 
+create table users(
+	username varchar(50) not null primary key,
+	password varchar(500) not null,
+    roles varchar(255) not null,
+	enabled boolean not null
+);
+
+create table authorities (
+	username varchar(50) not null,
+	authority varchar(50) not null,
+	constraint fk_authorities_users foreign key(username) references users(username)
+);
+create unique index ix_auth_username on authorities (username,authority);
+
+INSERT INTO users VALUES ('user', 'test', 'USER,ADMIN', true);
+
+UPDATE users SET password = '$2a$10$5Y4caZ.J/4AFVgAZWQ93UO3kyT3LJjhHuoAtHzuet1iH9k58MIwIe' WHERE username = 'user';
+
+SELECT * FROM users;
+
+
+
 -- ALTER TABLE `recipe_ingredient` ADD FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`);
 
 -- ALTER TABLE `planned_recipe` ADD FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`);
 
--- use fridger_db;
+use fridger_db;
 -- SELECT * FROM planned_recipe;
 -- select * from recipes;
--- select * from ingredients;
+select * from ingredients;
 -- select * from recipe_ingredient;
 -- alter table recipes modify instructions varchar(1000);
 
@@ -104,4 +132,15 @@ CREATE TABLE IF NOT EXISTS `groceries_list_ingredient` (
 -- LEFT JOIN ingredients as i on ri.ingredient_id = i.id
 -- WHERE pr.planned_date > '2023-11-10 00:00:00'
 -- GROUP BY i.name, ri.unit;
+
+
+SELECT r.`id`, i.`id`, 5, 'units'
+FROM `recipes` r
+CROSS JOIN `ingredients` i
+LIMIT 5;
+
+
+select * from recipes;
+
+
 

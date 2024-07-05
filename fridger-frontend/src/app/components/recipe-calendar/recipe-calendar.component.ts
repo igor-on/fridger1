@@ -20,13 +20,12 @@ import { ActivatedRoute } from '@angular/router';
 import { Recipe } from 'src/app/common/recipe';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { MessageService as PrimengMessageService } from 'primeng/api';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-recipe-calendar',
   templateUrl: './recipe-calendar.component.html',
   styleUrls: ['./recipe-calendar.component.scss'],
-  providers: [PrimengMessageService],
 })
 export class RecipeCalendarComponent implements OnInit {
   // references the #calendar in the template
@@ -102,7 +101,7 @@ export class RecipeCalendarComponent implements OnInit {
     public dialog: MatDialog,
     private calendarService: CalendarService,
     private route: ActivatedRoute,
-    private messageService: PrimengMessageService
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -126,6 +125,7 @@ export class RecipeCalendarComponent implements OnInit {
 
     this.calendarService.updatePlannedRecipe(data).subscribe(result => {
       console.log(result);
+      this.messageService.sendMessage('Planned recipe updated');
     });
   }
 
@@ -210,11 +210,7 @@ export class RecipeCalendarComponent implements OnInit {
                 console.log(result);
                 this.calendar.getApi().refetchEvents();
               });
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: `Planned recipe with id: ${eventId} updated`,
-            });
+            this.messageService.sendMessage('Planned recipe updated');
           } else {
             console.log('Creating...');
             this.calendarService
@@ -223,11 +219,7 @@ export class RecipeCalendarComponent implements OnInit {
                 console.log(result);
                 this.calendar.getApi().refetchEvents();
               });
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: `Planned recipe added`,
-            });
+            this.messageService.sendMessage('Planned recipe added');
           }
         }
       );

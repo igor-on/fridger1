@@ -57,17 +57,4 @@ public class RecipeCalendarController {
 
         return result;
     }
-
-    @GetMapping("recipes-calendar/ingredients-list")
-    public Map<String, Object> getIngredientsListFromPlannedRecipes() {
-
-        HashMap<String, Object> result = new HashMap<>();
-        List<ShoppingProduct> ingredientsListFromPlannedRecipes = recipeCalendarService.getIngredientsListFromPlannedRecipes();
-
-        result.put("message", "Successfully obtained ingredients list");
-        result.put("data", ingredientsListFromPlannedRecipes);
-
-        return result;
-    }
-
 }

@@ -2,7 +2,6 @@ package com.app.fridger.controller;
 
 import com.app.fridger.entity.Recipe;
 import com.app.fridger.service.RecipeService;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

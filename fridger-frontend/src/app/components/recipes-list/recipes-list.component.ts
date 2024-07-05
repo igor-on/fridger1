@@ -1,16 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Subscription, delay, filter } from 'rxjs';
 import { Recipe } from 'src/app/common/recipe';
 import { MessageService } from 'src/app/services/message.service';
-import { MessageService as PrimengMessageService } from 'primeng/api';
+
 import { RecipeService } from 'src/app/services/recipe.service';
 
 @Component({
   selector: 'app-recipes-list',
   templateUrl: './recipes-list.component.html',
   styleUrls: ['./recipes-list.component.scss'],
-  providers: [PrimengMessageService],
 })
 export class RecipesListComponent implements OnInit, OnDestroy {
   globalFilter: FormControl = new FormControl('');
@@ -20,31 +18,14 @@ export class RecipesListComponent implements OnInit, OnDestroy {
   recipesLoading = false;
 
   message: string = '';
-  messageSubscription?: Subscription;
 
   constructor(
     private recipeService: RecipeService,
-    private messageService: MessageService,
-    private primengMessageService: PrimengMessageService
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
-    this.handleMessages();
     this.handleRecipes();
-  }
-
-  handleMessages() {
-    this.messageSubscription = this.messageService.message
-      .pipe(delay(100))
-      .subscribe(newMessage => {
-        console.log(`New message arrived: ${newMessage}`);
-        this.primengMessageService.clear();
-        this.primengMessageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: newMessage,
-        });
-      });
   }
 
   handleRecipes() {
@@ -89,18 +70,13 @@ export class RecipesListComponent implements OnInit, OnDestroy {
       if (listRecipe) {
         listRecipe.favorite = response.data.favorite;
       }
-      this.primengMessageService.clear();
-      this.primengMessageService.add({
-        severity: 'success',
-        summary: 'Success',
-        detail: `${listRecipe?.favorite ? 'Added' : 'Removed'} recipe ${
-          listRecipe?.favorite ? 'to' : 'from'
-        } favorites`,
-      });
+      this.messageService.sendMessage(
+        `Recipe ${listRecipe?.favorite ? 'added to' : 'removed from'} favorites`
+      );
     });
   }
 
   ngOnDestroy(): void {
-    this.messageSubscription?.unsubscribe();
+    // this.messageSubscription?.unsubscribe();
   }
 }

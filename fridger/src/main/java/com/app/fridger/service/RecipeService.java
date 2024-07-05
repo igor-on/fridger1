@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,8 +25,10 @@ public class RecipeService {
     private final IngredientRepository ingredientRepository;
     private final RecipeIngredientRepository recipeIngredientRepository;
 
+    private final SessionService session;
+
     public List<Recipe> getRecipes() {
-        return recipeRepository.findAll();
+        return recipeRepository.findAll(session.getUser().getUsername());
     }
 
     @Transactional
@@ -41,25 +44,31 @@ public class RecipeService {
         }
 
         Recipe savedRecipe = recipeRepository.save(recipe);
+        session.getUser().addRecipe(savedRecipe);
 
 //        return "Successfully saved recipe with id: " + savedRecipe.getId();
         return savedRecipe;
     }
 
     public String deleteRecipe(Long id) {
-        recipeRepository.deleteById(id); // TODO: think about error path
+        Recipe dbRecipe = recipeRepository.findById(id).orElseThrow();
+
+        if (!dbRecipe.getUser().getUsername().equals(session.getUser().getUsername())) {
+            throw new AccessDeniedException("Access Denied");
+        }
+
+        recipeRepository.delete(dbRecipe); // TODO: think about error path
         return "Successfully deleted recipe with id: " + id;
     }
 
     @Transactional
     public Recipe updateRecipe(Recipe recipe) {
-        Optional<Recipe> recipeById = recipeRepository.findById(recipe.getId());
+        Recipe dbRecipe = recipeRepository.findById(recipe.getId()).orElseThrow();
 
-        if (recipeById.isEmpty()) {
-            throw new EmptyResultDataAccessException("Cannot find recipe to update - id: " + recipe.getId(), 1);
+        if (!dbRecipe.getUser().getUsername().equals(session.getUser().getUsername())) {
+            throw new AccessDeniedException("Access Denied");
         }
 
-        Recipe dbRecipe = recipeById.get();
         dbRecipe.setName(recipe.getName());
         dbRecipe.setDescription(recipe.getDescription());
         dbRecipe.setInstructions(recipe.getInstructions());
@@ -83,6 +92,7 @@ public class RecipeService {
             log.info("Deleting dbRecipeIngredient..." + dbRi.getId());
             recipeIngredientRepository.delete(dbRi);
         });
+        // TODO: is code 71:85 needed?
         dbRecipe.getRecipeIngredients().clear();
 
         // Populate recipeIngredients from start
@@ -126,28 +136,28 @@ public class RecipeService {
     }
 
     public Recipe getRecipeDetails(Long id) {
-        Optional<Recipe> recipeRepositoryById = recipeRepository.findById(id);
+        Recipe dbRecipe = recipeRepository.findById(id).orElseThrow();
 
-        if (recipeRepositoryById.isEmpty()) {
-            throw new EmptyResultDataAccessException("Cannot find recipe to update - id: " + id, 1);
+        if (!dbRecipe.getUser().getUsername().equals(session.getUser().getUsername())) {
+            throw new AccessDeniedException("Access Denied");
         }
 
-        return recipeRepositoryById.get();
+        return dbRecipe;
     }
 
     public List<Recipe> getFavorites() {
-        return recipeRepository.findByFavoriteTrue();
+        return recipeRepository.findByFavoriteTrueAndUserUsername(session.getUser().getUsername());
     }
 
     @Transactional
     public Recipe changeFavorites(Recipe recipe) {
-        Optional<Recipe> byId = recipeRepository.findById(recipe.getId());
+        Recipe dbRecipe = recipeRepository.findById(recipe.getId()).orElseThrow();
 
-        if (byId.isEmpty()) {
-            throw new EmptyResultDataAccessException("Cannot find recipe to update - id: " + recipe.getId(), 1);
+        if (!dbRecipe.getUser().getUsername().equals(session.getUser().getUsername())) {
+            throw new AccessDeniedException("Access Denied");
         }
 
-        byId.get().setFavorite(!byId.get().getFavorite());
-        return byId.get();
+        dbRecipe.setFavorite(!dbRecipe.getFavorite());
+        return dbRecipe;
     }
 }

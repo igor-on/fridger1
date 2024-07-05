@@ -1,0 +1,64 @@
+package com.app.fridger.entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Table(name = "users")
+@Entity
+@NoArgsConstructor
+@Getter
+@Setter
+public class User {
+
+    @Id
+    @Column(name = "username")
+    private String username;
+    @Column(name = "password")
+    @NotNull
+    @JsonIgnore
+    private String password;
+    @Column(name = "roles")
+    private String roles;
+    @Column(name = "enabled")
+    @JsonIgnore
+    private Boolean enabled;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
+    private List<Recipe> recipes;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
+    private List<GroceriesList> groceriesLists;
+
+
+    public void addRecipe(Recipe recipe) {
+        if (recipe != null) {
+            if (recipes == null) {
+                recipes = new ArrayList<>();
+            }
+
+            recipes.add(recipe);
+            recipe.setUser(this);
+        }
+    }
+
+    public void addGroceriesList(GroceriesList groceriesList) {
+        if (groceriesList != null) {
+            if (groceriesLists == null) {
+                groceriesLists = new ArrayList<>();
+            }
+
+            groceriesLists.add(groceriesList);
+            groceriesList.setUser(this);
+        }
+    }
+
+}
