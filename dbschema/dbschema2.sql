@@ -1,7 +1,9 @@
 DROP TABLE IF EXISTS recipe_ingredient;
 DROP TABLE IF EXISTS planned_recipe;
 DROP TABLE IF EXISTS recipes;
+DROP TABLE IF EXISTS groceries_list_ingredient;
 DROP TABLE IF EXISTS ingredients;
+DROP TABLE IF EXISTS groceries_lists;
 
 
 CREATE TABLE IF NOT EXISTS `recipes` (
@@ -11,7 +13,9 @@ CREATE TABLE IF NOT EXISTS `recipes` (
   `instructions` varchar(255) NOT NULL,
   `image_url` varchar(255),
   `link` varchar(255),
-  `favorite` boolean
+  `favorite` boolean,
+  `username` varchar(50),
+  CONSTRAINT FK_username_recipe FOREIGN KEY (`username`) REFERENCES `users` (`username`)
 );
 
 CREATE TABLE IF NOT EXISTS `ingredients` (
@@ -40,7 +44,9 @@ CREATE TABLE IF NOT EXISTS `planned_recipe` (
 CREATE TABLE IF NOT EXISTS `groceries_lists` (
 `id` bigint PRIMARY KEY AUTO_INCREMENT,
 `start_date` datetime NOT NULL,
-`end_date` datetime NOT NULL
+`end_date` datetime NOT NULL,
+`username` varchar(50),
+CONSTRAINT FK_username_groceries_list FOREIGN KEY (`username`) REFERENCES `users` (`username`)
 );
 
 CREATE TABLE IF NOT EXISTS `groceries_list_ingredient` (
@@ -72,6 +78,8 @@ INSERT INTO users VALUES ('user', 'test', 'USER,ADMIN', true);
 UPDATE users SET password = '$2a$10$5Y4caZ.J/4AFVgAZWQ93UO3kyT3LJjhHuoAtHzuet1iH9k58MIwIe' WHERE username = 'user';
 
 SELECT * FROM users;
+
+
 
 -- ALTER TABLE `recipe_ingredient` ADD FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`);
 
