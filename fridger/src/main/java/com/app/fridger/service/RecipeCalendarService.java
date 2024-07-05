@@ -1,17 +1,14 @@
 package com.app.fridger.service;
 
-import com.app.fridger.dto.ShoppingProduct;
 import com.app.fridger.entity.PlannedRecipe;
-import com.app.fridger.entity.Recipe;
-import com.app.fridger.entity.RecipeIngredient;
 import com.app.fridger.repo.PlannedRecipeRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
 
 @Service
 @Log4j2
@@ -19,9 +16,10 @@ import java.util.*;
 public class RecipeCalendarService {
 
     private final PlannedRecipeRepository plannedRecipeRepository;
+    private final SessionService session;
 
     public List<PlannedRecipe> getPlannedRecipes() {
-        return plannedRecipeRepository.findAll();
+        return plannedRecipeRepository.findAll(session.getUser().getUsername());
     }
 
     @Transactional
@@ -30,20 +28,23 @@ public class RecipeCalendarService {
     }
 
     public String deletePlannedRecipe(long id) {
-        plannedRecipeRepository.deleteById(id);
+        PlannedRecipe dbPlannedRecipe = plannedRecipeRepository.findById(id).orElseThrow();
 
+        if (!dbPlannedRecipe.getRecipe().getUser().getUsername().equals(session.getUser().getUsername())) {
+            throw new AccessDeniedException("Access Denied");
+        }
+
+        plannedRecipeRepository.deleteById(id);
         return "Successfully deleted planned recipe with id: " + id;
     }
 
     @Transactional
     public PlannedRecipe updatePlannedRecipe(PlannedRecipe plannedRecipe) {
-        Optional<PlannedRecipe> plannedRecipeById = plannedRecipeRepository.findById(plannedRecipe.getId());
-
-        if (plannedRecipeById.isEmpty()) {
-            throw new EmptyResultDataAccessException("Cannot find recipe to update - id: " + plannedRecipe.getId(), 1);
+        PlannedRecipe dbPlannedRecipe = plannedRecipeRepository.findById(plannedRecipe.getId()).orElseThrow();
+        if (!dbPlannedRecipe.getRecipe().getUser().getUsername().equals(session.getUser().getUsername())) {
+            throw new AccessDeniedException("Access Denied");
         }
 
-        PlannedRecipe dbPlannedRecipe = plannedRecipeById.get();
 //        dbPlannedRecipe.setTitle(plannedRecipe.getTitle());
         dbPlannedRecipe.setDone(plannedRecipe.isDone());
         dbPlannedRecipe.setPlannedDate(plannedRecipe.getPlannedDate());

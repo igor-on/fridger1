@@ -1,10 +1,6 @@
 package com.app.fridger.controller;
 
 import com.app.fridger.dto.ShoppingProduct;
-import com.app.fridger.entity.GroceriesList;
-import com.app.fridger.entity.GroceriesListIngredient;
-import com.app.fridger.repo.GroceriesListRepository;
-import com.app.fridger.repo.IngredientRepository;
 import com.app.fridger.service.GroceriesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -35,8 +31,10 @@ public class GroceriesController {
         return result;
     }
 
+    // TODO: change path to groceries-list
+
     @DeleteMapping("groceries/list/{id}")
-    public Map<String, Object> getGroceriesList(@PathVariable Long id) {
+    public Map<String, Object> deleteGroceriesList(@PathVariable Long id) {
         Map<String, Object> result = new HashMap<>();
 
         groceriesService.deleteGroceriesList(id);
