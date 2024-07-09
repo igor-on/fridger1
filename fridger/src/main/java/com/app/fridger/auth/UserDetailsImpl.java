@@ -1,4 +1,4 @@
-package com.app.fridger.config;
+package com.app.fridger.auth;
 
 import com.app.fridger.entity.User;
 import org.springframework.security.core.GrantedAuthority;

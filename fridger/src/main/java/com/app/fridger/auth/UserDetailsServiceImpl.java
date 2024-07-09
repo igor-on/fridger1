@@ -1,5 +1,6 @@
-package com.app.fridger.config;
+package com.app.fridger.auth;
 
+import com.app.fridger.auth.UserDetailsImpl;
 import com.app.fridger.entity.User;
 import com.app.fridger.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

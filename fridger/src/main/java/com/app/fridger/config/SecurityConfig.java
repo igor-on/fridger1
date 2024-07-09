@@ -1,6 +1,7 @@
 package com.app.fridger.config;
 
-import com.app.fridger.filter.JwtAuthFilter;
+import com.app.fridger.auth.UserDetailsServiceImpl;
+import com.app.fridger.auth.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

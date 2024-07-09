@@ -1,4 +1,4 @@
-package com.app.fridger.model;
+package com.app.fridger.auth;
 
 import lombok.Builder;
 import lombok.Getter;

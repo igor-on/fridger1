@@ -1,14 +1,11 @@
-package com.app.fridger.service;
+package com.app.fridger.auth;
 
-import com.app.fridger.entity.User;
-import com.app.fridger.model.TokenData;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
