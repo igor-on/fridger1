@@ -40,7 +40,7 @@ public class UserController {
         return userRepository.findByUsername(username).orElseThrow();
     }
 
-    @PostMapping("/addNewUser")
+    @PostMapping("/user/new")
     public String addNewUser(@RequestBody User user) {
         return userDetailsService.addUser(user);
     }

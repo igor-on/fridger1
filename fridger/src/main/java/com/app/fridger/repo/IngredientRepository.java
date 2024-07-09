@@ -24,5 +24,5 @@ public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
             WHERE r.username = :username AND pr.planned_date >= :startDate AND pr.planned_date <= :endDate
             GROUP BY i.name, ri.unit;
             """)
-    List<Object[]> getIngredientsListFromPlannedRecipes(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, @Param("username") String username);
+    List<Object[]> getIngredientsFromPlannedRecipes(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, @Param("username") String username);
 }
