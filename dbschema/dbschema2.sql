@@ -20,7 +20,8 @@ CREATE TABLE IF NOT EXISTS `recipes` (
 
 CREATE TABLE IF NOT EXISTS `ingredients` (
   `id` bigint PRIMARY KEY AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL UNIQUE
+  `name` varchar(255) NOT NULL UNIQUE,
+  `type` varchar(55) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS `recipe_ingredient` (
