@@ -68,7 +68,7 @@ export class RecipesListComponent implements OnInit, OnDestroy {
         r => r.id === recipe.id
       );
       if (listRecipe) {
-        listRecipe.favorite = response.data.favorite;
+        listRecipe.favorite = response.data!.favorite;
       }
       this.messageService.sendMessage(
         `Recipe ${listRecipe?.favorite ? 'added to' : 'removed from'} favorites`

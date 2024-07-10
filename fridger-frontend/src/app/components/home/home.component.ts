@@ -13,7 +13,7 @@ import { RecipeService } from 'src/app/services/recipe.service';
   ],
 })
 export class HomeComponent implements OnInit {
-  groceriesList: GroceriesList[] = [];
+  groceriesLists: GroceriesList[] = [];
   favoriteRecipes: Recipe[] = [];
 
   groceriesLoading = false;
@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
     this.groceriesService.getGroceriesList().subscribe(res => {
       console.log('getGroceriesList');
       console.log(res);
-      this.groceriesList = res.data;
+      this.groceriesLists = res.data ?? [];
       this.groceriesLoading = false;
     });
 
@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit {
     this.recipeService.getFavoriteRecipes().subscribe(res => {
       console.log('getFavortieRecipes');
       console.log(res);
-      this.favoriteRecipes = res.data;
+      this.favoriteRecipes = res.data ?? [];
       this.favoritesLoading = false;
     });
   }

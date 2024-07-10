@@ -11,10 +11,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { AddEventDialogComponent } from './add-event-dialog/add-event-dialog.component';
-import {
-  CalendarService,
-  PostPlannedRecipeResponse,
-} from 'src/app/services/calendar.service';
+import { CalendarService } from 'src/app/services/calendar.service';
 import { PlannedRecipe } from 'src/app/common/plannedRecipe';
 import { ActivatedRoute } from '@angular/router';
 import { Recipe } from 'src/app/common/recipe';

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { PlannedRecipe } from '../common/plannedRecipe';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { ApiResponse } from '../common/api-response';
 
 @Injectable({
   providedIn: 'root',
@@ -18,21 +19,11 @@ export class CalendarService {
 
   createPlannedRecipe(
     data: PlannedRecipe
-  ): Observable<PostPlannedRecipeResponse> {
-    return this.httpClient.post<PostPlannedRecipeResponse>(this.url, data);
+  ): Observable<ApiResponse<PlannedRecipe>> {
+    return this.httpClient.post<ApiResponse<PlannedRecipe>>(this.url, data);
   }
 
-  updatePlannedRecipe(data: any): Observable<PutPlannedRecipeResponse> {
-    return this.httpClient.put<PutPlannedRecipeResponse>(this.url, data);
+  updatePlannedRecipe(data: any): Observable<ApiResponse<any>> {
+    return this.httpClient.put<ApiResponse<any>>(this.url, data);
   }
-}
-
-export interface PostPlannedRecipeResponse {
-  data: PlannedRecipe;
-  message: string;
-}
-
-interface PutPlannedRecipeResponse {
-  data: any;
-  message: string;
 }
