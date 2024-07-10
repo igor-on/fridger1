@@ -28,14 +28,14 @@
         </div>
     </div>
     <div
-        *ngIf="groceriesList.length > 0"
+        *ngIf="groceriesList"
         class="bg-shadow h-[83%] w-[95%] overflow-scroll rounded-sm border-2 p-10 sm:w-[500px] md:w-[700px]">
         <h2>Grocery Shopping</h2>
         <h5>
-            <b>from</b> {{ groceriesListStart | date: 'yyyy-MM-dd' }} <b>to</b>
+            <b>from</b> {{ groceriesList.startDate | date: 'yyyy-MM-dd' }} <b>to</b>
             {{ groceriesListEnd | date: 'yyyy-MM-dd' }}
         </h5>
-        <table mat-table [dataSource]="groceriesList" class="mat-elevation-z0">
+        <table mat-table [dataSource]="groceriesList.ingredients" class="mat-elevation-z0">
             <!-- Name Column -->
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef>Name</th>

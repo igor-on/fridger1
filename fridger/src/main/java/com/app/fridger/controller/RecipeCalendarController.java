@@ -1,17 +1,10 @@
 package com.app.fridger.controller;
 
-import com.app.fridger.dto.ShoppingProduct;
-import com.app.fridger.entity.Ingredient;
 import com.app.fridger.entity.PlannedRecipe;
-import com.app.fridger.entity.Recipe;
-import com.app.fridger.entity.RecipeIngredient;
-import com.app.fridger.repo.PlannedRecipeRepository;
 import com.app.fridger.service.RecipeCalendarService;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;

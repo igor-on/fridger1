@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { PlannedRecipe } from 'src/app/common/plannedRecipe';
+import { PlannedRecipe } from 'src/app/common/planned-recipe';
 import { Recipe } from 'src/app/common/recipe';
 import { CalendarService } from 'src/app/services/calendar.service';
 import { RecipeService } from 'src/app/services/recipe.service';

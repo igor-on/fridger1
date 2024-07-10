@@ -1,9 +1,5 @@
-package com.app.fridger.filter;
+package com.app.fridger.auth;
 
-import com.app.fridger.config.UserDetailsImpl;
-import com.app.fridger.config.UserDetailsServiceImpl;
-import com.app.fridger.entity.User;
-import com.app.fridger.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

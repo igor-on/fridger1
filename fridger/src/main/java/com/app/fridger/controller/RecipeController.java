@@ -21,6 +21,7 @@ public class RecipeController {
     private final RecipeService recipeService;
 
 
+    // TODO: think about sending it in data & message format as others
     @GetMapping("recipes")
     public List<Recipe> getRecipes() {
         return recipeService.getRecipes();

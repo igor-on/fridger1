@@ -1,12 +1,12 @@
 package com.app.fridger.controller;
 
-import com.app.fridger.config.UserDetailsServiceImpl;
+import com.app.fridger.auth.UserDetailsServiceImpl;
 import com.app.fridger.dto.AuthRequest;
 import com.app.fridger.dto.AuthResponse;
 import com.app.fridger.entity.User;
-import com.app.fridger.model.TokenData;
+import com.app.fridger.auth.TokenData;
 import com.app.fridger.repo.UserRepository;
-import com.app.fridger.service.JwtService;
+import com.app.fridger.auth.JwtService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +40,7 @@ public class UserController {
         return userRepository.findByUsername(username).orElseThrow();
     }
 
-    @PostMapping("/addNewUser")
+    @PostMapping("/user/new")
     public String addNewUser(@RequestBody User user) {
         return userDetailsService.addUser(user);
     }

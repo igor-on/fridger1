@@ -1,14 +1,11 @@
-package com.app.fridger.service;
+package com.app.fridger.auth;
 
-import com.app.fridger.entity.User;
-import com.app.fridger.model.TokenData;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -37,12 +34,13 @@ public class JwtService {
 
     public String generateRefreshToken(String userName) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("refresh", true);
         return createToken(claims, userName, REFRESH_TOKEN_EXP_TIME);
     }
 
     public TokenData refreshAccessToken(String refreshToken) {
         String username = extractUsername(refreshToken);
-        if (validateToken(refreshToken, username)) {
+        if (validateRefreshToken(refreshToken, username)) {
             return generateToken(username);
         }
 
@@ -61,6 +59,14 @@ public class JwtService {
     private Key getSignKey() {
         byte[] keyBytes= Decoders.BASE64.decode(SECRET);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public boolean extractRefresh(String token) {
+        return extractClaim(token, (claims) -> {
+            if (claims.containsKey("refresh")) {
+                return claims.get("refresh", Boolean.class);
+            } else return false;
+        });
     }
 
     public String extractUsername(String token) {
@@ -91,9 +97,18 @@ public class JwtService {
         return extractExpiration(token).before(new Date());
     }
 
-    public Boolean validateToken(String token, String udUsername) {
+    // TODO: think about simplifying this
+    public Boolean validateRefreshToken(String token, String udUsername) {
+        final boolean isRefresh = extractRefresh(token);
         final String username = extractUsername(token);
-        log.info("validateToken: " +  (username.equals(udUsername) && !isTokenExpired(token)));
-        return (username.equals(udUsername) && !isTokenExpired(token));
+        log.info("validateRefreshToken: " +  (username.equals(udUsername) && !isTokenExpired(token) && isRefresh) );
+        return (username.equals(udUsername) && !isTokenExpired(token)) && isRefresh;
+    }
+
+    public Boolean validateToken(String token, String udUsername) {
+        final boolean isRefresh = extractRefresh(token);
+        final String username = extractUsername(token);
+        log.info("validateToken: " +  (username.equals(udUsername) && !isTokenExpired(token) && !isRefresh) );
+        return (username.equals(udUsername) && !isTokenExpired(token)) && !isRefresh;
     }
 }

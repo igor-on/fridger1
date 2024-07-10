@@ -1,6 +1,6 @@
 package com.app.fridger.service;
 
-import com.app.fridger.dto.ShoppingProduct;
+import com.app.fridger.dto.GroceriesListDTO;
 import com.app.fridger.entity.GroceriesList;
 import com.app.fridger.entity.GroceriesListIngredient;
 import com.app.fridger.repo.GroceriesListRepository;
@@ -12,7 +12,6 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,14 +24,13 @@ public class GroceriesService {
 
     private final SessionService session;
 
-    public List<ShoppingProduct> generateIngredientsListFromPlannedRecipes(LocalDateTime startDate, LocalDateTime endDate) {
-        List<Object[]> ingredientsListFromPlannedRecipes = ingredientRepository.getIngredientsListFromPlannedRecipes(startDate, endDate, session.getUser().getUsername());
-        List<ShoppingProduct> shoppingProducts = new ArrayList<>();
+    public GroceriesListDTO generateGroceriesList(LocalDateTime startDate, LocalDateTime endDate) {
+        List<Object[]> ingredients = ingredientRepository.getIngredientsFromPlannedRecipes(startDate, endDate, session.getUser().getUsername());
 
         GroceriesList groceriesList = new GroceriesList();
         groceriesList.setStartDate(startDate);
         groceriesList.setEndDate(endDate);
-        for (Object[] v : ingredientsListFromPlannedRecipes) {
+        for (Object[] v : ingredients) {
             String ingrName = String.valueOf(v[0]);
             int quantity = Integer.parseInt(String.valueOf(v[1]));
             String unit = String.valueOf(v[2]);
@@ -41,29 +39,18 @@ public class GroceriesService {
             groceriesListIngredient.setQuantity(quantity);
             groceriesListIngredient.setUnit(unit);
             groceriesList.add(groceriesListIngredient);
-
-            shoppingProducts.add(new ShoppingProduct(v));
         }
+
+        groceriesList.setUser(session.getUser());
 
         groceriesListRepository.save(groceriesList);
-        return shoppingProducts;
+        return new GroceriesListDTO(groceriesList);
     }
 
-    public List<GroceriesList> getGroceriesLists() {
-
-        return groceriesListRepository.findByUserUsername(session.getUser().getUsername());
-    }
-
-    public List<ShoppingProduct> getIngredientsListFromPlannedRecipes(LocalDateTime startDate, LocalDateTime endDate) {
-
-        List<Object[]> ingredientsListFromPlannedRecipes = ingredientRepository.getIngredientsListFromPlannedRecipes(startDate, endDate, session.getUser().getUsername());
-        List<ShoppingProduct> shoppingProducts = new ArrayList<>();
-
-        for (Object[] v : ingredientsListFromPlannedRecipes) {
-            shoppingProducts.add(new ShoppingProduct(v));
-        }
-
-        return shoppingProducts;
+    public List<GroceriesListDTO> getGroceriesLists() {
+        return groceriesListRepository.findByUserUsername(session.getUser().getUsername()).stream()
+                .map(GroceriesListDTO::new)
+                .toList();
     }
 
     @Transactional

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import * as moment from 'moment';
+import { GroceriesList } from 'src/app/common/groceries-list';
 import { GroceriesService } from 'src/app/services/groceries.service';
 
 @Component({
@@ -14,8 +15,7 @@ export class GroceriesListComponent {
   groceriesListStart: string | undefined;
   groceriesListEnd: string | undefined;
 
-  groceriesList: { ingredientName: string; quantity: number; unit: string }[] =
-    [];
+  groceriesList: GroceriesList | undefined = undefined;
 
   constructor(private groceriesService: GroceriesService) {
     console.log('startDate: ', this.startDate);
@@ -39,7 +39,7 @@ export class GroceriesListComponent {
       .generateGroceriesList(this.startDate, this.endDate)
       .subscribe(res => {
         console.log(res);
-        this.groceriesList = res.data;
+        this.groceriesList = res.data!;
       });
   }
 }

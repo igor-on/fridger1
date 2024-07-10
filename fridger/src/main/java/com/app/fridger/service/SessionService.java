@@ -1,6 +1,6 @@
 package com.app.fridger.service;
 
-import com.app.fridger.config.UserDetailsImpl;
+import com.app.fridger.auth.UserDetailsImpl;
 import com.app.fridger.entity.User;
 import com.app.fridger.repo.UserRepository;
 import lombok.extern.log4j.Log4j2;

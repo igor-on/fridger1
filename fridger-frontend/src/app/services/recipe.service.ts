@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Recipe } from '../common/recipe';
 import { environment } from '../../environments/environment';
+import { ApiResponse } from '../common/api-response';
 
 @Injectable({
   providedIn: 'root',
@@ -22,43 +23,29 @@ export class RecipeService {
     return this.httpClient.get<Recipe>(url);
   }
 
-  createRecipe(recipe: Recipe): Observable<PostRecipeResponse> {
-    return this.httpClient.post<PostRecipeResponse>(this.url, recipe);
+  createRecipe(recipe: Recipe): Observable<ApiResponse<Recipe>> {
+    return this.httpClient.post<ApiResponse<Recipe>>(this.url, recipe);
   }
 
-  updateRecipe(recipe: Recipe): Observable<PostRecipeResponse> {
-    return this.httpClient.put<PostRecipeResponse>(this.url, recipe);
+  updateRecipe(recipe: Recipe): Observable<ApiResponse<Recipe>> {
+    return this.httpClient.put<ApiResponse<Recipe>>(this.url, recipe);
   }
 
-  deleteRecipe(recipeId: number): Observable<DeleteRecipeResponse> {
+  deleteRecipe(recipeId: number): Observable<ApiResponse<any>> {
     const url = `${this.url}/${recipeId}`;
 
-    return this.httpClient.delete<DeleteRecipeResponse>(url);
+    return this.httpClient.delete<ApiResponse<any>>(url);
   }
 
-  toggleFavorite(recipe: Recipe): Observable<PostRecipeResponse> {
+  toggleFavorite(recipe: Recipe): Observable<ApiResponse<Recipe>> {
     const url = `${this.url}/favorite`;
 
-    return this.httpClient.put<PostRecipeResponse>(url, recipe);
+    return this.httpClient.put<ApiResponse<Recipe>>(url, recipe);
   }
 
-  getFavoriteRecipes(): Observable<GetRecipeResponse> {
+  getFavoriteRecipes(): Observable<ApiResponse<Recipe[]>> {
     const url = `${this.url}/favorite`;
 
-    return this.httpClient.get<GetRecipeResponse>(url);
+    return this.httpClient.get<ApiResponse<Recipe[]>>(url);
   }
-}
-
-interface PostRecipeResponse {
-  data: Recipe;
-  message: string;
-}
-
-interface DeleteRecipeResponse {
-  message: string;
-}
-
-interface GetRecipeResponse {
-  data: Recipe[];
-  message: string;
 }
