@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PlannedRecipe } from '../common/plannedRecipe';
+import { PlannedRecipe } from '../common/planned-recipe';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { ApiResponse } from '../common/api-response';

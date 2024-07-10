@@ -12,7 +12,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { AddEventDialogComponent } from './add-event-dialog/add-event-dialog.component';
 import { CalendarService } from 'src/app/services/calendar.service';
-import { PlannedRecipe } from 'src/app/common/plannedRecipe';
+import { PlannedRecipe } from 'src/app/common/planned-recipe';
 import { ActivatedRoute } from '@angular/router';
 import { Recipe } from 'src/app/common/recipe';
 import * as moment from 'moment';

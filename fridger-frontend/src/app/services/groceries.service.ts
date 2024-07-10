@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { GroceriesList } from '../common/groceriesList';
+import { GroceriesList } from '../common/groceries-list';
 import { ApiResponse } from '../common/api-response';
 
 @Injectable({

@@ -1,5 +1,3 @@
-import { Ingredient } from './recipe';
-
 export class GroceriesList {
   constructor(
     public startDate: string,

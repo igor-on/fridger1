@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import * as moment from 'moment';
-import { GroceriesList } from 'src/app/common/groceriesList';
+import { GroceriesList } from 'src/app/common/groceries-list';
 import { GroceriesService } from 'src/app/services/groceries.service';
 
 @Component({
