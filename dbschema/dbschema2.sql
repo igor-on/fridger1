@@ -2,6 +2,8 @@ DROP TABLE IF EXISTS recipe_ingredient;
 DROP TABLE IF EXISTS planned_recipe;
 DROP TABLE IF EXISTS recipes;
 DROP TABLE IF EXISTS groceries_list_ingredient;
+DROP TABLE IF EXISTS fridge_ingredient;
+DROP TABLE IF EXISTS fridges;
 DROP TABLE IF EXISTS ingredients;
 DROP TABLE IF EXISTS groceries_lists;
 
@@ -59,6 +61,24 @@ CREATE TABLE IF NOT EXISTS `groceries_list_ingredient` (
   CONSTRAINT FK_groceries_list_ingredient FOREIGN KEY (`groceries_list_id`) REFERENCES `groceries_lists` (`id`),
   CONSTRAINT FK_ingredient_groceries_list_ingredient FOREIGN KEY (`ingredient_id`) REFERENCES `ingredients` (`id`)
 );
+
+CREATE TABLE IF NOT EXISTS `fridges` (
+`username` varchar(55) PRIMARY KEY,
+`name` varchar(55) NOT NULL,
+CONSTRAINT FK_username_fridge FOREIGN KEY (`username`) REFERENCES `users` (`username`) 
+);
+
+CREATE TABLE IF NOT EXISTS `fridge_ingredient` (
+`id` bigint PRIMARY KEY AUTO_INCREMENT,
+`fridge_id` varchar(55) NOT NULL,
+`ingredient_id` bigint NOT NULL,
+`quantity` int NOT NULL,
+`unit` varchar(255) NOT NULL,
+`expiration_date` datetime,
+  CONSTRAINT FK_fridge_ingredient FOREIGN KEY (`fridge_id`) REFERENCES `fridges` (`username`),
+  CONSTRAINT FK_ingredient_fridge_ingredient FOREIGN KEY (`ingredient_id`) REFERENCES `ingredients` (`id`)
+);
+
 
 create table users(
 	username varchar(50) not null primary key,

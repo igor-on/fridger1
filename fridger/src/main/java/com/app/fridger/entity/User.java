@@ -38,6 +38,10 @@ public class User {
     @JsonIgnore
     private List<GroceriesList> groceriesLists;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Fridge fridge;
+
 
     public void addRecipe(Recipe recipe) {
         if (recipe != null) {
@@ -58,6 +62,13 @@ public class User {
 
             groceriesLists.add(groceriesList);
             groceriesList.setUser(this);
+        }
+    }
+
+    public void setFridge(Fridge fridge) {
+        if (fridge != null) {
+            this.fridge = fridge;
+            fridge.setUser(this);
         }
     }
 
