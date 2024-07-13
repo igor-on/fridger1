@@ -44,4 +44,16 @@ public class FridgeController {
 
         return result;
     }
+
+    @PutMapping("fridge/ingredients")
+    public Map<String, Object> updateIngredients(@RequestBody List<FridgeIngredient> ingredients) {
+        HashMap<String, Object> result = new HashMap<>();
+        Fridge fridge = fridgeService.updateIngredients(ingredients);
+
+        result.put("message", "Successfully updated ingredients to fridge");
+        result.put("data", fridge);
+
+        return result;
+    }
+
 }

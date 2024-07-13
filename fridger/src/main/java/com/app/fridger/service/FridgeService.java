@@ -3,7 +3,6 @@ package com.app.fridger.service;
 import com.app.fridger.entity.Fridge;
 import com.app.fridger.entity.FridgeIngredient;
 import com.app.fridger.repo.FridgeRepository;
-import com.app.fridger.repo.IngredientRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -29,6 +28,19 @@ public class FridgeService {
     // TODO: think about how to prevent updating ingredient object by JPA when id and new name is passed
     public Fridge postIngredients(List<FridgeIngredient> ingredients) {
         Fridge fridge = getFridge();
+
+        ingredients.forEach(fridge::addIngredient);
+
+        fridgeRepository.save(fridge);
+        return fridge;
+    }
+
+
+    @Transactional
+    public Fridge updateIngredients(List<FridgeIngredient> ingredients) {
+        Fridge fridge = getFridge();
+
+        fridge.getFridgeIngredients().clear();
         ingredients.forEach(fridge::addIngredient);
 
         fridgeRepository.save(fridge);
