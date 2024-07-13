@@ -41,6 +41,7 @@ public class Fridge {
             }
 
             fridgeIngredients.add(ingredient);
+            ingredient.setFridge(this);
         }
     }
 }

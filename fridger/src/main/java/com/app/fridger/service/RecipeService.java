@@ -9,7 +9,6 @@ import com.app.fridger.repo.RecipeRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
@@ -76,48 +75,12 @@ public class RecipeService {
         dbRecipe.setLink(recipe.getLink());
         dbRecipe.setFavorite(recipe.getFavorite());
 
-
-        List<RecipeIngredient> recipeIngredients = recipe.getRecipeIngredients();
-        log.info("Recipe ingredients: " + recipeIngredients);
-
-        List<Long> recipeIngredientsIds = recipeIngredients.stream().map(ri -> ri.getId()).toList();
-        List<RecipeIngredient> dbRecipeIngredientsToRemove = dbRecipe.getRecipeIngredients().stream()
-                .filter(dbRi -> !recipeIngredientsIds.contains(dbRi.getId()))
-                .toList();
-
-        log.info("Db recipe ingredients ro remove: " + dbRecipeIngredientsToRemove);
-
-        // Remove "old" ingredients
-        dbRecipeIngredientsToRemove.forEach(dbRi -> {
-            log.info("Deleting dbRecipeIngredient..." + dbRi.getId());
-            recipeIngredientRepository.delete(dbRi);
-        });
-        // TODO: is code 71:85 needed?
         dbRecipe.getRecipeIngredients().clear();
 
         // Populate recipeIngredients from start
         for (RecipeIngredient recipeIngredient : recipe.getRecipeIngredients()) {
-
-            Optional<RecipeIngredient> recipeIngredientById = recipeIngredientRepository.findById(recipeIngredient.getId());
-
-            // if present update the data
-            if (recipeIngredientById.isPresent()) {
-                RecipeIngredient dbRecipeIngredient = recipeIngredientById.get();
-                log.info("Updating dbRecipeIngredient..." + dbRecipeIngredient.getId());
-
-                dbRecipeIngredient.setUnit(recipeIngredient.getUnit());
-                dbRecipeIngredient.setQuantity(recipeIngredient.getQuantity());
-                handleSettingIngredient(dbRecipeIngredient, recipeIngredient.getIngredient());
-                dbRecipe.add(dbRecipeIngredient);
-            } else if (recipeIngredient.getId() == 0) { // else add new data
-                log.info("Adding new recipeIngredient..." + recipeIngredient.getId());
-                handleSettingIngredient(recipeIngredient, recipeIngredient.getIngredient());
-                dbRecipe.add(recipeIngredient);
-            } else {
-                throw new EmptyResultDataAccessException("Cannot find recipe ingredient to update - id: " + recipeIngredient.getId(), 1);
-            }
+            dbRecipe.add(recipeIngredient);
         }
-
 
         return recipeRepository.save(dbRecipe);
     }

@@ -18,10 +18,7 @@ public class RecipeIngredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-//    @JsonIgnore
     private long id;
-//    @Column(name = "ingredient_id")
-//    private long ingredientId;
     @Column(name = "quantity")
     @Min(1)
     private int quantity;

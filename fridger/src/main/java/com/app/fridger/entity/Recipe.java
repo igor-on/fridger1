@@ -43,7 +43,7 @@ public class Recipe {
     @JsonIgnore
     private List<PlannedRecipe> plannedRecipes;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
+    @OneToMany(orphanRemoval = true ,cascade = CascadeType.ALL, mappedBy = "recipe")
     private List<RecipeIngredient> recipeIngredients;
 
     @ManyToOne
