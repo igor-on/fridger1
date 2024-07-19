@@ -41,6 +41,11 @@ const routes: Routes = [
     component: GroceriesListComponent,
     canActivate: [authGuard],
   },
+  {
+    path: 'fridge',
+    loadComponent: () => import('./components/fridge/fridge.component').then(mod => {return mod.FridgeComponent}),
+    canActivate: [authGuard]
+  }
 ];
 
 @NgModule({
