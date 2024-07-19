@@ -78,10 +78,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "fridger-frontend:build:production"
+              "buildTarget": "fridger-frontend:build:production"
             },
             "development": {
-              "browserTarget": "fridger-frontend:build:development"
+              "buildTarget": "fridger-frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -89,7 +89,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "fridger-frontend:build"
+            "buildTarget": "fridger-frontend:build"
           }
         },
         "test": {
