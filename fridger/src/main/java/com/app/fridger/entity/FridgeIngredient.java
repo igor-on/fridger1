@@ -34,7 +34,7 @@ public class FridgeIngredient {
     private LocalDateTime expirationDate;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "ingredient_id")
+    @JoinColumn(name = "ingredient_name")
     private Ingredient ingredient;
 
     @ManyToOne

@@ -19,10 +19,6 @@ import lombok.ToString;
 public class Ingredient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-//    @JsonIgnore
-    private Long id;
     @Column(name = "name")
     @NotBlank(message = "Name is mandatory")
     private String name;

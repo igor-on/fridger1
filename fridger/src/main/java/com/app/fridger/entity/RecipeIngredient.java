@@ -32,7 +32,7 @@ public class RecipeIngredient {
     private Recipe recipe;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "ingredient_id")
+    @JoinColumn(name = "ingredient_name")
     private Ingredient ingredient;
 
     public void setRecipe(Recipe recipe) {
