@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
-import { Fridge } from 'src/app/common/fridge';
+import { Fridge, FridgeIngredient } from 'src/app/common/fridge';
 import { Ingredient } from 'src/app/common/recipe';
 import { noWhitespaceValidator } from 'src/app/common/validators';
 import { FridgeService } from 'src/app/services/fridge.service';
@@ -20,6 +20,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { concatMap } from 'rxjs';
 
 @Component({
   selector: 'app-fridge',
@@ -37,7 +38,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
   styleUrl: './fridge.component.scss',
 })
 export class FridgeComponent implements OnInit {
-  fridge: Fridge | undefined;
+  fridge!: Fridge;
   ingredientsType: string[] | undefined;
   editMode: boolean = false;
 
@@ -101,9 +102,20 @@ export class FridgeComponent implements OnInit {
   public onAdd() {
     const dialogRef = this.dialog.open(AddIngredientDialogComponent);
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: `, result);
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(
+        concatMap((data: FridgeIngredient[]) => {
+          if (data) {
+            return this.fridgeService.postIngredients(data);
+          }
+          return [];
+        })
+      )
+      .subscribe(data => {
+        this.fridge.fridgeIngredients = data.data.fridgeIngredients;
+        this.messageService.sendMessage('Ingredients saved successfully!');
+      });
   }
 
   public onSave() {
@@ -112,7 +124,7 @@ export class FridgeComponent implements OnInit {
     this.fridgeService
       .putIngredients(this.ingredientsForm.value)
       .subscribe(data => {
-        this.fridge!.fridgeIngredients = data.data?.fridgeIngredients ?? [];
+        this.fridge.fridgeIngredients = data.data.fridgeIngredients;
 
         this.messageService.sendMessage('Ingredients saved successfully!');
         this.editMode = false;
@@ -121,8 +133,9 @@ export class FridgeComponent implements OnInit {
 
   public onDelete(id: number) {
     this.fridgeService.deleteIngredient(id).subscribe(() => {
-      this.fridge!.fridgeIngredients =
-        this.fridge?.fridgeIngredients.filter(i => i.id !== id) ?? [];
+      this.fridge!.fridgeIngredients = this.fridge.fridgeIngredients.filter(
+        i => i.id !== id
+      );
       console.log('deleted: ', id);
       this.messageService.sendMessage('Ingredient deleted successfully!');
     });

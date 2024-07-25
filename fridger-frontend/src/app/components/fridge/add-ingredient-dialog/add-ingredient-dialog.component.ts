@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  FormArray,
+  FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -11,6 +13,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { getFormControl } from 'src/app/utils/form-helper';
+import { FridgeIngredient } from 'src/app/common/fridge';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-add-ingredient-dialog',
@@ -21,25 +25,38 @@ import { getFormControl } from 'src/app/utils/form-helper';
     MatInputModule,
     ReactiveFormsModule,
     MatDatepickerModule,
+    MatIconModule,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './add-ingredient-dialog.component.html',
   styleUrl: './add-ingredient-dialog.component.scss',
 })
 export class AddIngredientDialogComponent implements OnInit {
-  ingredientForm!: FormGroup;
+  ingredientsFormArray!: FormArray;
 
-  constructor(public dialogRef: MatDialogRef<AddIngredientDialogComponent>) {}
+  constructor(
+    public dialogRef: MatDialogRef<
+      AddIngredientDialogComponent,
+      FridgeIngredient
+    >,
+    public fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
-    this.ingredientForm = new FormGroup({
-      ingredient: new FormGroup({
-        name: new FormControl('', Validators.required),
+    this.ingredientsFormArray = this.fb.array([
+      this.fb.group({
+        ingredient: this.fb.group({
+          name: ['', Validators.required],
+        }),
+        quantity: ['', Validators.required],
+        unit: ['', Validators.required],
+        expirationDate: [''],
       }),
-      quantity: new FormControl('', Validators.required),
-      unit: new FormControl('', Validators.required),
-      expirationDate: new FormControl(''),
-    });
+    ]);
+  }
+
+  get ingredientsForm() {
+    return <FormArray<FormGroup<any>>>this.ingredientsFormArray;
   }
 
   onNoClick(): void {
@@ -47,10 +64,35 @@ export class AddIngredientDialogComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.dialogRef.close(this.ingredientForm.value);
+    console.log(this.ingredientsFormArray.value);
+    this.dialogRef.close(this.ingredientsFormArray.value);
   }
 
-  hasError(err: string, controlName: string): boolean {
-    return getFormControl(this.ingredientForm, controlName).hasError(err);
+  hasError(idx: number, err: string, controlName: string): boolean {
+    return getFormControl(
+      this.ingredientsFormArray.at(idx) as FormGroup,
+      controlName
+    ).hasError(err);
+  }
+
+  onAdd() {
+    this.ingredientsFormArray.push(
+      this.fb.group({
+        ingredient: this.fb.group({
+          name: ['', Validators.required],
+        }),
+        quantity: ['', Validators.required],
+        unit: ['', Validators.required],
+        expirationDate: [''],
+      })
+    );
+  }
+
+  onDelete() {
+    if (this.ingredientsFormArray.length === 1) {
+      return;
+    }
+
+    this.ingredientsFormArray.removeAt(this.ingredientsFormArray.length - 1);
   }
 }

@@ -1,26 +1,40 @@
-<form [formGroup]="ingredientForm" (ngSubmit)="onSubmit()">
-    <h2 mat-dialog-title class="mb-2">Add ingredient</h2>
-    <mat-dialog-content>
-        <div class="flex gap-2">
+<form>
+    <div class="flex">
+        <h2 mat-dialog-title class="mb-2">Add ingredient</h2>
+        <button type="button" class="flex-box-center mr-4" (click)="onAdd()">
+            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="add"></mat-icon>
+        </button>
+        <button
+            [disabled]="ingredientsForm.controls.length == 1"
+            type="button"
+            class="button flex-box-center"
+            (click)="onDelete()">
+            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="remove"></mat-icon>
+        </button>
+    </div>
+
+    <mat-dialog-content class="!max-h-[40vh]">
+        @for (formGroup of ingredientsForm.controls; track formGroup; let i = $index) {
+        <div class="flex gap-2 align-middle" [formGroup]="formGroup">
             <mat-form-field formGroupName="ingredient">
                 <mat-label>Ingredient</mat-label>
                 <input matInput formControlName="name" />
-                @if (hasError("required", "ingredient.name")) {
-                <mat-error>Email is <strong>required</strong></mat-error>
+                @if (hasError(i, "required", "ingredient.name")) {
+                <mat-error>Ingredient is <strong>required</strong></mat-error>
                 }
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Quantity</mat-label>
                 <input matInput formControlName="quantity" />
-                @if (hasError("required", "unit")) {
-                <mat-error>Email is <strong>required</strong></mat-error>
+                @if (hasError(i, "required", "quantity")) {
+                <mat-error>Quantity is <strong>required</strong></mat-error>
                 }
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Unit</mat-label>
                 <input matInput formControlName="unit" />
-                @if (hasError("required", "unit")) {
-                <mat-error>Email is <strong>required</strong></mat-error>
+                @if (hasError(i, "required", "unit")) {
+                <mat-error>Unit is <strong>required</strong></mat-error>
                 }
             </mat-form-field>
             <mat-form-field>
@@ -31,9 +45,12 @@
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
         </div>
+        }
     </mat-dialog-content>
     <mat-dialog-actions class="!px-6">
-        <button class="btn-error mr-4" (click)="onNoClick()">No Thanks</button>
-        <button type="submit" [disabled]="!ingredientForm.valid" class="btn-success" cdkFocusInitial>Ok</button>
+        <button type="button" class="btn-error mr-4" (click)="onNoClick()">No Thanks</button>
+        <button type="button" (click)="onSubmit()" [disabled]="!ingredientsFormArray.valid" class="btn-success">
+            Save
+        </button>
     </mat-dialog-actions>
 </form>

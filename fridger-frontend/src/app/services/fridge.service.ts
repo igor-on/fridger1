@@ -18,7 +18,7 @@ export class FridgeService {
   }
 
   public postIngredients(
-    ingredients: FridgeIngredient
+    ingredients: FridgeIngredient[]
   ): Observable<ApiResponse<Fridge>> {
     return this.httpClient.post<ApiResponse<Fridge>>(
       `${this.url}/ingredients`,
@@ -26,7 +26,7 @@ export class FridgeService {
     );
   }
   public putIngredients(
-    ingredients: FridgeIngredient
+    ingredients: FridgeIngredient[]
   ): Observable<ApiResponse<Fridge>> {
     return this.httpClient.post<ApiResponse<Fridge>>(
       `${this.url}/ingredients`,

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
+public interface IngredientRepository extends JpaRepository<Ingredient, String> {
 
     Optional<Ingredient> findByName(@Param(value = "name") String name);
 
@@ -20,7 +20,7 @@ public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
             FROM planned_recipe as pr\s
             LEFT JOIN recipes as r on pr.recipe_id = r.id\s
             LEFT JOIN recipe_ingredient as ri on r.id = ri.recipe_id\s
-            LEFT JOIN ingredients as i on ri.ingredient_id = i.id
+            LEFT JOIN ingredients as i on ri.ingredient_name = i.name
             WHERE r.username = :username AND pr.planned_date >= :startDate AND pr.planned_date <= :endDate
             GROUP BY i.name, ri.unit;
             """)
