@@ -21,5 +21,8 @@ class RecipeIngredient {
 }
 
 export class Ingredient {
-  constructor(public name: string) {}
+  constructor(
+    public name: string,
+    public type: string
+  ) {}
 }

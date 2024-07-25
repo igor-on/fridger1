@@ -56,4 +56,14 @@ public class FridgeController {
         return result;
     }
 
+    @DeleteMapping("fridge/ingredients/{id}")
+    public Map<String, Object> deleteIngredients(@PathVariable Long id) {
+
+        HashMap<String, Object> result = new HashMap<>();
+        String message = fridgeService.deleteIngredient(id);
+        result.put("message", message);
+
+        return result;
+    }
+
 }

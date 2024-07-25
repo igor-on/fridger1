@@ -6,10 +6,9 @@ import { ApiResponse } from '../common/api-response';
 import { Fridge, FridgeIngredient } from '../common/fridge';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FridgeService {
-
   private url = `${environment.apiUrl}/fridge`;
 
   constructor(private httpClient: HttpClient) {}
@@ -18,10 +17,24 @@ export class FridgeService {
     return this.httpClient.get<ApiResponse<Fridge>>(this.url);
   }
 
-  public postIngredients(ingredients: FridgeIngredient): Observable<ApiResponse<Fridge>> {
-    return this.httpClient.post<ApiResponse<Fridge>>(`${this.url}/ingredients`, ingredients);
+  public postIngredients(
+    ingredients: FridgeIngredient
+  ): Observable<ApiResponse<Fridge>> {
+    return this.httpClient.post<ApiResponse<Fridge>>(
+      `${this.url}/ingredients`,
+      ingredients
+    );
   }
-  public putIngredients(ingredients: FridgeIngredient): Observable<ApiResponse<Fridge>> {
-    return this.httpClient.post<ApiResponse<Fridge>>(`${this.url}/ingredients`, ingredients);
+  public putIngredients(
+    ingredients: FridgeIngredient
+  ): Observable<ApiResponse<Fridge>> {
+    return this.httpClient.post<ApiResponse<Fridge>>(
+      `${this.url}/ingredients`,
+      ingredients
+    );
+  }
+
+  public deleteIngredient(id: number): Observable<string> {
+    return this.httpClient.delete<string>(`${this.url}/ingredients/${id}`);
   }
 }

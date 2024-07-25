@@ -1,0 +1,39 @@
+<form [formGroup]="ingredientForm" (ngSubmit)="onSubmit()">
+    <h2 mat-dialog-title class="mb-2">Add ingredient</h2>
+    <mat-dialog-content>
+        <div class="flex gap-2">
+            <mat-form-field formGroupName="ingredient">
+                <mat-label>Ingredient</mat-label>
+                <input matInput formControlName="name" />
+                @if (hasError("required", "ingredient.name")) {
+                <mat-error>Email is <strong>required</strong></mat-error>
+                }
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Quantity</mat-label>
+                <input matInput formControlName="quantity" />
+                @if (hasError("required", "unit")) {
+                <mat-error>Email is <strong>required</strong></mat-error>
+                }
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Unit</mat-label>
+                <input matInput formControlName="unit" />
+                @if (hasError("required", "unit")) {
+                <mat-error>Email is <strong>required</strong></mat-error>
+                }
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Expiration Date</mat-label>
+                <!-- <input matInput formControlName="expirationDate" /> -->
+                <input matInput [matDatepicker]="picker" formControlName="expirationDate" />
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions class="!px-6">
+        <button class="btn-error mr-4" (click)="onNoClick()">No Thanks</button>
+        <button type="submit" [disabled]="!ingredientForm.valid" class="btn-success" cdkFocusInitial>Ok</button>
+    </mat-dialog-actions>
+</form>

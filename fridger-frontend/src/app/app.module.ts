@@ -18,7 +18,10 @@ import { RecipeCalendarComponent } from './components/recipe-calendar/recipe-cal
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { AddEventDialogComponent } from './components/recipe-calendar/add-event-dialog/add-event-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDialogModule } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DEFAULT_OPTIONS,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { GroceriesListComponent } from './components/groceries-list/groceries-list.component';
@@ -61,13 +64,17 @@ import { FridgeComponent } from './components/fridge/fridge.component';
     MatSidenavModule,
     SkeletonModule,
     ToastModule,
-    FridgeComponent
+    FridgeComponent,
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
+    },
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: { position: { top: '15rem' } },
     },
   ],
   bootstrap: [AppComponent],

@@ -2,10 +2,13 @@ package com.app.fridger.service;
 
 import com.app.fridger.entity.Fridge;
 import com.app.fridger.entity.FridgeIngredient;
+import com.app.fridger.repo.FridgeIngredientRepository;
 import com.app.fridger.repo.FridgeRepository;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,8 +17,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Log4j2
 public class FridgeService {
-
     private final FridgeRepository fridgeRepository;
+    private final FridgeIngredientRepository ingredientRepository;
     private final SessionService session;
 
     public Fridge getFridge() {
@@ -45,5 +48,16 @@ public class FridgeService {
 
         fridgeRepository.save(fridge);
         return fridge;
+    }
+
+    public String deleteIngredient(Long id) {
+        FridgeIngredient ingredient = ingredientRepository.findById(id).orElseThrow();
+
+        if (!ingredient.getFridge().getUsername().equals(session.getUser().getUsername())) {
+            throw new AccessDeniedException("Access denied");
+        }
+
+        ingredientRepository.deleteById(ingredient.getId());
+        return "Successfully deleted fridge ingredient with id: " + id;
     }
 }
