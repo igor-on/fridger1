@@ -5,7 +5,7 @@
             <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="add"></mat-icon>
         </button>
         <button
-            [disabled]="ingredientsForm.controls.length == 1"
+            [disabled]="ingredientsFormArray.controls.length == 1"
             type="button"
             class="button flex-box-center"
             (click)="onDelete()">
@@ -14,8 +14,8 @@
     </div>
 
     <mat-dialog-content class="!max-h-[40vh]">
-        @for (formGroup of ingredientsForm.controls; track formGroup; let i = $index) {
-        <div class="flex gap-2 align-middle" [formGroup]="formGroup">
+        @for (formGroup of ingredientsFormArray.controls; track formGroup; let i = $index) {
+        <div class="flex gap-2 align-middle" [formGroup]="formGroup | asType: FormGroup">
             <mat-form-field formGroupName="ingredient">
                 <mat-label>Ingredient</mat-label>
                 <input matInput formControlName="name" />

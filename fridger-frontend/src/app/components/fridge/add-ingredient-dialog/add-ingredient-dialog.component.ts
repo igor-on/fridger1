@@ -15,6 +15,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { getFormControl } from 'src/app/utils/form-helper';
 import { FridgeIngredient } from 'src/app/common/fridge';
 import { MatIconModule } from '@angular/material/icon';
+import { AsTypePipe } from 'src/app/utils/pipes/as-type.pipe';
 
 @Component({
   selector: 'app-add-ingredient-dialog',
@@ -26,6 +27,7 @@ import { MatIconModule } from '@angular/material/icon';
     ReactiveFormsModule,
     MatDatepickerModule,
     MatIconModule,
+    AsTypePipe,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './add-ingredient-dialog.component.html',
@@ -33,6 +35,7 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class AddIngredientDialogComponent implements OnInit {
   ingredientsFormArray!: FormArray;
+  protected readonly FormGroup!: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<
@@ -55,9 +58,9 @@ export class AddIngredientDialogComponent implements OnInit {
     ]);
   }
 
-  get ingredientsForm() {
-    return <FormArray<FormGroup<any>>>this.ingredientsFormArray;
-  }
+  // get ingredientsForm() {
+  //   return <FormArray<FormGroup<any>>>this.ingredientsFormArray;
+  // }
 
   onNoClick(): void {
     this.dialogRef.close();
