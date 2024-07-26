@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { GroceriesList } from 'src/app/common/groceries-list';
-import { Recipe } from 'src/app/common/recipe';
+import { GroceriesList } from 'src/app/shared/models/groceries-list';
+import { Recipe } from 'src/app/shared/models/recipe';
 import { GroceriesService } from 'src/app/services/groceries.service';
 import { RecipeService } from 'src/app/services/recipe.service';
 

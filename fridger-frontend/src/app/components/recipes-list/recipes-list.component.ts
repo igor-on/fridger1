@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Recipe } from 'src/app/common/recipe';
+import { Recipe } from 'src/app/shared/models/recipe';
 import { MessageService } from 'src/app/services/message.service';
 
 import { RecipeService } from 'src/app/services/recipe.service';

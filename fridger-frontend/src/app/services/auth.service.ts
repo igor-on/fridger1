@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '../common/User';
+import { User } from '../shared/models/user';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { MessageService } from './message.service';

@@ -9,9 +9,9 @@ import {
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
-import { Fridge, FridgeIngredient } from 'src/app/common/fridge';
-import { Ingredient } from 'src/app/common/recipe';
-import { noWhitespaceValidator } from 'src/app/common/validators';
+import { Fridge, FridgeIngredient } from 'src/app/shared/models/fridge';
+import { Ingredient } from 'src/app/shared/models/recipe';
+import { noWhitespaceValidator } from 'src/app/shared/validators';
 import { FridgeService } from 'src/app/services/fridge.service';
 import { MessageService } from 'src/app/services/message.service';
 import { ModelService } from 'src/app/services/model.service';

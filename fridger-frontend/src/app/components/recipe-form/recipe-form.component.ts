@@ -8,8 +8,8 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Action } from 'rxjs/internal/scheduler/Action';
-import { Recipe } from 'src/app/common/recipe';
-import { noWhitespaceValidator } from 'src/app/common/validators';
+import { Recipe } from 'src/app/shared/models/recipe';
+import { noWhitespaceValidator } from 'src/app/shared/validators';
 import { MessageService } from 'src/app/services/message.service';
 import { RecipeService } from 'src/app/services/recipe.service';
 

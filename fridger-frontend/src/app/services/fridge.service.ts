@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ApiResponse } from '../common/api-response';
-import { Fridge, FridgeIngredient } from '../common/fridge';
+import { ApiResponse } from '../shared/models/api-response';
+import { Fridge, FridgeIngredient } from '../shared/models/fridge';
 
 @Injectable({
   providedIn: 'root',

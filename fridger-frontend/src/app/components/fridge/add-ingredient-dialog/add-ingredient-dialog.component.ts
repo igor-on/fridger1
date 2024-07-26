@@ -13,7 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { getFormControl } from 'src/app/utils/form-helper';
-import { FridgeIngredient } from 'src/app/common/fridge';
+import { FridgeIngredient } from 'src/app/shared/models/fridge';
 import { MatIconModule } from '@angular/material/icon';
 import { AsTypePipe } from 'src/app/utils/pipes/as-type.pipe';
 

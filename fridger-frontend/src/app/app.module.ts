@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { RecipesComponent } from './components/recipes/recipes.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RecipesListComponent } from './components/recipes-list/recipes-list.component';
-import { ColorsDirective } from './common/colors.directive';
+import { ColorsDirective } from './shared/colors.directive';
 import { AppRoutingModule } from './app-routing.module';
 import {
   ConfirmDialogComponent,
