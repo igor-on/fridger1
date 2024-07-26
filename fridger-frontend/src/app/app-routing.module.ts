@@ -9,11 +9,16 @@ import { GroceriesListComponent } from './components/groceries-list/groceries-li
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { authGuard } from './guards/auth-guard';
+import { DynamicFormTestComponent } from './components/dynamic-form-test/dynamic-form-test.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'home', component: HomeComponent, canActivate: [authGuard] },
+  {
+    path: 'home',
+    component: DynamicFormTestComponent,
+    canActivate: [authGuard],
+  },
   { path: 'recipes', component: RecipesComponent, canActivate: [authGuard] },
   {
     path: 'recipe-details/:id',
@@ -43,9 +48,12 @@ const routes: Routes = [
   },
   {
     path: 'fridge',
-    loadComponent: () => import('./components/fridge/fridge.component').then(mod => {return mod.FridgeComponent}),
-    canActivate: [authGuard]
-  }
+    loadComponent: () =>
+      import('./components/fridge/fridge.component').then(mod => {
+        return mod.FridgeComponent;
+      }),
+    canActivate: [authGuard],
+  },
 ];
 
 @NgModule({

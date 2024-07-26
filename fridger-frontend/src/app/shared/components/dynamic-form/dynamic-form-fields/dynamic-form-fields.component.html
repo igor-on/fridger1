@@ -1,0 +1,37 @@
+<div [formGroup]="formGroup" class="flex gap-4">
+    @for (field of fields; track $index) { @if (field.visible) { @switch (field.controlType) { @case (ControlType.TEXT)
+    {
+    <mat-form-field class="example-full-width">
+        <mat-label>{{ (field.params | asType: TextParams).label }}</mat-label>
+        <input matInput formControlName="{{ field.name }}" />
+    </mat-form-field>
+    } @case (ControlType.SELECT) {
+    <mat-form-field>
+        <mat-label>{{ (field.params | asType: SelectParams).label }}</mat-label>
+        <mat-select
+            [multiple]="(field.params | asType: SelectParams).multiple ?? false"
+            [formControlName]="field.name"
+            [required]="(field.params | asType: SelectParams).required ?? true">
+            @for (option of ((field.params | asType: SelectParams).options.data | toObservable | async); track $index) {
+            <mat-option [value]="option[(field.params | asType: SelectParams).options.valueProp]">
+                {{
+                    (field.params | asType: SelectParams).options.displayProp
+                        ? option[(field.params | asType: SelectParams).options.displayProp]
+                        : option
+                }}
+            </mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+    } @case (ControlType.DATE) {
+    <mat-form-field>
+        <mat-label>{{ (field.params | asType: DateParams).label }}</mat-label>
+        <input matInput [matDatepicker]="picker" [formControlName]="field.name" />
+        @if ((field.params | asType: DateParams).hint) {
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        }
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    } } } }
+</div>
