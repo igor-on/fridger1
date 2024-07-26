@@ -15,7 +15,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { getFormControl } from 'src/app/utils/form-helper';
 import { FridgeIngredient } from 'src/app/shared/models/fridge';
 import { MatIconModule } from '@angular/material/icon';
-import { AsTypePipe } from 'src/app/utils/pipes/as-type.pipe';
+import { AsTypePipe } from 'src/app/shared/pipes/as-type.pipe';
 
 @Component({
   selector: 'app-add-ingredient-dialog',
