@@ -1,15 +1,22 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {
+  ArrayParams,
   ControlType,
   GroupParams,
   TemplateFormField,
 } from './template-form-field';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { DynamicFormFieldsComponent } from './dynamic-form-fields/dynamic-form-fields.component';
 import {
   DynamicFormButtonsComponent,
   TemplateFormButton,
 } from './dynamic-form-buttons/dynamic-form-buttons.component';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -39,11 +46,44 @@ export class DynamicFormComponent<T extends ControlType> implements OnInit {
     this.addFormControls(this.fields);
   }
 
+  onAddToArray(data: {
+    field: TemplateFormField<ControlType.ARRAY>;
+    formGroup: FormGroup;
+  }) {
+    const formArray = data.field;
+    let newElement = _.cloneDeep(formArray.params!.elements[0]);
+
+    const nestedArrGroup = this.fb.group({});
+    this.addFormControls(
+      (newElement.params as GroupParams).fields,
+      nestedArrGroup
+    );
+    (data.formGroup.get(formArray.name) as FormArray).push(nestedArrGroup);
+    formArray.params!.elements.push(newElement);
+  }
+
   addFormControls(
     fields: TemplateFormField<T>[],
     formGroup: FormGroup = this.formGroup
   ) {
     for (let field of fields) {
+      if (field.controlType === ControlType.ARRAY) {
+        const array = this.fb.array([]);
+        formGroup.addControl(field.name, array);
+
+        console.log('IT IS ARRAY: ', field);
+        console.log(formGroup);
+
+        for (let el of (field.params as ArrayParams).elements) {
+          const nestedArrGroup = this.fb.group({});
+          this.addFormControls(
+            (el.params as GroupParams).fields,
+            nestedArrGroup
+          );
+          (formGroup.get(field.name) as FormArray).push(nestedArrGroup);
+        }
+      }
+
       if (field.controlType !== ControlType.GROUP) {
         formGroup.addControl(
           field.name,

@@ -9,7 +9,7 @@ export enum ControlType {
   SELECT,
   DATE,
   COMPONENT,
-  // ARRAY
+  ARRAY,
 }
 
 /**
@@ -20,7 +20,8 @@ export type AnyControlType =
   | ControlType.GROUP
   | ControlType.SELECT
   | ControlType.COMPONENT
-  | ControlType.DATE;
+  | ControlType.DATE
+  | ControlType.ARRAY;
 
 export type inputType = 'text' | 'password' | 'number';
 
@@ -53,6 +54,10 @@ export interface ComponentParams<T> {
   inputs?: { [p: string]: any };
 }
 
+export interface ArrayParams extends TextParams {
+  elements: TemplateFormFieldBuilder<ControlType.GROUP>[]; // TODO: change to accept AnyControlType
+}
+
 export type Params<T extends ControlType> = T extends ControlType.TEXT
   ? TextParams
   : T extends ControlType.GROUP
@@ -61,7 +66,9 @@ export type Params<T extends ControlType> = T extends ControlType.TEXT
   ? SelectParams
   : T extends ControlType.DATE
   ? DateParams
-  : ComponentParams<any>;
+  : T extends ControlType.COMPONENT
+  ? ComponentParams<any>
+  : ArrayParams;
 
 export interface TemplateFormField<T extends ControlType = ControlType.TEXT> {
   /**
@@ -120,7 +127,23 @@ export class TemplateFormBuilder {
   ): TemplateFormFieldBuilder<ControlType.GROUP> {
     return {
       controlType: ControlType.GROUP,
+      visible: true,
       params: { fields: this._toFormFields<T>(structure) },
+    };
+  }
+
+  public array(
+    groups: [
+      TemplateFormFieldBuilder<ControlType.GROUP>,
+      ...TemplateFormFieldBuilder<ControlType.GROUP>[],
+    ]
+  ): TemplateFormFieldBuilder<ControlType.ARRAY> {
+    return {
+      controlType: ControlType.ARRAY,
+      visible: true,
+      params: {
+        elements: groups,
+      },
     };
   }
 

@@ -1,4 +1,7 @@
-<div [formGroup]="formGroup" class="flex gap-4">
+<div
+    [formGroup]="formGroup"
+    [ngStyle]="{ flexDirection: flexDirection === 'vertical' ? 'col' : 'row' }"
+    class="flex gap-4">
     @for (field of fields; track $index) { @if (field.visible) { @switch (field.controlType) { @case (ControlType.TEXT)
     {
     <mat-form-field class="example-full-width">
@@ -33,5 +36,21 @@
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
+    } @case (ControlType.GROUP) {
+    <app-dynamic-form-fields
+        [fields]="(field.params | asType: GroupParams).fields"
+        [formGroup]="formGroup.get(field.name) | asType: FormGroup"></app-dynamic-form-fields>
+    } @case (ControlType.ARRAY) {
+    <button type="button" (click)="addToArray(field)" mat-button>ADD</button>
+    <div class="flex flex-col">
+        @for (el of (field.params | asType: ArrayParams).elements; track el; let i = $index) {
+        {{ i }}
+        <app-dynamic-form-fields
+            [fields]="(el.params | asType: GroupParams).fields"
+            [formGroup]="
+                (formGroup.get(field.name) | asType: FormArray).at(i) | asType: FormGroup
+            "></app-dynamic-form-fields>
+        }
+    </div>
     } } } }
 </div>

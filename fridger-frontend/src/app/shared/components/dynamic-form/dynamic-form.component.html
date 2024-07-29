@@ -1,4 +1,7 @@
 <form>
-    <app-dynamic-form-fields [fields]="fields" [formGroup]="formGroup"></app-dynamic-form-fields>
+    <app-dynamic-form-fields
+        (addToArrayClicked)="onAddToArray($event)"
+        [fields]="fields"
+        [formGroup]="formGroup"></app-dynamic-form-fields>
     <app-dynamic-form-buttons [buttons]="buttons" [formGroup]="formGroup"></app-dynamic-form-buttons>
 </form>

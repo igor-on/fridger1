@@ -15,11 +15,39 @@ import {
 })
 export class DynamicFormTestComponent implements OnInit {
   fields!: TemplateFormField[];
+  fields2!: TemplateFormField[];
   btns!: TemplateFormButton[];
 
   constructor(private tfb: TemplateFormBuilder) {}
 
   ngOnInit(): void {
+    this.fields2 = this.tfb.fields({
+      hello: this.tfb.array([
+        this.tfb.group({
+          name: this.tfb.text({
+            params: {
+              label: 'ARRAY hello',
+              type: 'text',
+            },
+            visible: true,
+            onChange: (value, form) => {
+              console.log('My first text array changed!: ', value);
+            },
+          }),
+          startDate: this.tfb.date({
+            params: {
+              label: 'Start Date',
+              hint: true,
+            },
+            visible: true,
+            onChange: (value, form) => {
+              console.log('My first date change: ', new Date(value));
+            },
+          }),
+        }),
+      ]),
+    });
+
     this.fields = this.tfb.fields({
       name: this.tfb.text({
         params: {
@@ -62,6 +90,18 @@ export class DynamicFormTestComponent implements OnInit {
         onChange: (value, form) => {
           console.log('My first date change: ', new Date(value));
         },
+      }),
+      ingr: this.tfb.group({
+        name: this.tfb.text({
+          params: {
+            label: 'Group hello',
+            type: 'text',
+          },
+          visible: true,
+          onChange: (value, form) => {
+            console.log('My first text group changed!: ', value);
+          },
+        }),
       }),
     });
 
