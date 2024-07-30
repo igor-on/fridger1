@@ -44,6 +44,30 @@ export class DynamicFormTestComponent implements OnInit {
               console.log('My first date change: ', new Date(value));
             },
           }),
+          testArray: this.tfb.array([
+            this.tfb.group({
+              name: this.tfb.text({
+                params: {
+                  label: 'ARRAY hello',
+                  type: 'text',
+                },
+                visible: true,
+                onChange: (value, form) => {
+                  console.log('My first text array changed!: ', value);
+                },
+              }),
+              startDate: this.tfb.date({
+                params: {
+                  label: 'Start Date',
+                  hint: true,
+                },
+                visible: true,
+                onChange: (value, form) => {
+                  console.log('My first date change: ', new Date(value));
+                },
+              }),
+            }),
+          ]),
         }),
       ]),
     });

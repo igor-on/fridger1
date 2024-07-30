@@ -26,6 +26,11 @@ import { ToObservablePipe } from 'src/app/shared/pipes/to-observable.pipe';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 
+export enum ArrayAction {
+  ADD,
+  REMOVE,
+}
+
 @Component({
   selector: 'app-dynamic-form-fields',
   standalone: true,
@@ -55,10 +60,12 @@ export class DynamicFormFieldsComponent<T extends ControlType>
   @Input() flexDirection: 'horizontal' | 'vertical' = 'horizontal';
   @Input({ required: true }) formGroup!: FormGroup;
   @Input({ required: true }) fields!: TemplateFormField<T>[];
-  @Output() addToArrayClicked = new EventEmitter<{
+  @Output() arrayChangedEvent = new EventEmitter<{
     field: TemplateFormField<ControlType.ARRAY>;
     formGroup: FormGroup;
+    action: ArrayAction;
   }>();
+  ArrayAction = ArrayAction;
   ControlType = ControlType;
   protected readonly FormGroup!: FormGroup;
   protected readonly FormArray!: FormArray;
@@ -69,31 +76,24 @@ export class DynamicFormFieldsComponent<T extends ControlType>
   protected readonly ArrayParams!: ArrayParams;
   protected readonly ComponentParams!: ComponentParams<any>;
 
-  public addToArray(arrayField: TemplateFormField<any>) {
+  onNestedArrayChanged(data: {
+    action: ArrayAction;
+    field: TemplateFormField<ControlType.ARRAY>;
+    formGroup: FormGroup;
+  }) {
+    this.arrayChanged(data.action, data.field, data.formGroup);
+  }
+
+  public arrayChanged(
+    action: ArrayAction,
+    arrayField: TemplateFormField<any>,
+    formGroup: FormGroup = this.formGroup
+  ) {
     let array = arrayField as TemplateFormField<ControlType.ARRAY>;
-    console.log('addToArrat');
-    this.addToArrayClicked.emit({ field: array, formGroup: this.formGroup });
-    // (this.formGroup.get(arrayField.name) as FormArray).push(
-    //   new FormGroup({
-    //     name: new FormControl(' '),
-    //   })
-    // );
-
-    // (this.formGroup.get(arrayField.name) as FormArray).at((this.formGroup.get(arrayField.name) as FormArray).length - 1).get('name')?.valueChanges.subscribe()
-
-    // array.params?.elements.push(
-    //   this.tfb.group({
-    //     name: this.tfb.text({
-    //       params: {
-    //         label: 'ARRAY hello',
-    //         type: 'text',
-    //       },
-    //       visible: true,
-    //       onChange: (value, form) => {
-    //         console.log('My first text array changed!: ', value);
-    //       },
-    //     }),
-    //   })
-    // );
+    this.arrayChangedEvent.emit({
+      field: array,
+      formGroup: formGroup,
+      action: action,
+    });
   }
 }

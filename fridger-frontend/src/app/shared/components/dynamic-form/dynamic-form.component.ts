@@ -4,6 +4,7 @@ import {
   ControlType,
   GroupParams,
   TemplateFormField,
+  TemplateFormFieldBuilder,
 } from './template-form-field';
 import {
   FormArray,
@@ -11,12 +12,16 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { DynamicFormFieldsComponent } from './dynamic-form-fields/dynamic-form-fields.component';
+import {
+  ArrayAction,
+  DynamicFormFieldsComponent,
+} from './dynamic-form-fields/dynamic-form-fields.component';
 import {
   DynamicFormButtonsComponent,
   TemplateFormButton,
 } from './dynamic-form-buttons/dynamic-form-buttons.component';
 import * as _ from 'lodash';
+import { DynamicFormHelper } from 'src/app/utils/form-helper';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -46,20 +51,28 @@ export class DynamicFormComponent<T extends ControlType> implements OnInit {
     this.addFormControls(this.fields);
   }
 
-  onAddToArray(data: {
+  onArrayChanged(data: {
+    action: ArrayAction;
     field: TemplateFormField<ControlType.ARRAY>;
     formGroup: FormGroup;
   }) {
-    const formArray = data.field;
-    let newElement = _.cloneDeep(formArray.params!.elements[0]);
+    const formArrayField = data.field;
+    const formArray: FormArray = data.formGroup.get(
+      formArrayField.name
+    ) as FormArray;
 
-    const nestedArrGroup = this.fb.group({});
-    this.addFormControls(
-      (newElement.params as GroupParams).fields,
-      nestedArrGroup
-    );
-    (data.formGroup.get(formArray.name) as FormArray).push(nestedArrGroup);
-    formArray.params!.elements.push(newElement);
+    if (data.action === ArrayAction.ADD) {
+      let newElement = _.cloneDeep(formArrayField.params!.elements[0]);
+      DynamicFormHelper.reduceNestedArrayElements(newElement);
+
+      this.populateFormArray(newElement, formArray);
+      formArrayField.params!.elements.push(newElement);
+    } else if (data.action === ArrayAction.REMOVE) {
+      if (formArray.length == 1) return;
+
+      formArray.removeAt(-1);
+      formArrayField.params?.elements.pop();
+    }
   }
 
   addFormControls(
@@ -71,16 +84,8 @@ export class DynamicFormComponent<T extends ControlType> implements OnInit {
         const array = this.fb.array([]);
         formGroup.addControl(field.name, array);
 
-        console.log('IT IS ARRAY: ', field);
-        console.log(formGroup);
-
         for (let el of (field.params as ArrayParams).elements) {
-          const nestedArrGroup = this.fb.group({});
-          this.addFormControls(
-            (el.params as GroupParams).fields,
-            nestedArrGroup
-          );
-          (formGroup.get(field.name) as FormArray).push(nestedArrGroup);
+          this.populateFormArray(el, formGroup.get(field.name) as FormArray);
         }
       }
 
@@ -105,5 +110,17 @@ export class DynamicFormComponent<T extends ControlType> implements OnInit {
         this.addFormControls((field.params as GroupParams).fields, nestedGroup);
       }
     }
+  }
+
+  populateFormArray(
+    element: TemplateFormFieldBuilder<ControlType.GROUP>,
+    formArray: FormArray
+  ) {
+    const nestedArrGroup = this.fb.group({});
+    this.addFormControls(
+      (element.params as GroupParams).fields,
+      nestedArrGroup
+    );
+    formArray.push(nestedArrGroup);
   }
 }
