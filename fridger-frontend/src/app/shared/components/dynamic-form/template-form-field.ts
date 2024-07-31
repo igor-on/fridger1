@@ -56,6 +56,7 @@ export interface ComponentParams<T> {
 
 export interface ArrayParams extends TextParams {
   elements: TemplateFormFieldBuilder<ControlType.GROUP>[]; // TODO: change to accept AnyControlType
+  visibleChangeButtons?: boolean;
 }
 
 export type Params<T extends ControlType> = T extends ControlType.TEXT
@@ -136,13 +137,15 @@ export class TemplateFormBuilder {
     groups: [
       TemplateFormFieldBuilder<ControlType.GROUP>,
       ...TemplateFormFieldBuilder<ControlType.GROUP>[],
-    ]
+    ],
+    visibleChangeButtons: boolean = false
   ): TemplateFormFieldBuilder<ControlType.ARRAY> {
     return {
       controlType: ControlType.ARRAY,
       visible: true,
       params: {
-        elements: groups,
+        elements: groups, // TODO: change TemplateFormBuilder to TemplateFormField
+        visibleChangeButtons: visibleChangeButtons,
       },
     };
   }

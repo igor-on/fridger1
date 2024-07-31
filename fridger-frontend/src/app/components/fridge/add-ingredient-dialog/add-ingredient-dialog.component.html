@@ -5,7 +5,7 @@
             <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="add"></mat-icon>
         </button>
         <button
-            [disabled]="ingredientsFormArray.controls.length == 1"
+            [disabled]="(fields[0].params | asType: ArrayParams).elements.length === 1"
             type="button"
             class="button flex-box-center"
             (click)="onDelete()">
@@ -14,42 +14,11 @@
     </div>
 
     <mat-dialog-content class="!max-h-[40vh]">
-        @for (formGroup of ingredientsFormArray.controls; track formGroup; let i = $index) {
-        <div class="flex gap-2 align-middle" [formGroup]="formGroup | asType: FormGroup">
-            <mat-form-field formGroupName="ingredient">
-                <mat-label>Ingredient</mat-label>
-                <input matInput formControlName="name" />
-                @if (hasError(i, "required", "ingredient.name")) {
-                <mat-error>Ingredient is <strong>required</strong></mat-error>
-                }
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Quantity</mat-label>
-                <input matInput formControlName="quantity" />
-                @if (hasError(i, "required", "quantity")) {
-                <mat-error>Quantity is <strong>required</strong></mat-error>
-                }
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Unit</mat-label>
-                <input matInput formControlName="unit" />
-                @if (hasError(i, "required", "unit")) {
-                <mat-error>Unit is <strong>required</strong></mat-error>
-                }
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Expiration Date</mat-label>
-                <!-- <input matInput formControlName="expirationDate" /> -->
-                <input matInput [matDatepicker]="picker" formControlName="expirationDate" />
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-        </div>
-        }
+        <app-dynamic-form #dynamicForm [fields]="fields" [buttons]="[]"></app-dynamic-form>
     </mat-dialog-content>
     <mat-dialog-actions class="!px-6">
         <button type="button" class="btn-error mr-4" (click)="onNoClick()">No Thanks</button>
-        <button type="button" (click)="onSubmit()" [disabled]="!ingredientsFormArray.valid" class="btn-success">
+        <button type="button" (click)="onSubmit()" [disabled]="!dynamicForm.formGroup.valid" class="btn-success">
             Save
         </button>
     </mat-dialog-actions>

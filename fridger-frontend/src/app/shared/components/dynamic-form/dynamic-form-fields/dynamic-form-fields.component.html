@@ -40,12 +40,12 @@
     <app-dynamic-form-fields
         [fields]="(field.params | asType: GroupParams).fields"
         [formGroup]="formGroup.get(field.name) | asType: FormGroup"></app-dynamic-form-fields>
-    } @case (ControlType.ARRAY) {
+    } @case (ControlType.ARRAY) { @if ((field.params | asType: ArrayParams).visibleChangeButtons) {
     <button type="button" (click)="arrayChanged(ArrayAction.ADD, field)" mat-button>ADD</button>
     <button type="button" (click)="arrayChanged(ArrayAction.REMOVE, field)" mat-button>REMOVE</button>
+    }
     <div class="flex flex-col">
         @for (el of (field.params | asType: ArrayParams).elements; track el; let i = $index) {
-        {{ i }}
         <app-dynamic-form-fields
             (arrayChangedEvent)="onNestedArrayChanged($event)"
             [fields]="(el.params | asType: GroupParams).fields"

@@ -52,8 +52,10 @@ export class FridgeComponent implements OnInit {
     private dialog: MatDialog
   ) {}
 
-  initForm(): void {
-    for (let ingr of this.fridge?.fridgeIngredients ?? []) {
+  initForm(fridgeIngredients = this.fridge.fridgeIngredients): void {
+    this.ingredientsForm.clear();
+
+    for (let ingr of fridgeIngredients ?? []) {
       this.formControlMap[ingr.id] = new FormGroup({
         id: new FormControl(ingr.id),
         ingredient: new FormGroup({
@@ -114,6 +116,7 @@ export class FridgeComponent implements OnInit {
       )
       .subscribe(data => {
         this.fridge.fridgeIngredients = data.data.fridgeIngredients;
+        this.initForm();
         this.messageService.sendMessage('Ingredients saved successfully!');
       });
   }
@@ -136,6 +139,7 @@ export class FridgeComponent implements OnInit {
       this.fridge!.fridgeIngredients = this.fridge.fridgeIngredients.filter(
         i => i.id !== id
       );
+      this.initForm();
       console.log('deleted: ', id);
       this.messageService.sendMessage('Ingredient deleted successfully!');
     });
