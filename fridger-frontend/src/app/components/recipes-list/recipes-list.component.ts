@@ -69,13 +69,15 @@ export class RecipesListComponent implements OnInit, OnDestroy {
   }
 
   private _filterPredicate(data: Recipe, filter: string): boolean {
-    const nameIncludes = data.name.includes(filter);
-    const linkIncludes = data.link.includes(filter);
-    const descriptionIncludes = data.description.includes(filter);
+    filter = filter.toLowerCase();
+
+    const nameIncludes = data.name.toLowerCase().includes(filter);
+    const linkIncludes = data.link.toLowerCase().includes(filter);
+    const descriptionIncludes = data.description.toLowerCase().includes(filter);
     const ingredientIncludes =
       data.recipeIngredients
         .map(ri => ri.ingredient)
-        .filter(i => i.name.includes(filter)).length > 0;
+        .filter(i => i.name.toLowerCase().includes(filter)).length > 0;
 
     return (
       nameIncludes || linkIncludes || descriptionIncludes || ingredientIncludes

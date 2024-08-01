@@ -7,7 +7,7 @@ export class GroceriesList {
   ) {}
 }
 
-class GroceriesListIngredient {
+export class GroceriesListIngredient {
   constructor(
     public quantity: number,
     public unit: string,

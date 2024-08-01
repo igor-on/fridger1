@@ -45,7 +45,10 @@
         </app-list>
 
         <ng-template #foodImage let-recipe>
-            <img class="circle-image" [src]="recipe.imageUrl" alt="food-image" />
+            <img
+                class="flex flex-col items-center justify-center text-gray-500"
+                [src]="recipe.imageUrl"
+                alt="food-image" />
         </ng-template>
 
         <ng-template #toggleStar let-recipe="">

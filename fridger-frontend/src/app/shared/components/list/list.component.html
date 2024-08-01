@@ -7,7 +7,7 @@
     </div>
     } } @else { @for (item of source; track $index) {
     <app-list-item (onItemClickedEvent)="onItemClickedEvent.emit($event)" [item]="item">
-        <div class="h-full">
+        <div class="hello flex h-full flex-col items-center justify-center overflow-hidden rounded-[50%] bg-gray-200">
             <ng-container *ngTemplateOutlet="circleInfoTemplate; context: { $implicit: item }"></ng-container>
         </div>
         <section class="h-100 m-1 flex w-5">
@@ -15,5 +15,7 @@
         </section>
     </app-list-item>
 
+    } @empty {
+    <h1>No items found.</h1>
     } }
 </div>
