@@ -11,7 +11,7 @@ export class Recipe {
   ) {}
 }
 
-class RecipeIngredient {
+export class RecipeIngredient {
   constructor(
     public id: number,
     public quantity: number,

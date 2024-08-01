@@ -33,8 +33,9 @@ import { AuthInterceptor } from './http-interceptors/auth-interceptor';
 import { LoginComponent } from './components/login/login.component';
 import { FridgeComponent } from './components/fridge/fridge.component';
 import { MatIconModule } from '@angular/material/icon';
-import { ListItemComponent } from './shared/components/list-item/list-item.component';
+import { ListItemComponent } from './shared/components/list/list-item/list-item.component';
 import { SharedModule } from './shared/shared.module';
+import { ListComponent } from './shared/components/list/list.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { SharedModule } from './shared/shared.module';
     FridgeComponent,
     MatIconModule,
     ListItemComponent,
+    ListComponent,
     SharedModule,
   ],
   providers: [

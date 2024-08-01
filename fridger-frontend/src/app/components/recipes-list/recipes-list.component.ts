@@ -4,6 +4,10 @@ import { Recipe } from 'src/app/shared/models/recipe';
 import { MessageService } from 'src/app/services/message.service';
 
 import { RecipeService } from 'src/app/services/recipe.service';
+import { ListRecipe } from 'src/app/shared/models/list-recipe.model';
+import { map } from 'rxjs';
+import { MatLabel } from '@angular/material/form-field';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-recipes-list',
@@ -13,7 +17,7 @@ import { RecipeService } from 'src/app/services/recipe.service';
 export class RecipesListComponent implements OnInit, OnDestroy {
   globalFilter: FormControl = new FormControl('');
 
-  recipes: Recipe[] = [];
+  recipes: ListRecipe[] = [];
 
   recipesLoading = false;
 
@@ -21,7 +25,8 @@ export class RecipesListComponent implements OnInit, OnDestroy {
 
   constructor(
     private recipeService: RecipeService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -30,11 +35,27 @@ export class RecipesListComponent implements OnInit, OnDestroy {
 
   handleRecipes() {
     this.recipesLoading = true;
-    this.recipeService.getRecipes().subscribe(response => {
-      this.recipes = response;
-      this.recipesLoading = false;
-      // console.log(`Recipes arrived: ${JSON.stringify(this.recipes)}`)
-    });
+    this.recipeService
+      .getRecipes()
+      .pipe(
+        map((response: Recipe[]) => {
+          return response.map(r => {
+            return {
+              label: r.name,
+              ...r,
+            };
+          });
+        })
+      )
+      .subscribe((response: ListRecipe[]) => {
+        this.recipes = response;
+        this.recipesLoading = false;
+        // console.log(`Recipes arrived: ${JSON.stringify(this.recipes)}`)
+      });
+  }
+
+  recipeClicked(recipe: ListRecipe) {
+    this.router.navigate(['recipe-details', recipe.id]);
   }
 
   getGlobalFilteredRecipes() {
