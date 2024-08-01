@@ -52,7 +52,7 @@
                         <div class="text-7xl">{{ groceries.ingredients.length }}</div>
                     </div>
                 </div>
-                <div class="name-box z-10 mt-6 !h-[105px]" color="orange" randBgColor>
+                <div class="name-box z-10 mt-6 !h-[105px]" color="orange" appGenerateBgColor>
                     <div class="ml-24 mr-4 flex w-[80%] flex-col md:ml-20 xl:ml-10">
                         <p class="text-2xl">Groceries</p>
                         <p class="text-sm">
@@ -84,9 +84,9 @@
             </div>
             <div *ngFor="let recipe of favoriteRecipes" class="recipe-box min-w-[85%] lg:min-w-[80%] 2xl:min-w-[65%]">
                 <div class="image-box">
-                    <img class="circle-image" [src]="recipe.imageUrl" alt="food-image" />
+                    <img class="circle-image w-[150px]" [src]="recipe.imageUrl" alt="food-image" />
                 </div>
-                <div class="name-box" color="orange" randBgColor>
+                <div class="name-box" color="orange" appGenerateBgColor>
                     <p class="max-w-[15rem] text-center sm:max-w-none md:max-w-xs xl:max-w-none">{{ recipe.name }}</p>
                     <div class="h-100 m-1 flex w-5">
                         <svg

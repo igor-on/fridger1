@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { RecipesComponent } from './components/recipes/recipes.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RecipesListComponent } from './components/recipes-list/recipes-list.component';
-import { ColorsDirective } from './shared/directives/colors.directive';
 import { AppRoutingModule } from './app-routing.module';
 import {
   ConfirmDialogComponent,
@@ -33,6 +32,9 @@ import { ToastModule } from 'primeng/toast';
 import { AuthInterceptor } from './http-interceptors/auth-interceptor';
 import { LoginComponent } from './components/login/login.component';
 import { FridgeComponent } from './components/fridge/fridge.component';
+import { MatIconModule } from '@angular/material/icon';
+import { ListItemComponent } from './shared/components/list-item/list-item.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,6 @@ import { FridgeComponent } from './components/fridge/fridge.component';
     RecipesComponent,
     SidebarComponent,
     RecipesListComponent,
-    ColorsDirective,
     RecipeDetailsComponent,
     RecipeFormComponent,
     RecipeCalendarComponent,
@@ -65,6 +66,9 @@ import { FridgeComponent } from './components/fridge/fridge.component';
     SkeletonModule,
     ToastModule,
     FridgeComponent,
+    MatIconModule,
+    ListItemComponent,
+    SharedModule,
   ],
   providers: [
     {

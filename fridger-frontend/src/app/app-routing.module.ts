@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
     path: 'home',
-    component: DynamicFormTestComponent,
+    component: HomeComponent,
     canActivate: [authGuard],
   },
   { path: 'recipes', component: RecipesComponent, canActivate: [authGuard] },

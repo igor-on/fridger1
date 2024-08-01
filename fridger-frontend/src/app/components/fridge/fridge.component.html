@@ -10,15 +10,13 @@
             }
         </div>
     </div>
-    <!-- <form [formGrou]> -->
 
     @for (type of ingredientsType; track $index) {
     <section class="w-full">
+        @if (getIngredientsByType(type).length > 0) {
         <h3 class="border-b-4 text-left">{{ type }}</h3>
         <div class="my-4">
             <!-- @let ingredientsByType = getIngredientsByType(type); -->
-
-            @if (getIngredientsByType(type).length > 0) {
 
             <table mat-table [dataSource]="getIngredientsByType(type)" class="mat-elevation-z0">
                 <!-- Name Column -->
@@ -102,8 +100,8 @@
                     mat-row
                     *matRowDef="let row; columns: ['name', 'quantity', 'unit', 'expiration-date', 'actions']"></tr>
             </table>
-            }
         </div>
+        }
     </section>
     }
     <!-- </form> -->
