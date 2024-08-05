@@ -4,9 +4,15 @@ import { GroceriesList } from 'src/app/shared/models/groceries-list';
 import { GroceriesService } from 'src/app/services/groceries.service';
 import { ListGroceriesList } from 'src/app/shared/models/list-groceries-list.model';
 import { map } from 'rxjs';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { GroceriesDetailsComponent } from './groceries-details/groceries-details.component';
+import {
+  TemplateFormBuilder,
+  TemplateFormField,
+} from 'src/app/shared/components/dynamic-form/template-form-field';
+import { TemplateFormButton } from 'src/app/shared/components/dynamic-form/dynamic-form-buttons/dynamic-form-buttons.component';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-groceries-list',
@@ -16,20 +22,25 @@ import { GroceriesDetailsComponent } from './groceries-details/groceries-details
 export class GroceriesListComponent implements OnInit {
   globalFilter: FormControl = new FormControl('');
 
-  startDate: string = moment(new Date()).subtract(7, 'days').toISOString(true);
-  endDate: string = moment(new Date()).toISOString(true);
+  dateRangeFields!: TemplateFormField[];
+  dateRangeBtns!: TemplateFormButton[];
+  dateRangeFieldsVisible = false;
 
   groceriesLists: ListGroceriesList[] = [];
 
   constructor(
     private groceriesService: GroceriesService,
-    private dialog: MatDialog
-  ) {
-    console.log('startDate: ', this.startDate);
-    console.log('endDate: ', this.endDate);
-  }
+    private messageService: MessageService,
+    private dialog: MatDialog,
+    private tfb: TemplateFormBuilder
+  ) {}
 
   ngOnInit(): void {
+    this.fetchGroceriesList();
+    this.initTemplateForm();
+  }
+
+  fetchGroceriesList() {
     this.groceriesService
       .getGroceriesList()
       .pipe(
@@ -47,6 +58,40 @@ export class GroceriesListComponent implements OnInit {
       .subscribe((response: ListGroceriesList[]) => {
         this.groceriesLists = response;
       });
+  }
+
+  initTemplateForm() {
+    this.dateRangeFields = this.tfb.fields<{
+      params: { startDate: string; endDate: string };
+    }>({
+      params: this.tfb.group({
+        startDate: this.tfb.date({
+          visible: true,
+          params: {
+            label: 'Start Date',
+          },
+        }),
+        endDate: this.tfb.date({
+          visible: true,
+          params: {
+            label: 'End Date',
+          },
+        }),
+      }),
+    });
+
+    this.dateRangeBtns = [
+      {
+        text: 'Generate',
+        type: 'button',
+        // color: 'black',
+        onClick: (_, form) => {
+          console.log('Generate clicked!');
+          this.dateRangeFieldsVisible = false;
+          this.generateGroceriesList(form);
+        },
+      },
+    ];
   }
 
   getGlobalFilteredGroceries() {
@@ -73,27 +118,33 @@ export class GroceriesListComponent implements OnInit {
   }
 
   itemClicked(item: ListGroceriesList) {
-    console.log('item clicked: ', item);
-    const dialogRef = this.dialog.open(GroceriesDetailsComponent, {
+    this.dialog.open(GroceriesDetailsComponent, {
       data: item,
+      width: '700px',
+      maxHeight: '70vh',
     });
   }
 
-  onGenerate() {
-    // console.log('Generate clicked!');
-    // this.startDate = moment(this.startDate).format('yyyy-MM-DDTHH:mm:ss');
-    // this.endDate = moment(this.endDate).format('yyyy-MM-DDTHH:mm:ss');
-    // this.groceriesListStart = this.startDate;
-    // this.groceriesListEnd = this.endDate;
-    // if (moment(this.endDate).isBefore(this.startDate)) {
-    //   console.log("end date can't be before star date!");
-    //   return;
-    // }
-    // this.groceriesService
-    //   .generateGroceriesList(this.startDate, this.endDate)
-    //   .subscribe(res => {
-    //     console.log(res);
-    //     this.groceriesList = res.data!;
-    //   });
+  generateGroceriesList(form: FormGroup) {
+    let { startDate, endDate } = form.value.params;
+
+    startDate = moment(startDate).format('yyyy-MM-DDTHH:mm:ss');
+    endDate = moment(endDate).format('yyyy-MM-DDTHH:mm:ss');
+    if (moment(endDate).isBefore(startDate)) {
+      console.log("end date can't be before star date!");
+      return;
+    }
+    this.groceriesService
+      .generateGroceriesList({ startDate, endDate })
+      .subscribe(res => {
+        console.log(res);
+        this.groceriesLists.push({
+          label: `${moment(res.data.startDate).format('DD.MM.YYYY')} - ${moment(
+            res.data.endDate
+          ).format('DD.MM.YYYY')}`,
+          ...res.data,
+        });
+        this.messageService.sendMessage('Groceries list generated!');
+      });
   }
 }

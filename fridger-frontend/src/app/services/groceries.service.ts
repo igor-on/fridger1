@@ -13,13 +13,13 @@ export class GroceriesService {
 
   constructor(private httpClient: HttpClient) {}
 
-  generateGroceriesList(
-    startDate: string,
-    endDate: string
-  ): Observable<ApiResponse<GroceriesList>> {
+  generateGroceriesList(params: {
+    startDate: string;
+    endDate: string;
+  }): Observable<ApiResponse<GroceriesList>> {
     const url = `${this.url}/generate`;
     return this.httpClient.get<ApiResponse<GroceriesList>>(url, {
-      params: { startDate: startDate, endDate: endDate },
+      params: { ...params },
     });
   }
 

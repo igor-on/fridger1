@@ -36,6 +36,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ListItemComponent } from './shared/components/list/list-item/list-item.component';
 import { SharedModule } from './shared/shared.module';
 import { ListComponent } from './shared/components/list/list.component';
+import { DynamicFormComponent } from './shared/components/dynamic-form/dynamic-form.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { ListComponent } from './shared/components/list/list.component';
     ListItemComponent,
     ListComponent,
     SharedModule,
+    DynamicFormComponent,
   ],
   providers: [
     {

@@ -1,6 +1,6 @@
 @for (btn of buttons; track $index) {
 <button
-    mat-button
+    mat-raised-button
     [color]="btn.color ? btn.color : 'primary'"
     [type]="btn.type"
     (click)="btn.onClick($event, formGroup)">
