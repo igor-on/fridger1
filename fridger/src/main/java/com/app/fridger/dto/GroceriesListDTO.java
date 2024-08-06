@@ -2,6 +2,7 @@ package com.app.fridger.dto;
 
 import com.app.fridger.entity.GroceriesList;
 import com.app.fridger.entity.GroceriesListIngredient;
+import com.app.fridger.model.Unit;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
@@ -23,8 +24,8 @@ public class GroceriesListDTO {
     @AllArgsConstructor
     public static class IngredientDTO {
         private String ingredientName;
-        private int quantity;
-        private String unit;
+        private double quantity;
+        private Unit unit;
     }
 
     public GroceriesListDTO(GroceriesList groceriesList) {

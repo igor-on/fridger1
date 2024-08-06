@@ -1,5 +1,6 @@
 package com.app.fridger.entity;
 
+import com.app.fridger.model.Unit;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -21,10 +22,9 @@ public class RecipeIngredient {
     private Long id;
     @Column(name = "quantity")
     @Min(1)
-    private int quantity;
+    private double quantity;
     @Column(name = "unit")
-    @NotBlank(message = "Unit is mandatory")
-    private String unit;
+    private Unit unit;
 
     @ManyToOne
     @JoinColumn(name = "recipe_id")

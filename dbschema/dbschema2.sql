@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `recipe_ingredient` (
   `id` bigint PRIMARY KEY AUTO_INCREMENT,
   `recipe_id` bigint NOT NULL,
   `ingredient_name` varchar(255) NOT NULL,
-  `quantity` integer NOT NULL,
+  `quantity` double NOT NULL,
   `unit` varchar(255) NOT NULL,
   CONSTRAINT FK_recipe_ingredient FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`),
   CONSTRAINT FK_ingredient_recipe_ingredient FOREIGN KEY (`ingredient_name`) REFERENCES `ingredients` (`name`)
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `groceries_list_ingredient` (
 `id` bigint PRIMARY KEY AUTO_INCREMENT,
 `groceries_list_id` bigint NOT NULL,
 `ingredient_name` varchar(255) NOT NULL,
-`quantity` int NOT NULL,
+`quantity` double NOT NULL,
 `unit` varchar(255) NOT NULL,
   CONSTRAINT FK_groceries_list_ingredient FOREIGN KEY (`groceries_list_id`) REFERENCES `groceries_lists` (`id`),
   CONSTRAINT FK_ingredient_groceries_list_ingredient FOREIGN KEY (`ingredient_name`) REFERENCES `ingredients` (`name`)
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `fridge_ingredient` (
 `id` bigint PRIMARY KEY AUTO_INCREMENT,
 `fridge_id` varchar(55) NOT NULL,
 `ingredient_name` varchar(255) NOT NULL,
-`quantity` int NOT NULL,
+`quantity` double NOT NULL,
 `unit` varchar(255) NOT NULL,
 `expiration_date` datetime,
   CONSTRAINT FK_fridge_ingredient FOREIGN KEY (`fridge_id`) REFERENCES `fridges` (`username`),
