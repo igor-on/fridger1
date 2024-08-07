@@ -20,9 +20,9 @@ public class GroceriesController {
     private final GroceriesService groceriesService;
 
     @GetMapping("groceries-list/generate")
-    public Map<String, Object> generateGroceriesList(@RequestParam LocalDateTime startDate, @RequestParam LocalDateTime endDate) {
+    public Map<String, Object> generateGroceriesList(@RequestParam LocalDateTime startDate, @RequestParam LocalDateTime endDate, @RequestParam boolean withFridge) {
         HashMap<String, Object> result = new HashMap<>();
-        GroceriesListDTO groceriesListDTO = groceriesService.generateGroceriesList(startDate, endDate);
+        GroceriesListDTO groceriesListDTO = groceriesService.generateGroceriesList(startDate, endDate, withFridge);
 
         result.put("message", "Successfully generated groceries list");
         result.put("data", groceriesListDTO);

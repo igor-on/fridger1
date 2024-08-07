@@ -1,11 +1,9 @@
 package com.app.fridger.entity;
 
 import com.app.fridger.model.Unit;
-import com.app.fridger.model.UnitConverter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Table(name = "groceries_list_ingredient")

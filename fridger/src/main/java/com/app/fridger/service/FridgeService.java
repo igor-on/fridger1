@@ -4,9 +4,11 @@ import com.app.fridger.entity.Fridge;
 import com.app.fridger.entity.FridgeIngredient;
 import com.app.fridger.entity.Ingredient;
 import com.app.fridger.model.IngredientType;
+import com.app.fridger.model.Unit;
 import com.app.fridger.repo.FridgeIngredientRepository;
 import com.app.fridger.repo.FridgeRepository;
 import com.app.fridger.repo.IngredientRepository;
+import com.app.fridger.utils.UnitConverter;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -31,16 +33,33 @@ public class FridgeService {
     }
 
 
+    public Optional<FridgeIngredient> getIngredientByName(String name) {
+        return getFridge().getFridgeIngredients().stream().filter(i -> name.equals(i.getIngredient().getName())).findFirst();
+    }
 
     @Transactional
     // TODO: think about how to prevent updating ingredient object by JPA when id and new name is passed
     public Fridge postIngredients(List<FridgeIngredient> ingredients) {
-        log.info("PostIngredients:" + ingredients.toString() );
+        log.info("PostIngredients:" + ingredients.toString());
         Fridge fridge = getFridge();
 
         ingredients.forEach(i -> {
-            handleSettingIngredient(i);
-            fridge.addIngredient(i);
+            if (i.getUnit() != Unit.PCS) { // default mass unit in fridge is gram, instead of whole pieces
+                i.setQuantity(new UnitConverter(i.getUnit(), Unit.G).convert(i.getQuantity()));
+                i.setUnit(Unit.G);
+            }
+
+            log.debug("insert quantity: " + i.getQuantity());
+
+            Optional<FridgeIngredient> inFridge = fridge.getFridgeIngredients().stream().filter(fi -> fi.getIngredient().getName().equals(i.getIngredient().getName())).findFirst();
+            if (inFridge.isPresent()) {
+                log.debug("Present in fridge!");
+                inFridge.get().addQuantity(i.getQuantity());
+            } else {
+                log.debug("Handling new ingredient");
+                handleSettingIngredient(i);
+                fridge.addIngredient(i);
+            }
         });
 
         fridgeRepository.save(fridge);
@@ -54,6 +73,11 @@ public class FridgeService {
 
         fridge.getFridgeIngredients().clear();
         ingredients.forEach(i -> {
+            if (i.getUnit() != Unit.PCS) {
+                i.setQuantity(new UnitConverter(i.getUnit(), Unit.G).convert(i.getQuantity()));
+                i.setUnit(Unit.G);
+            }
+
             handleSettingIngredient(i);
             fridge.addIngredient(i);
         });

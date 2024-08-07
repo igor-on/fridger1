@@ -2,6 +2,7 @@ package com.app.fridger.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public enum Unit {
     G(List.of("g", "gram")),
@@ -18,5 +19,9 @@ public enum Unit {
 
     public List<String> getTexts() {
         return texts;
+    }
+
+    public static Unit fromText(String text) {
+        return Stream.of(Unit.values()).filter(u -> u.getTexts().contains(text)).findFirst().orElseThrow();
     }
 }

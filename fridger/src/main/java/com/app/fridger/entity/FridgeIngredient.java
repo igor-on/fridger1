@@ -43,4 +43,8 @@ public class FridgeIngredient {
     @JoinColumn(name = "fridge_id")
     @JsonIgnore
     private Fridge fridge;
+
+    public void addQuantity(double quantity) {
+        this.setQuantity(this.quantity + quantity);
+    }
 }

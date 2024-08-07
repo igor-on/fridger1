@@ -6,7 +6,7 @@ import jakarta.persistence.Converter;
 import java.util.stream.Stream;
 
 @Converter(autoApply = true)
-public class UnitConverter implements AttributeConverter<Unit, String> {
+public class UnitEnumConverter implements AttributeConverter<Unit, String> {
 
     @Override
     public String convertToDatabaseColumn(Unit unit) {

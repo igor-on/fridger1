@@ -105,12 +105,12 @@ export class AddIngredientDialogComponent implements OnInit {
               label: 'Unit',
               options: {
                 data: [
-                  { value: 'kg', display: 'kilogram' },
+                  { value: 'KG', display: 'kilogram' },
                   {
-                    value: 'g',
+                    value: 'G',
                     display: 'gram',
                   },
-                  { value: 'ml', display: 'mililiter' },
+                  { value: 'ML', display: 'mililiter' },
                 ],
                 displayProp: 'display',
                 valueProp: 'value',
