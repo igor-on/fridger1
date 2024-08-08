@@ -1,6 +1,7 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { Injectable, Type } from '@angular/core';
 import { FormGroup, ValidatorFn } from '@angular/forms';
+import { TooltipPosition } from '@angular/material/tooltip';
 import { Observable } from 'rxjs';
 
 export enum ControlType {
@@ -90,6 +91,7 @@ export interface TemplateFormField<T extends ControlType = ControlType.TEXT> {
   params?: Params<T>;
   controlType: ControlType;
   validators?: ValidatorFn[];
+  tip?: { message: string; position: TooltipPosition };
 
   onChange?: (value: any, form: FormGroup) => void;
   visible?: boolean;

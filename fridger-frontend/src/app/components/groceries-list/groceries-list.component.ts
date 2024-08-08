@@ -79,6 +79,10 @@ export class GroceriesListComponent implements OnInit {
         }),
         withFridge: this.tfb.checkbox({
           visible: true,
+          tip: {
+            message: 'Include ingredients from fridge',
+            position: 'above',
+          },
           params: {
             label: 'With Fridge',
           },
