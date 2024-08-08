@@ -54,5 +54,9 @@
             "></app-dynamic-form-fields>
         }
     </div>
+    } @case (ControlType.CHECKBOX) {
+    <mat-checkbox color="primary" [formControlName]="field.name"
+        >{{ (field.params | asType: TextParams)?.label ?? field.name }}
+    </mat-checkbox>
     } } } }
 </div>

@@ -16,6 +16,7 @@ export class GroceriesService {
   generateGroceriesList(params: {
     startDate: string;
     endDate: string;
+    withFridge: boolean;
   }): Observable<ApiResponse<GroceriesList>> {
     const url = `${this.url}/generate`;
     return this.httpClient.get<ApiResponse<GroceriesList>>(url, {

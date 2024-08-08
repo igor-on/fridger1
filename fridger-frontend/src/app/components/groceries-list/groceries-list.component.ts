@@ -77,6 +77,12 @@ export class GroceriesListComponent implements OnInit {
             label: 'End Date',
           },
         }),
+        withFridge: this.tfb.checkbox({
+          visible: true,
+          params: {
+            label: 'With Fridge',
+          },
+        }),
       }),
     });
 
@@ -126,7 +132,7 @@ export class GroceriesListComponent implements OnInit {
   }
 
   generateGroceriesList(form: FormGroup) {
-    let { startDate, endDate } = form.value.params;
+    let { startDate, endDate, withFridge } = form.value.params;
 
     startDate = moment(startDate).format('yyyy-MM-DDTHH:mm:ss');
     endDate = moment(endDate).format('yyyy-MM-DDTHH:mm:ss');
@@ -135,7 +141,7 @@ export class GroceriesListComponent implements OnInit {
       return;
     }
     this.groceriesService
-      .generateGroceriesList({ startDate, endDate })
+      .generateGroceriesList({ startDate, endDate, withFridge })
       .subscribe(res => {
         console.log(res);
         this.groceriesLists.push({

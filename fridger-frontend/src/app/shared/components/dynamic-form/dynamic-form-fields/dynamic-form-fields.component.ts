@@ -25,6 +25,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ToObservablePipe } from 'src/app/shared/pipes/to-observable.pipe';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 export enum ArrayAction {
   ADD,
@@ -45,6 +46,7 @@ export enum ArrayAction {
     MatDatepickerModule,
     MatButtonModule,
     CommonModule,
+    MatCheckboxModule,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './dynamic-form-fields.component.html',

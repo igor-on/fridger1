@@ -10,6 +10,7 @@ export enum ControlType {
   DATE,
   COMPONENT,
   ARRAY,
+  CHECKBOX,
 }
 
 /**
@@ -21,7 +22,8 @@ export type AnyControlType =
   | ControlType.SELECT
   | ControlType.COMPONENT
   | ControlType.DATE
-  | ControlType.ARRAY;
+  | ControlType.ARRAY
+  | ControlType.CHECKBOX;
 
 export type inputType = 'text' | 'password' | 'number';
 
@@ -69,7 +71,9 @@ export type Params<T extends ControlType> = T extends ControlType.TEXT
   ? DateParams
   : T extends ControlType.COMPONENT
   ? ComponentParams<any>
-  : ArrayParams;
+  : T extends ControlType.ARRAY
+  ? ArrayParams
+  : TextParams;
 
 export interface TemplateFormField<T extends ControlType = ControlType.TEXT> {
   /**
@@ -154,6 +158,12 @@ export class TemplateFormBuilder {
     params: TemplateFormFieldBuilderParams
   ): TemplateFormFieldBuilder {
     return { controlType: ControlType.TEXT, ...params };
+  }
+
+  public checkbox(
+    params: TemplateFormFieldBuilderParams<ControlType.CHECKBOX>
+  ): TemplateFormFieldBuilder<ControlType.CHECKBOX> {
+    return { controlType: ControlType.CHECKBOX, ...params };
   }
 
   public select(
