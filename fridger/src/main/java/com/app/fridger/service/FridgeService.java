@@ -15,6 +15,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,8 +54,17 @@ public class FridgeService {
 
             Optional<FridgeIngredient> inFridge = fridge.getFridgeIngredients().stream().filter(fi -> fi.getIngredient().getName().equals(i.getIngredient().getName())).findFirst();
             if (inFridge.isPresent()) {
-                log.debug("Present in fridge!");
-                inFridge.get().addQuantity(i.getQuantity());
+                if ((inFridge.get().getExpirationDate() == null && i.getExpirationDate() == null)) {
+                    log.debug("Present in fridge!");
+                    inFridge.get().addQuantity(i.getQuantity());
+                } else if ((inFridge.get().getExpirationDate() != null && i.getExpirationDate() != null) && inFridge.get().getExpirationDate().equals(i.getExpirationDate())) {
+                    log.debug("Present in fridge!");
+                    inFridge.get().addQuantity(i.getQuantity());
+                } else {
+                    log.debug("Handling new ingredient");
+                    handleSettingIngredient(i);
+                    fridge.addIngredient(i);
+                }
             } else {
                 log.debug("Handling new ingredient");
                 handleSettingIngredient(i);

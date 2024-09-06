@@ -30,6 +30,8 @@ import { MessageService } from 'src/app/services/message.service';
 import { GroceriesList } from 'src/app/shared/models/groceries-list';
 import { ListGroceriesList } from 'src/app/shared/models/list-groceries-list.model';
 import { AsTypePipe } from 'src/app/shared/pipes/as-type.pipe';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @Component({
   selector: 'app-groceries-details',
@@ -50,15 +52,25 @@ import { AsTypePipe } from 'src/app/shared/pipes/as-type.pipe';
     ReactiveFormsModule,
     AsTypePipe,
     MatIconModule,
+    MatTooltipModule,
+    MatBadgeModule,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './groceries-details.component.html',
   styleUrl: './groceries-details.component.scss',
 })
 export class GroceriesDetailsComponent implements OnInit {
+  dialogReadingInfo =
+    'This list was generated with fridge ingredients checking option enabled. The ingredients you are missing are in the first table. The ingredients that are already in your fridge are on the second table.';
   form!: FormArray;
   editMode = false;
   tableColumns: string[] = ['name', 'quantity', 'unit'];
+  tableFridgeColumns: string[] = [
+    'name',
+    'quantity',
+    'unit',
+    'expiration-date',
+  ];
   protected readonly FormControl!: FormControl;
 
   constructor(

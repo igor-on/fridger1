@@ -1,12 +1,8 @@
 package com.app.fridger.service;
 
 import com.app.fridger.dto.GroceriesListDTO;
-import com.app.fridger.entity.FridgeIngredient;
-import com.app.fridger.entity.GroceriesList;
-import com.app.fridger.entity.GroceriesListIngredient;
-import com.app.fridger.entity.Ingredient;
+import com.app.fridger.entity.*;
 import com.app.fridger.model.Unit;
-import com.app.fridger.repo.FridgeIngredientRepository;
 import com.app.fridger.repo.GroceriesListRepository;
 import com.app.fridger.repo.IngredientRepository;
 import com.app.fridger.utils.UnitConverter;
@@ -39,7 +35,7 @@ public class GroceriesService {
         GroceriesList groceriesList = new GroceriesList();
         groceriesList.setStartDate(startDate);
         groceriesList.setEndDate(endDate);
-        groceriesList.setGroceriesListIngredient(new ArrayList<>());
+        groceriesList.setIngredients(new ArrayList<>());
         for (Object[] v : ingredients) {
             String ingrName = String.valueOf(v[0]);
             double quantity = Double.parseDouble(String.valueOf(v[1]));
@@ -63,6 +59,8 @@ public class GroceriesService {
                     } else if ((unit == Unit.PCS & fridgeIngredient.getUnit() == Unit.PCS)) { // subtract whole pieces
                         quantity -= fridgeIngredient.getQuantity();
                     } // don't do nothing TODO
+
+                    groceriesList.addFridge(new GroceriesListFridgeIngredient(fridgeIngredient));
                 }
 
             }
@@ -81,6 +79,7 @@ public class GroceriesService {
         groceriesList.setUser(session.getUser());
 
         groceriesListRepository.save(groceriesList);
+
         return new GroceriesListDTO(groceriesList);
     }
 

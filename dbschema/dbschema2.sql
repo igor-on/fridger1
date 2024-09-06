@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS `groceries_lists` (
 `start_date` datetime NOT NULL,
 `end_date` datetime NOT NULL,
 `username` varchar(50),
+`with_fridge` boolean,
 CONSTRAINT FK_username_groceries_list FOREIGN KEY (`username`) REFERENCES `users` (`username`)
 );
 
@@ -59,6 +60,17 @@ CREATE TABLE IF NOT EXISTS `groceries_list_ingredient` (
 `unit` varchar(255) NOT NULL,
   CONSTRAINT FK_groceries_list_ingredient FOREIGN KEY (`groceries_list_id`) REFERENCES `groceries_lists` (`id`),
   CONSTRAINT FK_ingredient_groceries_list_ingredient FOREIGN KEY (`ingredient_name`) REFERENCES `ingredients` (`name`)
+);
+
+CREATE TABLE IF NOT EXISTS `groceries_list_fridge_ingredient` (
+`id` bigint PRIMARY KEY AUTO_INCREMENT,
+`groceries_list_id` bigint NOT NULL,
+`ingredient_name` varchar(255) NOT NULL,
+`quantity` double NOT NULL,
+`unit` varchar(255) NOT NULL,
+`expiration_date` datetime,
+  CONSTRAINT FK_groceries_list_fridge_ingredient FOREIGN KEY (`groceries_list_id`) REFERENCES `groceries_lists` (`id`),
+  CONSTRAINT FK_ingredient_groceries_list_fridge_ingredient FOREIGN KEY (`ingredient_name`) REFERENCES `ingredients` (`name`)
 );
 
 CREATE TABLE IF NOT EXISTS `fridges` (

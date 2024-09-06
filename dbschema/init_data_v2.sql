@@ -51,17 +51,17 @@ INSERT INTO `planned_recipe` (`recipe_id`, `planned_date`, `done`) VALUES
 (10, '2023-04-19 00:00:00', true);
 
 -- Inserts for `groceries_lists` with added `username` column
-INSERT INTO `groceries_lists` (`start_date`, `end_date`, `username`) VALUES
-('2023-04-01 00:00:00', '2023-04-07 00:00:00', 'tester'),
-('2023-04-08 00:00:00', '2023-04-14 00:00:00', 'tester'),
-('2023-04-15 00:00:00', '2023-04-21 00:00:00', 'tester'),
-('2023-04-22 00:00:00', '2023-04-28 00:00:00', 'tester'),
-('2023-04-29 00:00:00', '2023-05-05 00:00:00', 'tester'),
-('2023-05-06 00:00:00', '2023-05-12 00:00:00', 'macko'),
-('2023-05-13 00:00:00', '2023-05-19 00:00:00', 'macko'),
-('2023-05-20 00:00:00', '2023-05-26 00:00:00', 'macko'),
-('2023-05-27 00:00:00', '2023-06-02 00:00:00', 'macko'),
-('2023-06-03 00:00:00', '2023-06-09 00:00:00', 'macko');
+INSERT INTO `groceries_lists` (`start_date`, `end_date`, `username`, `with_fridge`) VALUES
+('2023-04-01 00:00:00', '2023-04-07 00:00:00', 'tester', false),
+('2023-04-08 00:00:00', '2023-04-14 00:00:00', 'tester', false),
+('2023-04-15 00:00:00', '2023-04-21 00:00:00', 'tester', false),
+('2023-04-22 00:00:00', '2023-04-28 00:00:00', 'tester', false),
+('2023-04-29 00:00:00', '2023-05-05 00:00:00', 'tester', false),
+('2023-05-06 00:00:00', '2023-05-12 00:00:00', 'macko', false),
+('2023-05-13 00:00:00', '2023-05-19 00:00:00', 'macko', false),
+('2023-05-20 00:00:00', '2023-05-26 00:00:00', 'macko', false),
+('2023-05-27 00:00:00', '2023-06-02 00:00:00', 'macko', false),
+('2023-06-03 00:00:00', '2023-06-09 00:00:00', 'macko', false);
 
 -- Inserts for `groceries_list_ingredient` (Assuming groceries_list_id and ingredient_id start from 1)
 INSERT INTO `groceries_list_ingredient` (`groceries_list_id`, `ingredient_name`, `quantity`, `unit`) VALUES

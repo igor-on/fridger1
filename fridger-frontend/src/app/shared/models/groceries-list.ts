@@ -1,8 +1,12 @@
+import { FridgeIngredient } from './fridge';
+
 export class GroceriesList {
   constructor(
     public startDate: string,
     public endDate: string,
     public ingredients: GroceriesListIngredient[],
+    public fridgeIngredients: GroceriesListFridgeIngredient[],
+    public withFridge: boolean,
     public id?: number
   ) {}
 }
@@ -15,3 +19,10 @@ export class GroceriesListIngredient {
     public id?: number
   ) {}
 }
+
+export type GroceriesListFridgeIngredient = Omit<
+  FridgeIngredient,
+  'ingredient'
+> & {
+  ingredientName: string;
+};
