@@ -7,6 +7,7 @@ export class GroceriesList {
     public ingredients: GroceriesListIngredient[],
     public fridgeIngredients: GroceriesListFridgeIngredient[],
     public withFridge: boolean,
+    public fridgeStateDate: Date,
     public id?: number
   ) {}
 }

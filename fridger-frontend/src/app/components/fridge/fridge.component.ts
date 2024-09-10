@@ -74,6 +74,7 @@ export class FridgeComponent implements OnInit {
           noWhitespaceValidator,
         ]),
         expirationDate: new FormControl(ingr.expirationDate),
+        insertDate: new FormControl(ingr.insertDate),
       });
 
       this.ingredientsForm.push(this.formControlMap[ingr.id]);

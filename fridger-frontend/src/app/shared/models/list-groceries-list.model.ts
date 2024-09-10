@@ -13,8 +13,17 @@ export class ListGroceriesList extends GroceriesList implements ListModel {
     ingredients: GroceriesListIngredient[],
     fridgeIngredients: GroceriesListFridgeIngredient[],
     withFridge: boolean,
+    fridgeStateDate: Date,
     id?: number
   ) {
-    super(startDate, endDate, ingredients, fridgeIngredients, withFridge, id);
+    super(
+      startDate,
+      endDate,
+      ingredients,
+      fridgeIngredients,
+      withFridge,
+      fridgeStateDate,
+      id
+    );
   }
 }

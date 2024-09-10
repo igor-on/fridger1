@@ -16,6 +16,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -70,11 +71,13 @@ public class FridgeService {
                     inFridge.get().addQuantity(i.getQuantity());
                 } else {
                     log.debug("Handling new ingredient");
+                    i.setInsertDate(LocalDateTime.now());
                     handleSettingIngredient(i);
                     fridge.addIngredient(i);
                 }
             } else {
                 log.debug("Handling new ingredient");
+                i.setInsertDate(LocalDateTime.now());
                 handleSettingIngredient(i);
                 fridge.addIngredient(i);
             }

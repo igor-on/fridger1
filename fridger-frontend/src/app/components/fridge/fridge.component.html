@@ -19,6 +19,24 @@
             <!-- @let ingredientsByType = getIngredientsByType(type); -->
 
             <table mat-table [dataSource]="getIngredientsByType(type)" class="mat-elevation-z0">
+                <!-- Insert Date Column -->
+                <ng-container matColumnDef="insert-date">
+                    <th mat-header-cell *matHeaderCellDef>Insert Date</th>
+                    <td mat-cell *matCellDef="let element">
+                        @if (!editMode) {
+                        {{ element.insertDate }}
+                        } @else {
+                        <mat-form-field>
+                            <input
+                                matInput
+                                [matDatepicker]="picker"
+                                [formControl]="getFormControl(element.id, 'insertDate')" />
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        }
+                    </td>
+                </ng-container>
                 <!-- Name Column -->
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef>Ingredient</th>
@@ -95,10 +113,15 @@
                     </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="['name', 'quantity', 'unit', 'expiration-date', 'actions']"></tr>
+                <tr
+                    mat-header-row
+                    *matHeaderRowDef="['insert-date', 'name', 'quantity', 'unit', 'expiration-date', 'actions']"></tr>
                 <tr
                     mat-row
-                    *matRowDef="let row; columns: ['name', 'quantity', 'unit', 'expiration-date', 'actions']"></tr>
+                    *matRowDef="
+                        let row;
+                        columns: ['insert-date', 'name', 'quantity', 'unit', 'expiration-date', 'actions']
+                    "></tr>
             </table>
         </div>
         }

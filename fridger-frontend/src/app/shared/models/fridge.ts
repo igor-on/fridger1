@@ -13,6 +13,7 @@ export class FridgeIngredient {
     public quantity: number,
     public unit: string,
     public ingredient: Ingredient,
+    public insertDate: Date,
     public expirationDate?: Date
   ) {}
 }

@@ -64,7 +64,7 @@
     <h5 class="mt-5 flex gap-2 text-gray-400">
         <mat-icon aria-hidden="false" aria-label="Example date icon" fontIcon="event"></mat-icon>
         Fridge state on day
-        {{ data.endDate | date: 'dd.MM.yyyy' }}
+        {{ data.fridgeStateDate | date: 'dd.MM.yyyy hh:mm' }}
     </h5>
     <table mat-table [dataSource]="data.fridgeIngredients" class="mat-elevation-z0">
         <!-- Name Column -->
