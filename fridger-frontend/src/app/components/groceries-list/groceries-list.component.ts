@@ -86,6 +86,7 @@ export class GroceriesListComponent implements OnInit {
           params: {
             label: 'With Fridge',
           },
+          value: false,
         }),
       }),
     });
