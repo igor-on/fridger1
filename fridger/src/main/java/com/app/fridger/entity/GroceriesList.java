@@ -35,7 +35,11 @@ public class GroceriesList {
     private List<GroceriesListFridgeIngredient> fridgeIngredients;
 
     @Column(name = "with_fridge")
+    @NotNull
     private boolean withFridge;
+
+    @Column(name = "fridge_state_date")
+    private LocalDateTime fridgeStateDate;
 
     @ManyToOne
     @JoinColumn(name = "username")

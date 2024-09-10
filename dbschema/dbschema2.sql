@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS `groceries_lists` (
 `end_date` datetime NOT NULL,
 `username` varchar(50),
 `with_fridge` boolean,
+`fridge_state_date` datetime,
 CONSTRAINT FK_username_groceries_list FOREIGN KEY (`username`) REFERENCES `users` (`username`)
 );
 
@@ -86,10 +87,10 @@ CREATE TABLE IF NOT EXISTS `fridge_ingredient` (
 `quantity` double NOT NULL,
 `unit` varchar(255) NOT NULL,
 `expiration_date` datetime,
+`insert_date` datetime NOT NULL,
   CONSTRAINT FK_fridge_ingredient FOREIGN KEY (`fridge_id`) REFERENCES `fridges` (`username`),
   CONSTRAINT FK_ingredient_fridge_ingredient FOREIGN KEY (`ingredient_name`) REFERENCES `ingredients` (`name`)
 );
-
 
 create table users(
 	username varchar(50) not null primary key,

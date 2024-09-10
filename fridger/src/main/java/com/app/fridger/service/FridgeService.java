@@ -1,5 +1,6 @@
 package com.app.fridger.service;
 
+import com.app.fridger.dto.FridgeIngredientDTO;
 import com.app.fridger.entity.Fridge;
 import com.app.fridger.entity.FridgeIngredient;
 import com.app.fridger.entity.Ingredient;
@@ -15,7 +16,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,8 +35,10 @@ public class FridgeService {
     }
 
 
-    public Optional<FridgeIngredient> getIngredientByName(String name) {
-        return getFridge().getFridgeIngredients().stream().filter(i -> name.equals(i.getIngredient().getName())).findFirst();
+    public Optional<FridgeIngredientDTO> getIngredientByName(String name) {
+        // TODO: now there can be more than one fridge ingrs with the same name - think about how to stack these
+        List<FridgeIngredient> ingrsByName = getFridge().getFridgeIngredients().stream().filter(i -> name.equals(i.getIngredient().getName())).toList();
+        return Optional.of(new FridgeIngredientDTO(ingrsByName));
     }
 
     @Transactional
@@ -52,7 +55,12 @@ public class FridgeService {
 
             log.debug("insert quantity: " + i.getQuantity());
 
-            Optional<FridgeIngredient> inFridge = fridge.getFridgeIngredients().stream().filter(fi -> fi.getIngredient().getName().equals(i.getIngredient().getName())).findFirst();
+            // Simple approach for now - get ingredient with latest insert date
+            Optional<FridgeIngredient> inFridge = fridge.getFridgeIngredients()
+                    .stream()
+                    .filter(fi -> fi.getIngredient().getName().equals(i.getIngredient().getName()))
+                    .max(Comparator.comparing(FridgeIngredient::getInsertDate));
+
             if (inFridge.isPresent()) {
                 if ((inFridge.get().getExpirationDate() == null && i.getExpirationDate() == null)) {
                     log.debug("Present in fridge!");

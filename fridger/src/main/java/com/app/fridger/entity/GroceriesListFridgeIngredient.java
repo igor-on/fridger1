@@ -1,5 +1,6 @@
 package com.app.fridger.entity;
 
+import com.app.fridger.dto.FridgeIngredientDTO;
 import com.app.fridger.model.Unit;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -44,7 +45,7 @@ public class GroceriesListFridgeIngredient {
     private Ingredient ingredient;
 
 
-    public GroceriesListFridgeIngredient(FridgeIngredient ingredient) {
+    public GroceriesListFridgeIngredient(FridgeIngredientDTO ingredient) {
         this.ingredient = ingredient.getIngredient();
         this.expirationDate = ingredient.getExpirationDate();
         this.unit = ingredient.getUnit();

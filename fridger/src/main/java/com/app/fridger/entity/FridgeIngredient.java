@@ -4,7 +4,6 @@ import com.app.fridger.model.Unit;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,6 +33,9 @@ public class FridgeIngredient {
 
     @Column(name = "expiration_date")
     private LocalDateTime expirationDate;
+
+    @Column(name = "insert_date")
+    private LocalDateTime insertDate;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "ingredient_name")

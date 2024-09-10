@@ -1,5 +1,6 @@
 package com.app.fridger.service;
 
+import com.app.fridger.dto.FridgeIngredientDTO;
 import com.app.fridger.dto.GroceriesListDTO;
 import com.app.fridger.entity.*;
 import com.app.fridger.model.Unit;
@@ -43,10 +44,13 @@ public class GroceriesService {
             Ingredient ingredient = ingredientRepository.findByName(ingrName).orElseThrow();
 
             if (withFridge) {
-                Optional<FridgeIngredient> inFridge = fridgeService.getIngredientByName(ingredient.getName());
+                groceriesList.setFridgeStateDate(LocalDateTime.now());
+                Optional<FridgeIngredientDTO> inFridge = fridgeService.getIngredientByName(ingredient.getName());
 
                 if (inFridge.isPresent()) {
-                    FridgeIngredient fridgeIngredient = inFridge.get();
+                    FridgeIngredientDTO fridgeIngredient = inFridge.get();
+                    log.info(fridgeIngredient);
+
                     if (unit != Unit.PCS & fridgeIngredient.getUnit() != Unit.PCS) { // subtract quantities in gram unit
                         UnitConverter unitConverter = new UnitConverter(unit, fridgeIngredient.getUnit());
                         log.debug("Groceries ingr quantity: " + ingredient.getName() + " - " + quantity + "  " + unit  + " after conversion: " + unitConverter.convert(quantity));

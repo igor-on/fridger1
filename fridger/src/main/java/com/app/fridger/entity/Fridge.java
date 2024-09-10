@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class Fridge {
                 fridgeIngredients = new ArrayList<>();
             }
 
+            ingredient.setInsertDate(LocalDateTime.now());
             fridgeIngredients.add(ingredient);
             ingredient.setFridge(this);
         }
