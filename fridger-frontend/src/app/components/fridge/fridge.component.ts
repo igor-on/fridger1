@@ -21,6 +21,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { concatMap } from 'rxjs';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-fridge',
@@ -110,6 +111,10 @@ export class FridgeComponent implements OnInit {
       .pipe(
         concatMap((data: FridgeIngredient[]) => {
           if (data) {
+            // Format the dates to local time before sending
+            data.forEach(ingredient => {
+              FridgeIngredient.convertDatesToLocal(ingredient);
+            });
             return this.fridgeService.postIngredients(data);
           }
           return [];
@@ -125,6 +130,9 @@ export class FridgeComponent implements OnInit {
   public onSave() {
     console.log('saved');
     console.log(this.ingredientsForm.value);
+    this.ingredientsForm.value.forEach((ingredient: any) => {
+      FridgeIngredient.convertDatesToLocal(ingredient);
+    });
     this.fridgeService
       .putIngredients(this.ingredientsForm.value)
       .subscribe(data => {
