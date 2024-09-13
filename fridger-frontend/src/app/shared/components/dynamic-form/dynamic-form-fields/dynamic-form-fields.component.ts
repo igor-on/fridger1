@@ -27,6 +27,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FieldVisiblePipe } from 'src/app/shared/pipes/field-visible.pipe';
 
 export enum ArrayAction {
   ADD,
@@ -49,6 +50,7 @@ export enum ArrayAction {
     CommonModule,
     MatCheckboxModule,
     MatTooltipModule,
+    FieldVisiblePipe,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './dynamic-form-fields.component.html',
@@ -61,7 +63,7 @@ export class DynamicFormFieldsComponent<T extends ControlType>
   ngOnInit(): void {
     console.log(this.fields);
   }
-  @Input() flexDirection: 'horizontal' | 'vertical' = 'horizontal';
+  @Input() flexDirection!: 'horizontal' | 'vertical';
   @Input({ required: true }) formGroup!: FormGroup;
   @Input({ required: true }) fields!: TemplateFormField<T>[];
   @Output() arrayChangedEvent = new EventEmitter<{

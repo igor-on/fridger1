@@ -88,7 +88,7 @@
         <!-- Expiration Date Column -->
         <ng-container matColumnDef="expiration-date">
             <th mat-header-cell *matHeaderCellDef>Expiration Date</th>
-            <td mat-cell *matCellDef="let element; let i = index">{{ element.expirationDate }}</td>
+            <td mat-cell *matCellDef="let element; let i = index">{{ element.expirationDate | date: 'dd.MM.yyyy' }}</td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="tableFridgeColumns"></tr>

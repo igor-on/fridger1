@@ -88,9 +88,13 @@ CREATE TABLE IF NOT EXISTS `fridge_ingredient` (
 `unit` varchar(255) NOT NULL,
 `expiration_date` datetime,
 `insert_date` datetime NOT NULL,
+`is_open` bool NOT NULL,
+`after_opening_expiration_date` datetime,
   CONSTRAINT FK_fridge_ingredient FOREIGN KEY (`fridge_id`) REFERENCES `fridges` (`username`),
   CONSTRAINT FK_ingredient_fridge_ingredient FOREIGN KEY (`ingredient_name`) REFERENCES `ingredients` (`name`)
 );
+
+alter table fridge_ingredient  add column is_open bool not null;
 
 create table users(
 	username varchar(50) not null primary key,

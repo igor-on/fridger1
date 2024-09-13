@@ -35,6 +35,7 @@ import { DynamicFormHelper } from 'src/app/utils/form-helper';
   styleUrl: './dynamic-form.component.scss',
 })
 export class DynamicFormComponent<T extends ControlType> implements OnInit {
+  @Input() flexDirection: 'vertical' | 'horizontal' = 'horizontal';
   @Input({ required: true }) fields!: TemplateFormField<T>[];
   @Input({ required: true }) buttons!: TemplateFormButton[];
 
@@ -92,7 +93,7 @@ export class DynamicFormComponent<T extends ControlType> implements OnInit {
       if (field.controlType !== ControlType.GROUP) {
         formGroup.addControl(
           field.name,
-          this.fb.control(field.value ?? '', {
+          this.fb.control(field.value ?? null, {
             validators: field.validators ?? [],
           })
         );

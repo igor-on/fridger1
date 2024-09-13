@@ -1,13 +1,7 @@
 <main class="m-16">
     <div class="my-4">
         <div class="flex gap-2">
-            @if (!editMode) {
             <button (click)="onAdd()" class="btn-primary">Add</button>
-            <button (click)="editMode = !editMode" class="btn-primary">Edit</button>
-            } @else {
-            <button (click)="onSave()" class="btn-success">Save</button>
-            <button (click)="editMode = false" class="btn-error">Cancel</button>
-            }
         </div>
     </div>
 
@@ -23,34 +17,14 @@
                 <ng-container matColumnDef="insert-date">
                     <th mat-header-cell *matHeaderCellDef>Insert Date</th>
                     <td mat-cell *matCellDef="let element">
-                        @if (!editMode) {
-                        {{ element.insertDate }}
-                        } @else {
-                        <mat-form-field>
-                            <input
-                                matInput
-                                [matDatepicker]="picker"
-                                [formControl]="getFormControl(element.id, 'insertDate')" />
-                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker #picker></mat-datepicker>
-                        </mat-form-field>
-                        }
+                        {{ element.insertDate | date: 'dd.MM.yyyy hh:mm' }}
                     </td>
                 </ng-container>
                 <!-- Name Column -->
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef>Ingredient</th>
                     <td mat-cell *matCellDef="let element">
-                        @if (!editMode) {
                         {{ element.ingredient.name }}
-                        } @else {
-                        <mat-form-field class="p-2">
-                            <input matInput [formControl]="getFormControl(element.id, 'ingredient.name')" />
-                            @if (getFormControl(element.id, 'ingredient.name').hasError('required')) {
-                            <mat-error>Ingredient is <strong>required</strong></mat-error>
-                            }
-                        </mat-form-field>
-                        }
                     </td>
                 </ng-container>
 
@@ -58,16 +32,7 @@
                 <ng-container matColumnDef="quantity">
                     <th mat-header-cell *matHeaderCellDef>Quantity</th>
                     <td mat-cell *matCellDef="let element">
-                        @if (!editMode) {
                         {{ element.quantity }}
-                        } @else {
-                        <mat-form-field>
-                            <input matInput [formControl]="getFormControl(element.id, 'quantity')" />
-                            @if (getFormControl(element.id, 'quantity').hasError('required')) {
-                            <mat-error>Quantity is <strong>required</strong></mat-error>
-                            }
-                        </mat-form-field>
-                        }
                     </td>
                 </ng-container>
 
@@ -75,16 +40,7 @@
                 <ng-container matColumnDef="unit">
                     <th mat-header-cell *matHeaderCellDef>Unit</th>
                     <td mat-cell *matCellDef="let element">
-                        @if (!editMode) {
                         {{ element.unit }}
-                        } @else {
-                        <mat-form-field>
-                            <input matInput [formControl]="getFormControl(element.id, 'unit')" />
-                            @if (getFormControl(element.id, 'unit').hasError('required')) {
-                            <mat-error>Unit is <strong>required</strong></mat-error>
-                            }
-                        </mat-form-field>
-                        }
                     </td>
                 </ng-container>
 
@@ -92,36 +48,37 @@
                 <ng-container matColumnDef="expiration-date">
                     <th mat-header-cell *matHeaderCellDef>Expiration Date</th>
                     <td mat-cell *matCellDef="let element">
-                        @if (!editMode) {
-                        {{ element.expirationDate }}
-                        } @else {
-                        <mat-form-field>
-                            <input
-                                matInput
-                                [matDatepicker]="picker"
-                                [formControl]="getFormControl(element.id, 'expirationDate')" />
-                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker #picker></mat-datepicker>
-                        </mat-form-field>
-                        }
+                        {{ element.expirationDate | date: 'dd.MM.yyyy' }}
+                    </td>
+                </ng-container>
+                <!-- Expiration Date Column -->
+                <ng-container matColumnDef="open">
+                    <th mat-header-cell *matHeaderCellDef>Open</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.open }}
+                    </td>
+                </ng-container>
+                <!-- Expiration Date Column -->
+                <ng-container matColumnDef="after-opening-expiration-date">
+                    <th mat-header-cell *matHeaderCellDef>After Opening Exp. Date</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.afterOpeningExpirationDate | date: 'dd.MM.yyyy hh:mm' }}
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef>Actions</th>
                     <td mat-cell *matCellDef="let element">
-                        <button class="btn-error" (click)="onDelete(element.id)"><i class="bi bi-trash"></i></button>
+                        <button class="btn-success" (click)="onEdit(element)">
+                            <mat-icon aria-hidden="false" aria-label="edit icon" fontIcon="edit"></mat-icon>
+                        </button>
+                        <button class="btn-error" (click)="onDelete(element.id)">
+                            <mat-icon aria-hidden="false" aria-label="delete icon" fontIcon="delete"></mat-icon>
+                        </button>
                     </td>
                 </ng-container>
 
-                <tr
-                    mat-header-row
-                    *matHeaderRowDef="['insert-date', 'name', 'quantity', 'unit', 'expiration-date', 'actions']"></tr>
-                <tr
-                    mat-row
-                    *matRowDef="
-                        let row;
-                        columns: ['insert-date', 'name', 'quantity', 'unit', 'expiration-date', 'actions']
-                    "></tr>
+                <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                <tr mat-row *matRowDef="let row; columns: columns"></tr>
             </table>
         </div>
         }

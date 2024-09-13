@@ -1,9 +1,9 @@
 <div
     [formGroup]="formGroup"
-    [ngStyle]="{ flexDirection: flexDirection === 'vertical' ? 'col' : 'row' }"
+    [ngStyle]="{ flexDirection: flexDirection === 'vertical' ? 'column' : 'row' }"
     class="flex gap-4">
-    @for (field of fields; track $index) { @if (field.visible) { @switch (field.controlType) { @case (ControlType.TEXT)
-    {
+    @for (field of fields; track $index) { @if ((field.visible | fieldVisible: formGroup) | async) { @switch
+    (field.controlType) { @case (ControlType.TEXT) {
     <mat-form-field
         [matTooltip]="field.tip?.message ?? ''"
         [matTooltipPosition]="field.tip?.position ?? 'below'"

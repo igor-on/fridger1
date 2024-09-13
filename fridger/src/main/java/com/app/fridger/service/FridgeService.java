@@ -89,22 +89,32 @@ public class FridgeService {
 
 
     @Transactional
-    public Fridge updateIngredients(List<FridgeIngredient> ingredients) {
+    public FridgeIngredient updateIngredient(FridgeIngredient ingredient) {
         Fridge fridge = getFridge();
 
-        fridge.getFridgeIngredients().clear();
-        ingredients.forEach(i -> {
-            if (i.getUnit() != Unit.PCS) {
-                i.setQuantity(new UnitConverter(i.getUnit(), Unit.G).convert(i.getQuantity()));
-                i.setUnit(Unit.G);
-            }
+        FridgeIngredient fridgeIngredient = fridge.getFridgeIngredients()
+                .stream()
+                .filter(fi -> fi.getId().equals(ingredient.getId()))
+                .findFirst()
+                .orElseThrow();
 
-            handleSettingIngredient(i);
-            fridge.addIngredient(i);
-        });
+        if (ingredient.getUnit() != Unit.PCS) { // default mass unit in fridge is gram, instead of whole pieces
+            ingredient.setQuantity(new UnitConverter(ingredient.getUnit(), Unit.G).convert(ingredient.getQuantity()));
+            ingredient.setUnit(Unit.G);
+        }
 
-        fridgeRepository.save(fridge);
-        return fridge;
+        fridgeIngredient.setQuantity(ingredient.getQuantity());
+        fridgeIngredient.setExpirationDate(ingredient.getExpirationDate());
+        fridgeIngredient.setOpen(ingredient.isOpen());
+
+        if (!fridgeIngredient.isOpen()) {
+            fridgeIngredient.setAfterOpeningExpirationDate(null);
+        } else {
+            fridgeIngredient.setAfterOpeningExpirationDate(ingredient.getAfterOpeningExpirationDate());
+        }
+
+
+        return fridgeIngredient;
     }
 
     // TODO: temporary solution - think about how to deal with ingredients
@@ -130,5 +140,27 @@ public class FridgeService {
 
         fridgeIngredientRepository.deleteById(ingredient.getId());
         return "Successfully deleted fridge ingredient with id: " + id;
+    }
+
+
+    @Transactional
+    public FridgeIngredient changeOpen(Long id, boolean open, LocalDateTime afterOpeningExpirationDate) {
+        FridgeIngredient byId = fridgeIngredientRepository.findById(id).orElseThrow();
+
+        if (!byId.getFridge().getUser().getUsername().equals(session.getUser().getUsername())) {
+            throw new AccessDeniedException("Access Denied");
+        }
+        if (open == byId.isOpen()) {
+            throw new IllegalArgumentException("Open field is already set with this value");
+        }
+
+        byId.setOpen(open);
+        if (open) {
+            byId.setAfterOpeningExpirationDate(afterOpeningExpirationDate);
+        } else {
+            byId.setAfterOpeningExpirationDate(null);
+        }
+
+        return byId;
     }
 }

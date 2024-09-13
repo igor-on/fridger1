@@ -44,6 +44,7 @@ public class GroceriesService {
             Ingredient ingredient = ingredientRepository.findByName(ingrName).orElseThrow();
 
             if (withFridge) {
+                groceriesList.setWithFridge(true);
                 groceriesList.setFridgeStateDate(LocalDateTime.now());
                 Optional<FridgeIngredientDTO> inFridge = fridgeService.getIngredientByName(ingredient.getName());
 

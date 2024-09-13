@@ -76,6 +76,10 @@ export type Params<T extends ControlType> = T extends ControlType.TEXT
   ? ArrayParams
   : TextParams;
 
+export type FieldVisible =
+  | boolean
+  | ((formGroup: FormGroup) => boolean | Observable<boolean>);
+
 export interface TemplateFormField<T extends ControlType = ControlType.TEXT> {
   /**
    * @var name
@@ -94,7 +98,7 @@ export interface TemplateFormField<T extends ControlType = ControlType.TEXT> {
   tip?: { message: string; position: TooltipPosition };
 
   onChange?: (value: any, form: FormGroup) => void;
-  visible?: boolean;
+  visible?: FieldVisible;
 }
 
 /**

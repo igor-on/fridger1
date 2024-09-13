@@ -25,12 +25,12 @@ export class FridgeService {
       ingredients
     );
   }
-  public putIngredients(
-    ingredients: FridgeIngredient[]
-  ): Observable<ApiResponse<Fridge>> {
-    return this.httpClient.put<ApiResponse<Fridge>>(
+  public putIngredient(
+    ingredient: FridgeIngredient
+  ): Observable<ApiResponse<FridgeIngredient>> {
+    return this.httpClient.put<ApiResponse<FridgeIngredient>>(
       `${this.url}/ingredients`,
-      ingredients
+      ingredient
     );
   }
 

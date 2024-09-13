@@ -15,6 +15,8 @@ export class FridgeIngredient {
     public unit: string,
     public ingredient: Ingredient,
     public insertDate: string,
+    public open: boolean,
+    public afterOpeningExpirationDate: string,
     public expirationDate?: string
   ) {}
 
@@ -24,6 +26,11 @@ export class FridgeIngredient {
     }
     if (i.insertDate !== null) {
       i.insertDate = moment(i.insertDate).format('YYYY-MM-DDTHH:mm:ss');
+    }
+    if (i.afterOpeningExpirationDate !== null) {
+      i.afterOpeningExpirationDate = moment(
+        i.afterOpeningExpirationDate
+      ).format('YYYY-MM-DDTHH:mm:ss');
     }
   }
 }

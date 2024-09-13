@@ -1,5 +1,6 @@
 <form>
     <app-dynamic-form-fields
+        [flexDirection]="flexDirection"
         (arrayChangedEvent)="onArrayChanged($event)"
         [fields]="fields"
         [formGroup]="formGroup"></app-dynamic-form-fields>

@@ -37,6 +37,12 @@ public class FridgeIngredient {
     @Column(name = "insert_date")
     private LocalDateTime insertDate;
 
+    @Column(name = "is_open")
+    private boolean isOpen;
+
+    @Column(name = "after_opening_expiration_date")
+    private LocalDateTime afterOpeningExpirationDate;
+
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "ingredient_name")
     private Ingredient ingredient;

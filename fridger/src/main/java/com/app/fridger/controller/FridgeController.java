@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,13 +46,34 @@ public class FridgeController {
         return result;
     }
 
+//    @PutMapping("fridge/ingredients")
+//    public Map<String, Object> updateIngredients(@RequestBody List<FridgeIngredient> ingredients) {
+//        HashMap<String, Object> result = new HashMap<>();
+////        Fridge fridge = fridgeService.updateIngredients(ingredients);
+//
+//        result.put("message", "Successfully updated ingredients in fridge");
+////        result.put("data", fridge);
+//
+//        return result;
+//    }
     @PutMapping("fridge/ingredients")
-    public Map<String, Object> updateIngredients(@RequestBody List<FridgeIngredient> ingredients) {
+    public Map<String, Object> updateIngredient(@RequestBody FridgeIngredient ingredient) {
         HashMap<String, Object> result = new HashMap<>();
-        Fridge fridge = fridgeService.updateIngredients(ingredients);
+        FridgeIngredient fridgeIngredient = fridgeService.updateIngredient(ingredient);
 
-        result.put("message", "Successfully updated ingredients to fridge");
-        result.put("data", fridge);
+        result.put("message", "Successfully updated ingredient in fridge");
+        result.put("data", fridgeIngredient);
+
+        return result;
+    }
+
+    @PutMapping("fridge/ingredients/{id}/change-open")
+    public Map<String, Object> changeOpen(@PathVariable Long id, @RequestParam boolean open, @RequestParam(required = false) LocalDateTime afterOpeningExpirationDate) {
+        HashMap<String, Object> result = new HashMap<>();
+        FridgeIngredient fi = fridgeService.changeOpen(id, open, afterOpeningExpirationDate);
+
+        result.put("message", "Successfully changed ingredients open state");
+        result.put("data", fi);
 
         return result;
     }

@@ -1,4 +1,4 @@
-import { JsonPipe } from '@angular/common';
+import { DatePipe, JsonPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   FormArray,
@@ -22,6 +22,13 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { concatMap } from 'rxjs';
 import * as moment from 'moment';
+import { MatIconModule } from '@angular/material/icon';
+import { UpdateIngredientDialogComponent } from './update-ingredient-dialog/update-ingredient-dialog.component';
+import {
+  CloseScrollStrategy,
+  NoopScrollStrategy,
+  ScrollStrategyOptions,
+} from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-fridge',
@@ -33,6 +40,8 @@ import * as moment from 'moment';
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
+    DatePipe,
+    MatIconModule,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './fridge.component.html',
@@ -42,6 +51,24 @@ export class FridgeComponent implements OnInit {
   fridge!: Fridge;
   ingredientsType: string[] | undefined;
   editMode: boolean = false;
+  columns = [
+    'insert-date',
+    'name',
+    'quantity',
+    'unit',
+    'expiration-date',
+    'open',
+    'after-opening-expiration-date',
+    'actions',
+  ];
+  editModeColumns = [
+    'insert-date',
+    'name',
+    'quantity',
+    'unit',
+    'expiration-date',
+    'actions',
+  ];
 
   ingredientsForm = new FormArray<any>([]);
   formControlMap: { [id: number]: FormGroup } = {};
@@ -53,41 +80,10 @@ export class FridgeComponent implements OnInit {
     private dialog: MatDialog
   ) {}
 
-  initForm(fridgeIngredients = this.fridge.fridgeIngredients): void {
-    this.ingredientsForm.clear();
-
-    for (let ingr of fridgeIngredients ?? []) {
-      this.formControlMap[ingr.id] = new FormGroup({
-        id: new FormControl(ingr.id),
-        ingredient: new FormGroup({
-          name: new FormControl(ingr.ingredient.name, [
-            Validators.required,
-            Validators.maxLength(255),
-            noWhitespaceValidator,
-          ]),
-          // TODO: handle validators in template
-          type: new FormControl(ingr.ingredient.type),
-        }),
-        quantity: new FormControl(ingr.quantity, Validators.required),
-        unit: new FormControl(ingr.unit, [
-          Validators.required,
-          Validators.maxLength(255),
-          noWhitespaceValidator,
-        ]),
-        expirationDate: new FormControl(ingr.expirationDate),
-        insertDate: new FormControl(ingr.insertDate),
-      });
-
-      this.ingredientsForm.push(this.formControlMap[ingr.id]);
-    }
-
-    console.log(this.formControlMap);
-  }
-
   ngOnInit(): void {
     this.fridgeService.getFridge().subscribe(data => {
       this.fridge = data.data;
-      this.initForm();
+      // this.initForm();
     });
     this.modelService.getIngredientTypes().subscribe(data => {
       this.ingredientsType = data;
@@ -122,24 +118,8 @@ export class FridgeComponent implements OnInit {
       )
       .subscribe(data => {
         this.fridge.fridgeIngredients = data.data.fridgeIngredients;
-        this.initForm();
+        // this.initForm();
         this.messageService.sendMessage('Ingredients saved successfully!');
-      });
-  }
-
-  public onSave() {
-    console.log('saved');
-    console.log(this.ingredientsForm.value);
-    this.ingredientsForm.value.forEach((ingredient: any) => {
-      FridgeIngredient.convertDatesToLocal(ingredient);
-    });
-    this.fridgeService
-      .putIngredients(this.ingredientsForm.value)
-      .subscribe(data => {
-        this.fridge.fridgeIngredients = data.data.fridgeIngredients;
-
-        this.messageService.sendMessage('Ingredients saved successfully!');
-        this.editMode = false;
       });
   }
 
@@ -148,10 +128,44 @@ export class FridgeComponent implements OnInit {
       this.fridge!.fridgeIngredients = this.fridge.fridgeIngredients.filter(
         i => i.id !== id
       );
-      this.initForm();
+      // this.initForm();
       console.log('deleted: ', id);
       this.messageService.sendMessage('Ingredient deleted successfully!');
     });
+  }
+
+  public onEdit(ingr: FridgeIngredient) {
+    const dialogRef = this.dialog.open(UpdateIngredientDialogComponent, {
+      data: ingr,
+      minWidth: '40rem',
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        concatMap((data: FridgeIngredient) => {
+          if (data) {
+            console.log(data);
+
+            // Format the dates to local time before sending
+            FridgeIngredient.convertDatesToLocal(data);
+            return this.fridgeService.putIngredient(data);
+          }
+          return [];
+        })
+      )
+      .subscribe(data => {
+        const ingr = this.fridge.fridgeIngredients.filter(
+          fi => fi.id === data.data.id
+        );
+        if (ingr.length != 1) {
+          throw new Error('Ingredient not found');
+        }
+        const idx = this.fridge.fridgeIngredients.indexOf(ingr[0]);
+        this.fridge.fridgeIngredients[idx] = data.data;
+
+        this.messageService.sendMessage('Ingredient updated successfully!');
+      });
   }
 
   get ingrControls() {

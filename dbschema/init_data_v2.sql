@@ -79,11 +79,11 @@ INSERT INTO `groceries_list_ingredient` (`groceries_list_id`, `ingredient_name`,
 INSERT INTO `fridges` (`username`, `name`) VALUES ('tester', 'My fridge');
 INSERT INTO `fridges` (`username`, `name`) VALUES ('macko', 'House');
 
-INSERT INTO `fridge_ingredient` (`fridge_id`, `ingredient_name`, `quantity`, `unit`, `expiration_date`, `insert_date`) 
-VALUES ('tester', 'Bacon', 1, 'kg', '2023-12-31 23:59:59', '2023-10-31 23:59:59');
+INSERT INTO `fridge_ingredient` (`fridge_id`, `ingredient_name`, `quantity`, `unit`, `expiration_date`, `insert_date`, `is_open`) 
+VALUES ('tester', 'Bacon', 1, 'kg', '2023-12-31 23:59:59', '2023-10-31 23:59:59', false);
 
-INSERT INTO `fridge_ingredient` (`fridge_id`, `ingredient_name`, `quantity`, `unit`, `expiration_date`, `insert_date`) 
-VALUES ('tester', 'Pasta', 2, 'liters', '2023-11-30 23:59:59', '2023-10-31 23:59:59');
+INSERT INTO `fridge_ingredient` (`fridge_id`, `ingredient_name`, `quantity`, `unit`, `expiration_date`, `insert_date`, `is_open`) 
+VALUES ('tester', 'Pasta', 2, 'liters', '2023-11-30 23:59:59', '2023-10-31 23:59:59', false);
 
-INSERT INTO `fridge_ingredient` (`fridge_id`, `ingredient_name`, `quantity`, `unit`, `expiration_date`, `insert_date`) 
-VALUES ('macko', 'Tomatoes', 3, 'pieces', '2023-10-31 23:59:59', '2023-10-31 23:59:59');
+INSERT INTO `fridge_ingredient` (`fridge_id`, `ingredient_name`, `quantity`, `unit`, `expiration_date`, `insert_date`, `is_open`) 
+VALUES ('macko', 'Tomatoes', 3, 'pieces', '2023-10-31 23:59:59', '2023-10-31 23:59:59', false);
