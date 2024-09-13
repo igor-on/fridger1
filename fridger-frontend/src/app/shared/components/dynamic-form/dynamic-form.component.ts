@@ -105,6 +105,10 @@ export class DynamicFormComponent<T extends ControlType> implements OnInit {
         });
       }
 
+      if (field.readonly !== undefined) {
+        formGroup.get(field.name)?.disable({ onlySelf: true });
+      }
+
       if (field.controlType === ControlType.GROUP) {
         const nestedGroup = this.fb.group({});
         formGroup.addControl(field.name, nestedGroup);

@@ -111,6 +111,7 @@ export class AddIngredientDialogComponent implements OnInit {
                     display: 'gram',
                   },
                   { value: 'ML', display: 'mililiter' },
+                  { value: 'PCS', display: 'pieces' },
                 ],
                 displayProp: 'display',
                 valueProp: 'value',

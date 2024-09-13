@@ -96,6 +96,7 @@ export interface TemplateFormField<T extends ControlType = ControlType.TEXT> {
   controlType: ControlType;
   validators?: ValidatorFn[];
   tip?: { message: string; position: TooltipPosition };
+  readonly?: boolean;
 
   onChange?: (value: any, form: FormGroup) => void;
   visible?: FieldVisible;

@@ -55,6 +55,18 @@ export class UpdateIngredientDialogComponent implements OnInit {
         value: this.data.id,
         visible: false,
       }),
+      insertDate: this.tfb.date({
+        value: this.data.insertDate,
+        params: { label: 'Insert Date' },
+        visible: true,
+        readonly: true,
+      }),
+      ingredient: this.tfb.text({
+        value: this.data.ingredient.name,
+        params: { label: 'Ingredient', type: 'text' },
+        visible: true,
+        readonly: true,
+      }),
       quantity: this.tfb.text({
         value: this.data.quantity,
         validators: [Validators.required, Validators.min(0)],
