@@ -36,6 +36,10 @@
   .grow {
     @apply duration-300 hover:scale-125;
   }
+
+  .small-icon {
+    @apply h-4 w-4 text-base;
+  }
 }
 
 /* STYLE RESET */

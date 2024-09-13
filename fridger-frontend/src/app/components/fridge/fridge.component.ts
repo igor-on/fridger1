@@ -61,14 +61,6 @@ export class FridgeComponent implements OnInit {
     'after-opening-expiration-date',
     'actions',
   ];
-  editModeColumns = [
-    'insert-date',
-    'name',
-    'quantity',
-    'unit',
-    'expiration-date',
-    'actions',
-  ];
 
   ingredientsForm = new FormArray<any>([]);
   formControlMap: { [id: number]: FormGroup } = {};
@@ -83,7 +75,6 @@ export class FridgeComponent implements OnInit {
   ngOnInit(): void {
     this.fridgeService.getFridge().subscribe(data => {
       this.fridge = data.data;
-      // this.initForm();
     });
     this.modelService.getIngredientTypes().subscribe(data => {
       this.ingredientsType = data;
@@ -128,7 +119,6 @@ export class FridgeComponent implements OnInit {
       this.fridge!.fridgeIngredients = this.fridge.fridgeIngredients.filter(
         i => i.id !== id
       );
-      // this.initForm();
       console.log('deleted: ', id);
       this.messageService.sendMessage('Ingredient deleted successfully!');
     });
