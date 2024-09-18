@@ -11,6 +11,14 @@
         <mat-label>{{ (field.params | asType: TextParams).label }}</mat-label>
         <input matInput formControlName="{{ field.name }}" />
     </mat-form-field>
+    } @case (ControlType.TEXTAREA) {
+    <mat-form-field
+        [matTooltip]="field.tip?.message ?? ''"
+        [matTooltipPosition]="field.tip?.position ?? 'below'"
+        class="example-full-width">
+        <mat-label>{{ (field.params | asType: TextParams).label }}</mat-label>
+        <textarea matInput formControlName="{{ field.name }}"></textarea>
+    </mat-form-field>
     } @case (ControlType.SELECT) {
     <mat-form-field [matTooltip]="field.tip?.message ?? ''" [matTooltipPosition]="field.tip?.position ?? 'below'">
         <mat-label>{{ (field.params | asType: SelectParams).label }}</mat-label>
@@ -43,11 +51,8 @@
     <app-dynamic-form-fields
         [fields]="(field.params | asType: GroupParams).fields"
         [formGroup]="formGroup.get(field.name) | asType: FormGroup"></app-dynamic-form-fields>
-    } @case (ControlType.ARRAY) { @if ((field.params | asType: ArrayParams).visibleChangeButtons) {
-    <button type="button" (click)="arrayChanged(ArrayAction.ADD, field)" mat-button>ADD</button>
-    <button type="button" (click)="arrayChanged(ArrayAction.REMOVE, field)" mat-button>REMOVE</button>
-    }
-    <div class="flex flex-col">
+    } @case (ControlType.ARRAY) {
+    <div class="flex flex-col align-middle">
         @for (el of (field.params | asType: ArrayParams).elements; track el; let i = $index) {
         <app-dynamic-form-fields
             (arrayChangedEvent)="onNestedArrayChanged($event)"
@@ -57,7 +62,10 @@
             "></app-dynamic-form-fields>
         }
     </div>
-    } @case (ControlType.CHECKBOX) {
+    @if ((field.params | asType: ArrayParams).visibleChangeButtons) {
+    <button type="button" (click)="arrayChanged(ArrayAction.ADD, field)" mat-button>Add</button>
+    <button type="button" (click)="arrayChanged(ArrayAction.REMOVE, field)" mat-button>Remove</button>
+    } } @case (ControlType.CHECKBOX) {
     <mat-checkbox
         [matTooltip]="field.tip?.message ?? ''"
         [matTooltipPosition]="field.tip?.position ?? 'below'"

@@ -12,6 +12,7 @@ export enum ControlType {
   COMPONENT,
   ARRAY,
   CHECKBOX,
+  TEXTAREA,
 }
 
 /**
@@ -24,7 +25,8 @@ export type AnyControlType =
   | ControlType.COMPONENT
   | ControlType.DATE
   | ControlType.ARRAY
-  | ControlType.CHECKBOX;
+  | ControlType.CHECKBOX
+  | ControlType.TEXTAREA;
 
 export type inputType = 'text' | 'password' | 'number';
 
@@ -165,6 +167,15 @@ export class TemplateFormBuilder {
     params: TemplateFormFieldBuilderParams
   ): TemplateFormFieldBuilder {
     return { controlType: ControlType.TEXT, ...params };
+  }
+
+  public textarea(
+    params: TemplateFormFieldBuilderParams
+  ): TemplateFormFieldBuilder {
+    return {
+      controlType: ControlType.TEXTAREA,
+      ...params,
+    };
   }
 
   public checkbox(
