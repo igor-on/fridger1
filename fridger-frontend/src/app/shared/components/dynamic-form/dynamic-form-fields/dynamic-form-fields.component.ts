@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
+  AbstractControl,
   FormArray,
-  FormControl,
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
@@ -101,5 +101,15 @@ export class DynamicFormFieldsComponent<T extends ControlType>
       formGroup: formGroup,
       action: action,
     });
+  }
+
+  getErrorMessage(formField: AbstractControl): string {
+    if (formField.hasError('required')) {
+      return 'You must enter a value';
+    } else if (formField.hasError('min')) {
+      return `Minimum value is ${formField.errors!['min'].min}`;
+    } else {
+      return '';
+    }
   }
 }

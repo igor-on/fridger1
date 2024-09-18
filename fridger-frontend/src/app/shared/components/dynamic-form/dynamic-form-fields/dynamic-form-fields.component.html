@@ -9,7 +9,13 @@
         [matTooltipPosition]="field.tip?.position ?? 'below'"
         class="example-full-width">
         <mat-label>{{ (field.params | asType: TextParams).label }}</mat-label>
-        <input matInput formControlName="{{ field.name }}" />
+        <input
+            [type]="(field.params | asType: TextParams).type ? (field.params | asType: TextParams).type! : 'text'"
+            matInput
+            formControlName="{{ field.name }}" />
+        @if (formGroup.get(field.name)?.invalid) {
+        <mat-error>{{ getErrorMessage(formGroup.get(field.name)!) }}</mat-error>
+        }
     </mat-form-field>
     } @case (ControlType.TEXTAREA) {
     <mat-form-field
@@ -18,6 +24,9 @@
         class="example-full-width">
         <mat-label>{{ (field.params | asType: TextParams).label }}</mat-label>
         <textarea matInput formControlName="{{ field.name }}"></textarea>
+        @if (formGroup.get(field.name)?.invalid) {
+        <mat-error>{{ getErrorMessage(formGroup.get(field.name)!) }}</mat-error>
+        }
     </mat-form-field>
     } @case (ControlType.SELECT) {
     <mat-form-field [matTooltip]="field.tip?.message ?? ''" [matTooltipPosition]="field.tip?.position ?? 'below'">
@@ -36,6 +45,9 @@
             </mat-option>
             }
         </mat-select>
+        @if (formGroup.get(field.name)?.invalid) {
+        <mat-error>{{ getErrorMessage(formGroup.get(field.name)!) }}</mat-error>
+        }
     </mat-form-field>
     } @case (ControlType.DATE) {
     <mat-form-field [matTooltip]="field.tip?.message ?? ''" [matTooltipPosition]="field.tip?.position ?? 'below'">

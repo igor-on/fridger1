@@ -136,7 +136,7 @@ export class RecipeForm2Component implements OnInit, AfterViewInit, OnChanges {
             }),
             quantity: this.tfb.text({
               params: { label: 'Quantity', type: 'number' },
-              validators: [Validators.required],
+              validators: [Validators.required, Validators.min(0)],
             }),
             unit: this.tfb.select({
               visible: true,
