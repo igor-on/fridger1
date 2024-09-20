@@ -3,6 +3,7 @@
 </h1>
 
 <div class="my-24 flex justify-center">
+    @if (recipeFields && ingredientsFields && instructionsFields) {
     <mat-stepper class="w-[70%]" #stepper linear>
         <mat-step label="Recipe info" [completed]="recipeForm?.formGroup?.valid">
             <app-dynamic-form
@@ -37,34 +38,50 @@
             <p>You are now done.</p>
 
             <div class="flex justify-between">
-                <section>
+                <section class="w-[33%]">
                     <h2>Recipe</h2>
-                    <p>name: {{ recipeForm?.formGroup?.get('name')?.value }}</p>
-                    <p>description: {{ recipeForm?.formGroup?.get('description')?.value }}</p>
-                    <p>link: {{ recipeForm?.formGroup?.get('link')?.value }}</p>
-                    <p>image url: {{ recipeForm?.formGroup?.get('imageUrl')?.value }}</p>
-                    <p>is favorite: {{ recipeForm?.formGroup?.get('favorite')?.value }}</p>
+                    <p><b> name: </b> {{ recipeForm?.formGroup?.get('name')?.value }}</p>
+                    <p><b> description: </b> {{ recipeForm?.formGroup?.get('description')?.value }}</p>
+                    <p>
+                        <b> link: </b>
+                        <a [href]="recipeForm?.formGroup?.get('link')?.value">{{
+                            recipeForm?.formGroup?.get('link')?.value
+                        }}</a>
+                    </p>
+                    <div class="flex">
+                        <b> image url: </b>
+
+                        <div class="image-box h-36 w-36">
+                            <img
+                                class="circle-image"
+                                [src]="recipeForm?.formGroup?.get('imageUrl')?.value"
+                                alt="food-image" />
+                        </div>
+                    </div>
+
+                    <p><b> is favorite: </b> {{ recipeForm?.formGroup?.get('favorite')?.value }}</p>
                 </section>
 
-                <section>
+                <section class="w-[33%]">
                     <h2>Ingredients</h2>
                     @for (ingr of recipeIngredients?.controls; track ingr; let i = $index) {
                     <p>
-                        {{ i + 1 }}. {{ ingr.get('ingredient')?.get('name')?.value }} {{ ingr.get('quantity')?.value }}
-                        {{ ingr.get('unit')?.value }}
+                        <b> {{ i + 1 }}. </b>
+                        {{ ingr.get('quantity')?.value }}
+                        {{ ingr.get('unit')?.value }} |
+                        {{ ingr.get('ingredient')?.get('name')?.value }}
                     </p>
                     }
                 </section>
-                <section>
+                <section class="w-[33%]">
                     <h2>Instructions</h2>
                     <div>{{ instructionsForm?.formGroup?.get('instructions')?.value }}</div>
                 </section>
             </div>
             <div class="mt-4">
                 <button mat-button matStepperPrevious>Back</button>
-                <button mat-button (click)="stepper.reset()">Reset</button>
                 <button mat-button (click)="onDone()">Done</button>
             </div>
-        </mat-step>
-    </mat-stepper>
+        </mat-step> </mat-stepper
+    >}
 </div>

@@ -64,7 +64,9 @@ export class DynamicFormComponent<T extends ControlType> implements OnInit {
 
     if (data.action === ArrayAction.ADD) {
       let newElement = _.cloneDeep(formArrayField.params!.elements[0]);
+
       DynamicFormHelper.reduceNestedArrayElements(newElement);
+      DynamicFormHelper.resetGroupFieldsValue(newElement);
 
       this.populateFormArray(newElement, formArray);
       formArrayField.params!.elements.push(newElement);

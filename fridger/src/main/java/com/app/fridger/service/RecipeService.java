@@ -3,6 +3,7 @@ package com.app.fridger.service;
 import com.app.fridger.entity.Ingredient;
 import com.app.fridger.entity.Recipe;
 import com.app.fridger.entity.RecipeIngredient;
+import com.app.fridger.model.IngredientType;
 import com.app.fridger.repo.IngredientRepository;
 import com.app.fridger.repo.RecipeIngredientRepository;
 import com.app.fridger.repo.RecipeRepository;
@@ -79,6 +80,7 @@ public class RecipeService {
 
         // Populate recipeIngredients from start
         for (RecipeIngredient recipeIngredient : recipe.getRecipeIngredients()) {
+            handleSettingIngredient(recipeIngredient, recipeIngredient.getIngredient());
             dbRecipe.add(recipeIngredient);
         }
 
@@ -94,6 +96,9 @@ public class RecipeService {
             recipeIngredient.setIngredient(dbIngredient);
         } else { // else save new ingredient data
             log.info("Adding new ingredient...");
+            if (recipeIngredient.getIngredient().getType() == null) {
+                recipeIngredient.getIngredient().setType(IngredientType.OTHER);
+            }
             recipeIngredient.setIngredient(ingredient);
         }
     }

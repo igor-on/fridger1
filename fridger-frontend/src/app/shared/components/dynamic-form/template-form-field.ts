@@ -147,10 +147,12 @@ export class TemplateFormBuilder {
   }
 
   public array(
-    groups: [
-      TemplateFormFieldBuilder<ControlType.GROUP>,
-      ...TemplateFormFieldBuilder<ControlType.GROUP>[],
-    ],
+    groups:
+      | [
+          TemplateFormFieldBuilder<ControlType.GROUP>,
+          ...TemplateFormFieldBuilder<ControlType.GROUP>[],
+        ]
+      | TemplateFormFieldBuilder<ControlType.GROUP>[],
     visibleChangeButtons: boolean = false
   ): TemplateFormFieldBuilder<ControlType.ARRAY> {
     return {

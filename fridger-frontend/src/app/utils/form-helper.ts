@@ -36,4 +36,24 @@ export abstract class DynamicFormHelper {
       }
     }
   }
+
+  public static resetGroupFieldsValue(
+    group:
+      | TemplateFormField<ControlType.GROUP>
+      | TemplateFormFieldBuilder<ControlType.GROUP>
+  ) {
+    for (let field of group.params!.fields) {
+      if (field.controlType === ControlType.GROUP) {
+        this.resetGroupFieldsValue(field);
+        continue;
+      }
+      if (field.controlType === ControlType.ARRAY) {
+        for (let arrField of (field.params as ArrayParams).elements) {
+          this.resetGroupFieldsValue(arrField);
+          continue;
+        }
+      }
+      field.value = null;
+    }
+  }
 }

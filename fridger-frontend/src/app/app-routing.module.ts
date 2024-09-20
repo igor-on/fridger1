@@ -33,7 +33,7 @@ const routes: Routes = [
   },
   {
     path: 'recipe-form/:id',
-    component: RecipeFormComponent,
+    component: RecipeForm2Component,
     canActivate: [authGuard],
   },
   {

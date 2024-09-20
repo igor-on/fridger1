@@ -26,6 +26,7 @@ import { JsonPipe } from '@angular/common';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { MessageService } from 'src/app/services/message.service';
 import { AsTypePipe } from 'src/app/shared/pipes/as-type.pipe';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-recipe-form2',
@@ -53,9 +54,13 @@ export class RecipeForm2Component implements OnInit, AfterViewInit, OnChanges {
   instructionsFields!: TemplateFormField[];
   formValue: any;
 
+  editMode: boolean = false;
+
   protected readonly FormArray!: FormArray;
 
   constructor(
+    private route: ActivatedRoute,
+    private router: Router,
     private tfb: TemplateFormBuilder,
     private recipeService: RecipeService,
     private messageService: MessageService
@@ -65,12 +70,14 @@ export class RecipeForm2Component implements OnInit, AfterViewInit, OnChanges {
     this.formValue = this.getFormValue();
   }
 
-  ngOnInit(): void {
-    this.initTemplateForm();
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    this.formValue = this.getFormValue();
+    this.route.paramMap.subscribe(params => {
+      this.editMode = params.has('id');
+      this.initTemplateForm();
+    });
+    // this.formValue = this.getFormValue();
   }
 
   get recipeIngredients() {
@@ -84,10 +91,24 @@ export class RecipeForm2Component implements OnInit, AfterViewInit, OnChanges {
 
     console.log(this.formValue);
 
-    this.recipeService.createRecipe(this.formValue).subscribe(response => {
-      console.log(response);
-      this.messageService.sendMessage('Recipe created successfully');
-    });
+    if (this.editMode) {
+      this.recipeService
+        .updateRecipe({
+          id: this.route.snapshot.paramMap.get('id'),
+          ...this.formValue,
+        })
+        .subscribe(response => {
+          console.log(response);
+          this.messageService.sendMessage('Recipe updated successfully');
+          this.router.navigate(['/recipes']);
+        });
+    } else {
+      this.recipeService.createRecipe(this.formValue).subscribe(response => {
+        console.log(response);
+        this.messageService.sendMessage('Recipe created successfully');
+        this.router.navigate(['/recipes']);
+      });
+    }
   }
 
   getFormValue() {
@@ -103,71 +124,175 @@ export class RecipeForm2Component implements OnInit, AfterViewInit, OnChanges {
   }
 
   initTemplateForm() {
-    this.recipeFields = this.tfb.fields({
-      name: this.tfb.text({
-        params: { label: 'Recipe Name' },
-        validators: [Validators.required],
-      }),
-      description: this.tfb.text({
-        params: { label: 'Description' },
-        validators: [Validators.required],
-      }),
-      link: this.tfb.text({
-        params: { label: 'Link' },
-      }),
-      imageUrl: this.tfb.text({
-        params: { label: 'Image URL' },
-      }),
-      favorite: this.tfb.checkbox({
-        params: { label: 'Favorite' },
-        value: false,
-      }),
-    });
-
-    this.ingredientsFields = this.tfb.fields({
-      recipeIngredients: this.tfb.array(
-        [
-          this.tfb.group({
-            ingredient: this.tfb.group({
-              name: this.tfb.text({
-                params: { label: 'Ingredient Name' },
-                validators: [Validators.required],
-              }),
-            }),
-            quantity: this.tfb.text({
-              params: { label: 'Quantity', type: 'number' },
-              validators: [Validators.required, Validators.min(0)],
-            }),
-            unit: this.tfb.select({
-              visible: true,
-              params: {
-                label: 'Unit',
-                options: {
-                  data: [
-                    { value: 'KG', display: 'kilogram' },
-                    {
-                      value: 'G',
-                      display: 'gram',
-                    },
-                    { value: 'ML', display: 'mililiter' },
-                    { value: 'PCS', display: 'pieces' },
-                  ],
-                  displayProp: 'display',
-                  valueProp: 'value',
-                },
-              },
+    let name = null;
+    let description = null;
+    let link = null;
+    let imageUrl = null;
+    let favorite = false;
+    let recipeIngredients = this.tfb.array(
+      [
+        this.tfb.group({
+          ingredient: this.tfb.group({
+            name: this.tfb.text({
+              params: { label: 'Ingredient Name' },
+              validators: [Validators.required],
             }),
           }),
-        ],
-        true
-      ),
-    });
+          quantity: this.tfb.text({
+            params: { label: 'Quantity', type: 'number' },
+            validators: [Validators.required, Validators.min(0)],
+          }),
+          unit: this.tfb.select({
+            visible: true,
+            params: {
+              label: 'Unit',
+              options: {
+                data: [
+                  { value: 'KG', display: 'kilogram' },
+                  {
+                    value: 'G',
+                    display: 'gram',
+                  },
+                  { value: 'ML', display: 'mililiter' },
+                  { value: 'PCS', display: 'pieces' },
+                ],
+                displayProp: 'display',
+                valueProp: 'value',
+              },
+            },
+          }),
+        }),
+      ],
+      true
+    );
+    let instructions = null;
 
-    this.instructionsFields = this.tfb.fields({
-      instructions: this.tfb.textarea({
-        params: { label: 'Instructions' },
-        validators: [Validators.required],
-      }),
-    });
+    if (this.editMode) {
+      this.recipeService
+        .getRecipeDetails(this.route.snapshot.params['id'])
+        .subscribe(response => {
+          console.log('response: ', response);
+
+          name = response.name;
+          description = response.description;
+          link = response.link;
+          imageUrl = response.imageUrl;
+          favorite = response.favorite;
+          recipeIngredients = this.tfb.array(
+            response.recipeIngredients.map(ingredient => {
+              return this.tfb.group({
+                ingredient: this.tfb.group({
+                  name: this.tfb.text({
+                    params: { label: 'Ingredient Name' },
+                    value: ingredient.ingredient.name,
+                    validators: [Validators.required],
+                  }),
+                }),
+                quantity: this.tfb.text({
+                  params: { label: 'Quantity', type: 'number' },
+                  value: ingredient.quantity,
+                  validators: [Validators.required, Validators.min(0)],
+                }),
+                unit: this.tfb.select({
+                  visible: true,
+                  params: {
+                    label: 'Unit',
+                    options: {
+                      data: [
+                        { value: 'KG', display: 'kilogram' },
+                        {
+                          value: 'G',
+                          display: 'gram',
+                        },
+                        { value: 'ML', display: 'mililiter' },
+                        { value: 'PCS', display: 'pieces' },
+                      ],
+                      displayProp: 'display',
+                      valueProp: 'value',
+                    },
+                  },
+                  value: ingredient.unit,
+                }),
+              });
+            }),
+            true
+          );
+          instructions = response.instructions;
+
+          this.recipeFields = this.tfb.fields({
+            name: this.tfb.text({
+              params: { label: 'Recipe Name' },
+              validators: [Validators.required],
+              value: name,
+            }),
+            description: this.tfb.text({
+              params: { label: 'Description' },
+              validators: [Validators.required],
+              value: description,
+            }),
+            link: this.tfb.text({
+              params: { label: 'Link' },
+              value: link,
+            }),
+            imageUrl: this.tfb.text({
+              params: { label: 'Image URL' },
+              value: imageUrl,
+            }),
+            favorite: this.tfb.checkbox({
+              params: { label: 'Favorite' },
+              value: favorite,
+            }),
+          });
+
+          this.ingredientsFields = this.tfb.fields({
+            recipeIngredients: recipeIngredients,
+          });
+
+          this.instructionsFields = this.tfb.fields({
+            instructions: this.tfb.textarea({
+              params: { label: 'Instructions' },
+              validators: [Validators.required],
+              value: instructions,
+            }),
+          });
+        });
+    } else {
+      this.recipeFields = this.tfb.fields({
+        name: this.tfb.text({
+          params: { label: 'Recipe Name' },
+          validators: [Validators.required],
+          value: name,
+        }),
+        description: this.tfb.text({
+          params: { label: 'Description' },
+          validators: [Validators.required],
+          value: description,
+        }),
+        link: this.tfb.text({
+          params: { label: 'Link' },
+          value: link,
+        }),
+        imageUrl: this.tfb.text({
+          params: { label: 'Image URL' },
+          value: imageUrl,
+        }),
+        favorite: this.tfb.checkbox({
+          params: { label: 'Favorite' },
+          value: favorite,
+        }),
+      });
+
+      this.ingredientsFields = this.tfb.fields({
+        recipeIngredients: recipeIngredients,
+      });
+
+      this.instructionsFields = this.tfb.fields({
+        instructions: this.tfb.textarea({
+          params: { label: 'Instructions' },
+          validators: [Validators.required],
+          value: instructions,
+        }),
+      });
+    }
   }
 }
