@@ -2,8 +2,10 @@
     <a class="duration-300 hover:scale-125 hover:text-black" href="index.html"> Fridger </a>
 </h1>
 
-<div class="my-24 flex justify-center">
-    @if (recipeFields && ingredientsFields && instructionsFields) {
+<div class="my-24 flex items-center justify-center">
+    @if (isLoading) {
+    <mat-spinner class="mt-24" diameter="200"></mat-spinner>
+    } @if (recipeFields && ingredientsFields && instructionsFields && !isLoading) {
     <mat-stepper class="w-[70%]" #stepper linear>
         <mat-step label="Recipe info" [completed]="recipeForm?.formGroup?.valid">
             <app-dynamic-form

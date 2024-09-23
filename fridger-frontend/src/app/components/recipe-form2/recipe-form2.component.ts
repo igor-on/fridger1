@@ -27,6 +27,7 @@ import { RecipeService } from 'src/app/services/recipe.service';
 import { MessageService } from 'src/app/services/message.service';
 import { AsTypePipe } from 'src/app/shared/pipes/as-type.pipe';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-recipe-form2',
@@ -41,6 +42,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     DynamicFormComponent,
     JsonPipe,
     AsTypePipe,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './recipe-form2.component.html',
   styleUrl: './recipe-form2.component.scss',
@@ -54,6 +56,7 @@ export class RecipeForm2Component implements OnInit, AfterViewInit, OnChanges {
   instructionsFields!: TemplateFormField[];
   formValue: any;
 
+  isLoading: boolean = false;
   editMode: boolean = false;
 
   protected readonly FormArray!: FormArray;
@@ -91,6 +94,7 @@ export class RecipeForm2Component implements OnInit, AfterViewInit, OnChanges {
 
     console.log(this.formValue);
 
+    this.isLoading = true;
     if (this.editMode) {
       this.recipeService
         .updateRecipe({
@@ -101,12 +105,14 @@ export class RecipeForm2Component implements OnInit, AfterViewInit, OnChanges {
           console.log(response);
           this.messageService.sendMessage('Recipe updated successfully');
           this.router.navigate(['/recipes']);
+          this.isLoading = false;
         });
     } else {
       this.recipeService.createRecipe(this.formValue).subscribe(response => {
         console.log(response);
         this.messageService.sendMessage('Recipe created successfully');
         this.router.navigate(['/recipes']);
+        this.isLoading = false;
       });
     }
   }
@@ -166,6 +172,8 @@ export class RecipeForm2Component implements OnInit, AfterViewInit, OnChanges {
       true
     );
     let instructions = null;
+
+    this.isLoading = true;
 
     if (this.editMode) {
       this.recipeService
@@ -255,6 +263,8 @@ export class RecipeForm2Component implements OnInit, AfterViewInit, OnChanges {
               value: instructions,
             }),
           });
+
+          this.isLoading = false;
         });
     } else {
       this.recipeFields = this.tfb.fields({
@@ -293,6 +303,8 @@ export class RecipeForm2Component implements OnInit, AfterViewInit, OnChanges {
           value: instructions,
         }),
       });
+
+      this.isLoading = false;
     }
   }
 }
