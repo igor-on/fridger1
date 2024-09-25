@@ -18,6 +18,7 @@ import { Recipe } from 'src/app/shared/models/recipe';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { MessageService } from 'src/app/services/message.service';
+import { convertDateToLocal, toLocaleISOString } from 'src/app/utils/tools';
 
 @Component({
   selector: 'app-recipe-calendar',
@@ -167,7 +168,8 @@ export class RecipeCalendarComponent implements OnInit {
       .afterClosed()
       .subscribe(
         (result: {
-          date: string;
+          date: Date;
+          time: string;
           title: string;
           recipe: Recipe;
           done: boolean;
@@ -179,10 +181,12 @@ export class RecipeCalendarComponent implements OnInit {
             return;
           }
 
+          let [h, m] = result.time.split(':').map(i => Number.parseInt(i));
+          result.date.setHours(h, m);
           console.log(dialogRef.componentInstance.data);
 
           const plannedRecipe: PlannedRecipe = {
-            plannedDate: result.date,
+            plannedDate: toLocaleISOString(result.date),
             recipe: {
               id: result.recipe.id,
               name: '',

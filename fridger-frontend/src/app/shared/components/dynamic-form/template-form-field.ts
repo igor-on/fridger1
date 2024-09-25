@@ -28,7 +28,7 @@ export type AnyControlType =
   | ControlType.CHECKBOX
   | ControlType.TEXTAREA;
 
-export type inputType = 'text' | 'password' | 'number';
+export type inputType = 'text' | 'password' | 'number' | 'time';
 
 export interface TextParams {
   label?: string;
