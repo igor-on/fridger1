@@ -22,15 +22,15 @@
 /* TAILWIND CLASSES */
 @layer components {
   .btn-primary {
-    @apply h-7 rounded-lg bg-black px-4 text-base leading-[0px] text-white shadow-md transition-transform duration-300 hover:scale-125  disabled:bg-gray-600 disabled:hover:scale-100;
+    @apply h-7 rounded-lg bg-black px-4 text-base leading-[0px] text-white shadow-md transition-transform duration-300 hover:scale-110  disabled:bg-gray-600 disabled:hover:scale-100;
   }
 
   .btn-success {
-    @apply h-7 rounded-lg bg-green-400 px-4 text-base leading-[0px] text-white shadow-md transition-all duration-300 hover:scale-125 hover:bg-green-500 disabled:bg-green-200 disabled:hover:scale-100;
+    @apply h-7 rounded-lg bg-green-400 px-4 text-base leading-[0px] text-white shadow-md transition-all duration-300 hover:scale-110 hover:bg-green-500 disabled:bg-green-200 disabled:hover:scale-100;
   }
 
   .btn-error {
-    @apply h-7 rounded-lg bg-red-400 px-4 text-base leading-[0px] text-white shadow-md transition-all duration-300 hover:scale-125 hover:bg-red-500  disabled:bg-red-200 disabled:hover:scale-100;
+    @apply h-7 rounded-lg bg-red-400 px-4 text-base leading-[0px] text-white shadow-md transition-all duration-300 hover:scale-110 hover:bg-red-500  disabled:bg-red-200 disabled:hover:scale-100;
   }
 
   .grow {

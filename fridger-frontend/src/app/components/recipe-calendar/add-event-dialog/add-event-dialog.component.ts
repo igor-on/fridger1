@@ -99,7 +99,7 @@ export class AddEventDialogComponent {
     });
   }
 
-  onNoClick(): void {
+  onCancel(): void {
     this.dialogRef.close();
   }
 }

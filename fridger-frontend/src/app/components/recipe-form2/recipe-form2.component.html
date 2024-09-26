@@ -14,14 +14,14 @@
                 [fields]="recipeFields"
                 [buttons]="[]"></app-dynamic-form>
             <div>
-                <button mat-button matStepperNext>Next</button>
+                <button type="button" class="btn-primary" matStepperNext>Next</button>
             </div>
         </mat-step>
         <mat-step label="Fill out ingredients" [completed]="ingredientsForm?.formGroup?.valid">
             <app-dynamic-form #ingredientsForm [fields]="ingredientsFields" [buttons]="[]"></app-dynamic-form>
             <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext>Next</button>
+                <button type="button" class="btn-primary mr-4" matStepperPrevious>Back</button>
+                <button type="button" class="btn-primary" matStepperNext>Next</button>
             </div>
         </mat-step>
         <mat-step label="Instructions" [completed]="instructionsForm?.formGroup?.valid">
@@ -31,8 +31,8 @@
                 [fields]="instructionsFields"
                 [buttons]="[]"></app-dynamic-form>
             <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext>Next</button>
+                <button type="button" class="btn-primary mr-4" matStepperPrevious>Back</button>
+                <button type="button" class="btn-primary" matStepperNext>Next</button>
             </div>
         </mat-step>
         <mat-step>
@@ -81,8 +81,9 @@
                 </section>
             </div>
             <div class="mt-4">
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button (click)="onDone()">Done</button>
+                <button type="button"></button>
+                <button type="button" class="btn-primary mr-4" matStepperPrevious>Back</button>
+                <button type="button" class="btn-success" (click)="onDone()">Done</button>
             </div>
         </mat-step> </mat-stepper
     >}

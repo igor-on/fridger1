@@ -141,10 +141,14 @@ export class GroceriesDetailsComponent implements OnInit {
       Would you like to add an expiration date to your ingredients?
     </mat-dialog-content>
     <mat-dialog-actions>
-      <button mat-raised-button [mat-dialog-close]="false">
+      <button type="button" class="btn-primary mr-4" [mat-dialog-close]="false">
         No (Add to fridge)
       </button>
-      <button mat-raised-button [mat-dialog-close]="true" cdkFocusInitial>
+      <button
+        type="button"
+        class="btn-primary"
+        [mat-dialog-close]="true"
+        cdkFocusInitial>
         Ok
       </button>
     </mat-dialog-actions>`,

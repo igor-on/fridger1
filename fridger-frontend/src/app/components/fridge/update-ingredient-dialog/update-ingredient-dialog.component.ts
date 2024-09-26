@@ -41,7 +41,7 @@ export class UpdateIngredientDialogComponent implements OnInit {
     this.initTemplateForm();
   }
 
-  onNoThanks(): void {
+  onCancel(): void {
     this.dialogRef.close();
   }
 

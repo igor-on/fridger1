@@ -176,7 +176,7 @@ export class RecipeCalendarComponent implements OnInit {
         }) => {
           console.log('The dialog was closed: ', result);
 
-          // No Thanks clicked
+          // Cancel clicked
           if (!result) {
             return;
           }

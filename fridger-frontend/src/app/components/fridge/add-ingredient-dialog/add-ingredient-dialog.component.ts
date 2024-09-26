@@ -67,7 +67,7 @@ export class AddIngredientDialogComponent implements OnInit {
     this.initTemplateForm();
   }
 
-  onNoClick(): void {
+  onCancel(): void {
     this.dialogRef.close();
   }
 

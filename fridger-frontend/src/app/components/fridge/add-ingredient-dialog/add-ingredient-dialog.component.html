@@ -17,7 +17,7 @@
         <app-dynamic-form #dynamicForm [fields]="fields" [buttons]="[]"></app-dynamic-form>
     </mat-dialog-content>
     <mat-dialog-actions class="!px-6">
-        <button type="button" class="btn-error mr-4" (click)="onNoClick()">No Thanks</button>
+        <button type="button" class="btn-error mr-4" (click)="onCancel()">Cancel</button>
         <button type="button" (click)="onSubmit()" [disabled]="!dynamicForm.formGroup.valid" class="btn-success">
             Save
         </button>

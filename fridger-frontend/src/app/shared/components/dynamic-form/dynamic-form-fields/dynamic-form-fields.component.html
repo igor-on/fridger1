@@ -75,8 +75,8 @@
         }
     </div>
     @if ((field.params | asType: ArrayParams).visibleChangeButtons) {
-    <button type="button" (click)="arrayChanged(ArrayAction.ADD, field)" mat-button>Add</button>
-    <button type="button" (click)="arrayChanged(ArrayAction.REMOVE, field)" mat-button>Remove</button>
+    <button type="button" class="btn-success" (click)="arrayChanged(ArrayAction.ADD, field)">Add</button>
+    <button type="button" class="btn-error" (click)="arrayChanged(ArrayAction.REMOVE, field)">Remove</button>
     } } @case (ControlType.CHECKBOX) {
     <mat-checkbox
         [matTooltip]="field.tip?.message ?? ''"

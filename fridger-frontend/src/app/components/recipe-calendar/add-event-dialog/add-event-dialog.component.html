@@ -5,13 +5,13 @@
     </div>
 </div>
 <div mat-dialog-actions class="!px-6">
-    <button type="button" class="btn-error mr-4" (click)="onNoClick()">No Thanks</button>
+    <button type="button" class="btn-error mr-4" (click)="onCancel()">Cancel</button>
     <button
         [disabled]="form.formGroup.invalid"
         type="submit"
         class="btn-success"
         [mat-dialog-close]="form.formGroup.value"
         cdkFocusInitial>
-        Ok
+        Save
     </button>
 </div>
