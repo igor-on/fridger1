@@ -13,6 +13,11 @@ import {
 } from 'src/app/shared/components/dynamic-form/template-form-field';
 import { TemplateFormButton } from 'src/app/shared/components/dynamic-form/dynamic-form-buttons/dynamic-form-buttons.component';
 import { MessageService } from 'src/app/services/message.service';
+import { AddGroceriesComponent } from './add-groceries/add-groceries.component';
+import { GenerateGroceriesInput } from 'src/app/shared/models/requests.model';
+import { isBefore, format } from 'date-fns';
+import { toLocaleISOString } from 'src/app/utils/tools';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-groceries-list',
@@ -37,7 +42,6 @@ export class GroceriesListComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchGroceriesList();
-    this.initTemplateForm();
   }
 
   fetchGroceriesList() {
@@ -56,53 +60,8 @@ export class GroceriesListComponent implements OnInit {
         })
       )
       .subscribe((response: ListGroceriesList[]) => {
-        this.groceriesLists = response;
+        this.groceriesLists = response.reverse();
       });
-  }
-
-  initTemplateForm() {
-    this.dateRangeFields = this.tfb.fields<{
-      params: { startDate: string; endDate: string };
-    }>({
-      params: this.tfb.group({
-        startDate: this.tfb.date({
-          visible: true,
-          params: {
-            label: 'Start Date',
-          },
-        }),
-        endDate: this.tfb.date({
-          visible: true,
-          params: {
-            label: 'End Date',
-          },
-        }),
-        withFridge: this.tfb.checkbox({
-          visible: true,
-          tip: {
-            message: 'Include ingredients from fridge',
-            position: 'above',
-          },
-          params: {
-            label: 'With Fridge',
-          },
-          value: false,
-        }),
-      }),
-    });
-
-    this.dateRangeBtns = [
-      {
-        text: 'Generate',
-        type: 'button',
-        // color: 'black',
-        onClick: (_, form) => {
-          console.log('Generate clicked!');
-          this.dateRangeFieldsVisible = false;
-          this.generateGroceriesList(form);
-        },
-      },
-    ];
   }
 
   getGlobalFilteredGroceries() {
@@ -136,23 +95,44 @@ export class GroceriesListComponent implements OnInit {
     });
   }
 
-  generateGroceriesList(form: FormGroup) {
-    let { startDate, endDate, withFridge } = form.value.params;
+  onAddGroceries() {
+    const addGroceriesDialog = this.dialog.open(AddGroceriesComponent);
 
-    startDate = moment(startDate).format('yyyy-MM-DDTHH:mm:ss');
-    endDate = moment(endDate).format('yyyy-MM-DDTHH:mm:ss');
-    if (moment(endDate).isBefore(startDate)) {
+    addGroceriesDialog
+      .afterClosed()
+      .subscribe(
+        (data: {
+          range: { startDate: string; endDate: string };
+          withFridge: boolean;
+        }) => {
+          if (!data) return;
+          const input = {
+            startDate: toLocaleISOString(data.range.startDate),
+            endDate: toLocaleISOString(data.range.endDate),
+            withFridge: data.withFridge,
+          };
+          this.generateGroceriesList(input);
+        }
+      );
+  }
+
+  generateGroceriesList(input: GenerateGroceriesInput) {
+    let { startDate, endDate, withFridge } = input;
+
+    if (isBefore(endDate, startDate)) {
       console.log("end date can't be before star date!");
       return;
     }
+
     this.groceriesService
       .generateGroceriesList({ startDate, endDate, withFridge })
       .subscribe(res => {
         console.log(res);
-        this.groceriesLists.push({
-          label: `${moment(res.data.startDate).format('DD.MM.YYYY')} - ${moment(
-            res.data.endDate
-          ).format('DD.MM.YYYY')}`,
+        this.groceriesLists.unshift({
+          label: `${format(res.data.startDate, 'dd.MM.yyyy')} - ${format(
+            res.data.endDate,
+            'dd.MM.yyyy'
+          )}`,
           ...res.data,
         });
         this.messageService.sendMessage('Groceries list generated!');

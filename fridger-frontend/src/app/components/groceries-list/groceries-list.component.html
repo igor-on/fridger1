@@ -16,19 +16,16 @@
         <div class="title flex items-center">
             <h1>Your groceries</h1>
             <mat-icon
-                (click)="dateRangeFieldsVisible = !dateRangeFieldsVisible"
-                class="mb-2"
+                (click)="onAddGroceries()"
+                class="mb-2 transition-all hover:scale-125"
                 aria-hidden="false"
                 aria-label="Example add icon"
-                [fontIcon]="dateRangeFieldsVisible ? 'cancel' : 'add_circle'"></mat-icon>
-            @if (dateRangeFieldsVisible) {
-            <app-dynamic-form [fields]="dateRangeFields" [buttons]="dateRangeBtns"></app-dynamic-form>
-            }
+                [fontIcon]="'add_circle'"></mat-icon>
         </div>
 
         <app-list
             (onItemClickedEvent)="itemClicked($event)"
-            [source]="getGlobalFilteredGroceries().reverse()"
+            [source]="getGlobalFilteredGroceries()"
             [circleInfoTemplate]="itemCount"></app-list>
 
         <ng-template #itemCount let-groceries>

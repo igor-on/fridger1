@@ -13,6 +13,7 @@ export enum ControlType {
   ARRAY,
   CHECKBOX,
   TEXTAREA,
+  DATERANGE,
 }
 
 /**
@@ -26,7 +27,8 @@ export type AnyControlType =
   | ControlType.DATE
   | ControlType.ARRAY
   | ControlType.CHECKBOX
-  | ControlType.TEXTAREA;
+  | ControlType.TEXTAREA
+  | ControlType.DATERANGE;
 
 export type inputType = 'text' | 'password' | 'number' | 'time';
 
@@ -70,7 +72,7 @@ export type Params<T extends ControlType> = T extends ControlType.TEXT
   ? GroupParams
   : T extends ControlType.SELECT
   ? SelectParams
-  : T extends ControlType.DATE
+  : T extends ControlType.DATE | ControlType.DATERANGE
   ? DateParams
   : T extends ControlType.COMPONENT
   ? ComponentParams<any>
@@ -196,6 +198,12 @@ export class TemplateFormBuilder {
     params: TemplateFormFieldBuilderParams<ControlType.DATE>
   ): TemplateFormFieldBuilder<ControlType.DATE> {
     return { controlType: ControlType.DATE, ...params };
+  }
+
+  public daterange(
+    params: TemplateFormFieldBuilderParams<ControlType.DATERANGE>
+  ): TemplateFormFieldBuilder<ControlType.DATERANGE> {
+    return { controlType: ControlType.DATERANGE, ...params };
   }
 
   public component(

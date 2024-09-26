@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Generate Groceries</h2>
+<mat-dialog-content>
+    <app-dynamic-form #form flexDirection="vertical" [fields]="fields" [buttons]="[]"></app-dynamic-form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button class="btn-error mr-4" (click)="onCancel()">Cancel</button>
+    <button class="btn-success" [mat-dialog-close]="form.formGroup.value" cdkFocusInitial>Ok</button>
+</mat-dialog-actions>

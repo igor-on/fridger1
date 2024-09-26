@@ -11,6 +11,7 @@ import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import {
   ArrayAction,
@@ -90,6 +91,23 @@ export class DynamicFormComponent<T extends ControlType> implements OnInit {
         for (let el of (field.params as ArrayParams).elements) {
           this.populateFormArray(el, formGroup.get(field.name) as FormArray);
         }
+      }
+
+      if (field.controlType === ControlType.DATERANGE) {
+        const nestedGroup = this.fb.group({});
+        nestedGroup.addControl(
+          'startDate',
+          this.fb.control(null, {
+            validators: [Validators.required],
+          })
+        );
+        nestedGroup.addControl(
+          'endDate',
+          this.fb.control(null, {
+            validators: [Validators.required],
+          })
+        );
+        formGroup.addControl(field.name, nestedGroup);
       }
 
       if (field.controlType !== ControlType.GROUP) {

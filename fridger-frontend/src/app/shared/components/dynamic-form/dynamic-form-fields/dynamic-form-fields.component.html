@@ -59,6 +59,19 @@
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
+    } @case (ControlType.DATERANGE) {
+    <mat-form-field [matTooltip]="field.tip?.message ?? ''" [matTooltipPosition]="field.tip?.position ?? 'below'">
+        <mat-label>{{ (field.params | asType: DateParams).label }}</mat-label>
+        <mat-date-range-input [formGroup]="formGroup.get(field.name) | asType: FormGroup" [rangePicker]="rangePicker">
+            <input matStartDate formControlName="startDate" placeholder="Start date" />
+            <input matEndDate formControlName="endDate" placeholder="End date" />
+        </mat-date-range-input>
+        @if ((field.params | asType: DateParams).hint) {
+        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        }
+        <mat-datepicker-toggle matIconSuffix [for]="rangePicker"></mat-datepicker-toggle>
+        <mat-date-range-picker #rangePicker></mat-date-range-picker>
+    </mat-form-field>
     } @case (ControlType.GROUP) {
     <app-dynamic-form-fields
         [fields]="(field.params | asType: GroupParams).fields"

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
@@ -62,6 +63,7 @@ export class DynamicFormFieldsComponent<T extends ControlType>
   constructor(private tfb: TemplateFormBuilder) {}
   ngOnInit(): void {
     console.log(this.fields);
+    console.log(this.formGroup);
   }
   @Input() flexDirection!: 'horizontal' | 'vertical';
   @Input({ required: true }) formGroup!: FormGroup;
@@ -74,6 +76,7 @@ export class DynamicFormFieldsComponent<T extends ControlType>
   ArrayAction = ArrayAction;
   ControlType = ControlType;
   protected readonly FormGroup!: FormGroup;
+  protected readonly FormControl!: FormControl;
   protected readonly FormArray!: FormArray;
   protected readonly TextParams!: TextParams;
   protected readonly GroupParams!: GroupParams;
