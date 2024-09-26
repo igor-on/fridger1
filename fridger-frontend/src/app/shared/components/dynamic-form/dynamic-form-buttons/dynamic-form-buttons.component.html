@@ -1,0 +1,13 @@
+@for (btn of buttons; track $index) {
+<button
+    mat-raised-button
+    [color]="btn.color ? btn.color : 'primary'"
+    [type]="btn.type"
+    (click)="btn.onClick($event, formGroup)">
+    @if (btn.icon) {
+    <mat-icon aria-hidden="false" [fontIcon]="btn.icon"></mat-icon>
+    } @if (btn.text) {
+    {{ btn.text }}
+    }
+</button>
+}

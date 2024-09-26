@@ -29,7 +29,17 @@ public class GroceriesList {
     private LocalDateTime endDate;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "groceriesList")
-    private List<GroceriesListIngredient> groceriesListIngredient;
+    private List<GroceriesListIngredient> ingredients;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "groceriesList")
+    private List<GroceriesListFridgeIngredient> fridgeIngredients;
+
+    @Column(name = "with_fridge")
+    @NotNull
+    private boolean withFridge;
+
+    @Column(name = "fridge_state_date")
+    private LocalDateTime fridgeStateDate;
 
     @ManyToOne
     @JoinColumn(name = "username")
@@ -37,12 +47,22 @@ public class GroceriesList {
 
     public void add(GroceriesListIngredient ingredient) {
         if (ingredient != null) {
-            if (groceriesListIngredient == null) {
-                groceriesListIngredient = new ArrayList<>();
+            if (ingredients == null) {
+                ingredients = new ArrayList<>();
             }
 
             ingredient.setGroceriesList(this);
-            groceriesListIngredient.add(ingredient);
+            ingredients.add(ingredient);
+        }
+    }
+    public void addFridge(GroceriesListFridgeIngredient ingredient) {
+        if (ingredient != null) {
+            if (fridgeIngredients == null) {
+                fridgeIngredients = new ArrayList<>();
+            }
+
+            ingredient.setGroceriesList(this);
+            fridgeIngredients.add(ingredient);
         }
     }
 }

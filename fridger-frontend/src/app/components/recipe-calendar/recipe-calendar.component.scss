@@ -2,3 +2,7 @@ full-calendar {
   height: 100%;
   padding: 2.5rem;
 }
+
+::ng-deep a {
+  color: #000;
+}

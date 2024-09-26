@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Recipe } from '../common/recipe';
+import { Recipe } from '../shared/models/recipe';
 import { environment } from '../../environments/environment';
-import { ApiResponse } from '../common/api-response';
+import { ApiResponse } from '../shared/models/api-response';
 
 @Injectable({
   providedIn: 'root',

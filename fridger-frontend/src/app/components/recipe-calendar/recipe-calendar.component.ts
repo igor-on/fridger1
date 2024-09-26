@@ -12,12 +12,13 @@ import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { AddEventDialogComponent } from './add-event-dialog/add-event-dialog.component';
 import { CalendarService } from 'src/app/services/calendar.service';
-import { PlannedRecipe } from 'src/app/common/planned-recipe';
+import { PlannedRecipe } from 'src/app/shared/models/planned-recipe';
 import { ActivatedRoute } from '@angular/router';
-import { Recipe } from 'src/app/common/recipe';
+import { Recipe } from 'src/app/shared/models/recipe';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { MessageService } from 'src/app/services/message.service';
+import { convertDateToLocal, toLocaleISOString } from 'src/app/utils/tools';
 
 @Component({
   selector: 'app-recipe-calendar',
@@ -167,22 +168,25 @@ export class RecipeCalendarComponent implements OnInit {
       .afterClosed()
       .subscribe(
         (result: {
-          date: string;
+          date: Date;
+          time: string;
           title: string;
           recipe: Recipe;
           done: boolean;
         }) => {
           console.log('The dialog was closed: ', result);
 
-          // No Thanks clicked
+          // Cancel clicked
           if (!result) {
             return;
           }
 
+          let [h, m] = result.time.split(':').map(i => Number.parseInt(i));
+          result.date.setHours(h, m);
           console.log(dialogRef.componentInstance.data);
 
           const plannedRecipe: PlannedRecipe = {
-            plannedDate: result.date,
+            plannedDate: toLocaleISOString(result.date),
             recipe: {
               id: result.recipe.id,
               name: '',

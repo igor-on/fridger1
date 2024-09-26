@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PlannedRecipe } from '../common/planned-recipe';
+import { PlannedRecipe } from '../shared/models/planned-recipe';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { ApiResponse } from '../common/api-response';
+import { ApiResponse } from '../shared/models/api-response';
 
 @Injectable({
   providedIn: 'root',

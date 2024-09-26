@@ -1,0 +1,90 @@
+<h1 class="logo z-[999] flex w-[100%] justify-between">
+    <a class="duration-300 hover:scale-125 hover:text-black" href="index.html"> Fridger </a>
+</h1>
+
+<div class="my-24 flex items-center justify-center">
+    @if (isLoading) {
+    <mat-spinner class="mt-24" diameter="200"></mat-spinner>
+    } @if (recipeFields && ingredientsFields && instructionsFields && !isLoading) {
+    <mat-stepper class="w-[70%]" #stepper linear>
+        <mat-step label="Recipe info" [completed]="recipeForm?.formGroup?.valid">
+            <app-dynamic-form
+                #recipeForm
+                flexDirection="vertical"
+                [fields]="recipeFields"
+                [buttons]="[]"></app-dynamic-form>
+            <div>
+                <button type="button" class="btn-primary" matStepperNext>Next</button>
+            </div>
+        </mat-step>
+        <mat-step label="Fill out ingredients" [completed]="ingredientsForm?.formGroup?.valid">
+            <app-dynamic-form #ingredientsForm [fields]="ingredientsFields" [buttons]="[]"></app-dynamic-form>
+            <div>
+                <button type="button" class="btn-primary mr-4" matStepperPrevious>Back</button>
+                <button type="button" class="btn-primary" matStepperNext>Next</button>
+            </div>
+        </mat-step>
+        <mat-step label="Instructions" [completed]="instructionsForm?.formGroup?.valid">
+            <app-dynamic-form
+                #instructionsForm
+                flexDirection="vertical"
+                [fields]="instructionsFields"
+                [buttons]="[]"></app-dynamic-form>
+            <div>
+                <button type="button" class="btn-primary mr-4" matStepperPrevious>Back</button>
+                <button type="button" class="btn-primary" matStepperNext>Next</button>
+            </div>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Done</ng-template>
+            <p>You are now done.</p>
+
+            <div class="flex justify-between">
+                <section class="w-[33%]">
+                    <h2>Recipe</h2>
+                    <p><b> name: </b> {{ recipeForm?.formGroup?.get('name')?.value }}</p>
+                    <p><b> description: </b> {{ recipeForm?.formGroup?.get('description')?.value }}</p>
+                    <p>
+                        <b> link: </b>
+                        <a [href]="recipeForm?.formGroup?.get('link')?.value">{{
+                            recipeForm?.formGroup?.get('link')?.value
+                        }}</a>
+                    </p>
+                    <div class="flex">
+                        <b> image url: </b>
+
+                        <div class="image-box h-36 w-36">
+                            <img
+                                class="circle-image"
+                                [src]="recipeForm?.formGroup?.get('imageUrl')?.value"
+                                alt="food-image" />
+                        </div>
+                    </div>
+
+                    <p><b> is favorite: </b> {{ recipeForm?.formGroup?.get('favorite')?.value }}</p>
+                </section>
+
+                <section class="w-[33%]">
+                    <h2>Ingredients</h2>
+                    @for (ingr of recipeIngredients?.controls; track ingr; let i = $index) {
+                    <p>
+                        <b> {{ i + 1 }}. </b>
+                        {{ ingr.get('quantity')?.value }}
+                        {{ ingr.get('unit')?.value }} |
+                        {{ ingr.get('ingredient')?.get('name')?.value }}
+                    </p>
+                    }
+                </section>
+                <section class="w-[33%]">
+                    <h2>Instructions</h2>
+                    <div>{{ instructionsForm?.formGroup?.get('instructions')?.value }}</div>
+                </section>
+            </div>
+            <div class="mt-4">
+                <button type="button"></button>
+                <button type="button" class="btn-primary mr-4" matStepperPrevious>Back</button>
+                <button type="button" class="btn-success" (click)="onDone()">Done</button>
+            </div>
+        </mat-step> </mat-stepper
+    >}
+</div>

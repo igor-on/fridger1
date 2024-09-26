@@ -1,5 +1,6 @@
 package com.app.fridger.entity;
 
+import com.app.fridger.model.Unit;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -18,16 +19,12 @@ public class RecipeIngredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-//    @JsonIgnore
-    private long id;
-//    @Column(name = "ingredient_id")
-//    private long ingredientId;
+    private Long id;
     @Column(name = "quantity")
     @Min(1)
-    private int quantity;
+    private double quantity;
     @Column(name = "unit")
-    @NotBlank(message = "Unit is mandatory")
-    private String unit;
+    private Unit unit;
 
     @ManyToOne
     @JoinColumn(name = "recipe_id")
@@ -35,7 +32,7 @@ public class RecipeIngredient {
     private Recipe recipe;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "ingredient_id")
+    @JoinColumn(name = "ingredient_name")
     private Ingredient ingredient;
 
     public void setRecipe(Recipe recipe) {

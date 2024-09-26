@@ -1,0 +1,160 @@
+<main class="m-16">
+    <div class="my-4">
+        <div class="flex gap-2">
+            <button (click)="onAdd()" class="btn-primary">Add</button>
+        </div>
+    </div>
+
+    @for (type of ingredientsType; track $index) {
+    <section class="w-full">
+        @if (getIngredientsByType(type).length > 0) {
+        <h3 class="border-b-4 text-left">{{ type }}</h3>
+        <div class="my-4">
+            <!-- @let ingredientsByType = getIngredientsByType(type); -->
+
+            <table mat-table [dataSource]="getIngredientsByType(type)" class="mat-elevation-z0">
+                <!-- Insert Date Column -->
+                <ng-container matColumnDef="insert-date">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <div class="flex gap-1 align-middle">
+                            <mat-icon
+                                class="small-icon"
+                                aria-hidden="false"
+                                aria-label="insert icon"
+                                fontIcon="switch_access_shortcut"></mat-icon>
+                            Insert Date
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.insertDate | date: 'dd.MM.yyyy hh:mm' }}
+                    </td>
+                </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <div class="flex gap-1 align-middle">
+                            <mat-icon
+                                class="small-icon"
+                                aria-hidden="false"
+                                aria-label="ingredient icon"
+                                fontIcon="local_dining"></mat-icon>
+                            Ingredient
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.ingredient.name }}
+                    </td>
+                </ng-container>
+
+                <!-- Quantity Column -->
+                <ng-container matColumnDef="quantity">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <div class="flex gap-1 align-middle">
+                            <mat-icon
+                                class="small-icon"
+                                aria-hidden="false"
+                                aria-label="quantity icon"
+                                fontIcon="shopping_cart_checkout"></mat-icon>
+                            Quantity
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.quantity }}
+                    </td>
+                </ng-container>
+
+                <!-- Unit Column -->
+                <ng-container matColumnDef="unit">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <div class="flex gap-1 align-middle">
+                            <mat-icon
+                                class="small-icon"
+                                aria-hidden="true"
+                                aria-label="unit icon"
+                                fontIcon="scale"></mat-icon>
+                            Unit
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.unit }}
+                    </td>
+                </ng-container>
+
+                <!-- Expiration Date Column -->
+                <ng-container matColumnDef="expiration-date">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <div class="flex gap-1 align-middle">
+                            <mat-icon
+                                class="small-icon"
+                                aria-hidden="false"
+                                aria-label="exp. date icon"
+                                fontIcon="event_busy"></mat-icon>
+                            Expiration Date
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.expirationDate | date: 'dd.MM.yyyy' }}
+                    </td>
+                </ng-container>
+                <!-- Expiration Date Column -->
+                <ng-container matColumnDef="open">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <div class="flex gap-1 align-middle">
+                            <mat-icon
+                                class="small-icon"
+                                aria-hidden="false"
+                                aria-label="openicon"
+                                fontIcon="window_open"></mat-icon>
+                            Open
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.open }}
+                    </td>
+                </ng-container>
+                <!-- Expiration Date Column -->
+                <ng-container matColumnDef="after-opening-expiration-date">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <div class="flex gap-1 align-middle">
+                            <mat-icon
+                                class="small-icon"
+                                aria-hidden="false"
+                                aria-label="after opening exp. date icon"
+                                fontIcon="event_busy"></mat-icon>
+                            After Opening Exp. Date
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.afterOpeningExpirationDate | date: 'dd.MM.yyyy hh:mm' }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <div class="flex gap-1 align-middle">
+                            <!-- <mat-icon
+                                class="small-icon"
+                                aria-hidden="false"
+                                aria-label="insert icon"
+                                fontIcon="switch_access_shortcut"></mat-icon> -->
+                            Actions
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button class="btn-success" (click)="onEdit(element)">
+                            <mat-icon aria-hidden="false" aria-label="edit icon" fontIcon="edit"></mat-icon>
+                        </button>
+                        <button class="btn-error" (click)="onDelete(element.id)">
+                            <mat-icon aria-hidden="false" aria-label="delete icon" fontIcon="delete"></mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                <tr mat-row *matRowDef="let row; columns: columns"></tr>
+            </table>
+        </div>
+        }
+    </section>
+    }
+    <!-- </form> -->
+</main>

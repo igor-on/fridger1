@@ -1,9 +1,10 @@
 package com.app.fridger.dto;
 
 import com.app.fridger.entity.GroceriesList;
+import com.app.fridger.entity.GroceriesListFridgeIngredient;
 import com.app.fridger.entity.GroceriesListIngredient;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import com.app.fridger.model.Unit;
+import lombok.*;
 import lombok.extern.log4j.Log4j2;
 
 import java.time.LocalDateTime;
@@ -18,23 +19,51 @@ public class GroceriesListDTO {
     private LocalDateTime endDate;
     private List<IngredientDTO> ingredients;
 
+    private List<IngredientDTO> fridgeIngredients;
+
+    private boolean withFridge;
+
+    private LocalDateTime fridgeStateDate;
+
 
     @Data
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class IngredientDTO {
         private String ingredientName;
-        private int quantity;
-        private String unit;
+        private double quantity;
+        private Unit unit;
+    }
+
+    @Getter
+    @Setter
+    @ToString(callSuper = true)
+    public static class IngredientExtDTO extends IngredientDTO {
+        private LocalDateTime expirationDate;
+
+        public IngredientExtDTO(String ingredientName, double quantity, Unit unit, LocalDateTime expirationDate) {
+            super(ingredientName, quantity, unit);
+            this.expirationDate = expirationDate;
+        }
     }
 
     public GroceriesListDTO(GroceriesList groceriesList) {
         this.startDate = groceriesList.getStartDate();
         this.endDate = groceriesList.getEndDate();
+        this.withFridge = groceriesList.isWithFridge();
+        this.fridgeStateDate = groceriesList.getFridgeStateDate();
 
-        ingredients = new ArrayList<>();
-        for (GroceriesListIngredient gli : groceriesList.getGroceriesListIngredient()) {
-            ingredients.add(new IngredientDTO(gli.getIngredient().getName(), gli.getQuantity(), gli.getUnit()));
+        this.ingredients = new ArrayList<>();
+        this.fridgeIngredients = new ArrayList<>();
+        for (GroceriesListIngredient gli : groceriesList.getIngredients()) {
+            this.ingredients.add(new IngredientDTO(gli.getIngredient().getName(), gli.getQuantity(), gli.getUnit()));
 
+        }
+
+        if (groceriesList.getFridgeIngredients() != null) {
+            for (GroceriesListFridgeIngredient glfi : groceriesList.getFridgeIngredients()) {
+                this.fridgeIngredients.add(new IngredientExtDTO(glfi.getIngredient().getName(), glfi.getQuantity(), glfi.getUnit(), glfi.getExpirationDate()));
+            }
         }
 
     }

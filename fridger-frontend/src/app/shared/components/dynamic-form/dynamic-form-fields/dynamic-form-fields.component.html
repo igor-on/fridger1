@@ -1,0 +1,102 @@
+<div
+    [formGroup]="formGroup"
+    [ngStyle]="{ flexDirection: flexDirection === 'vertical' ? 'column' : 'row' }"
+    class="flex gap-4">
+    @for (field of fields; track $index) { @if ((field.visible | fieldVisible: formGroup) | async) { @switch
+    (field.controlType) { @case (ControlType.TEXT) {
+    <mat-form-field
+        [matTooltip]="field.tip?.message ?? ''"
+        [matTooltipPosition]="field.tip?.position ?? 'below'"
+        class="example-full-width">
+        <mat-label>{{ (field.params | asType: TextParams).label }}</mat-label>
+        <input
+            [type]="(field.params | asType: TextParams).type ? (field.params | asType: TextParams).type! : 'text'"
+            matInput
+            formControlName="{{ field.name }}" />
+        @if (formGroup.get(field.name)?.invalid) {
+        <mat-error>{{ getErrorMessage(formGroup.get(field.name)!) }}</mat-error>
+        }
+    </mat-form-field>
+    } @case (ControlType.TEXTAREA) {
+    <mat-form-field
+        [matTooltip]="field.tip?.message ?? ''"
+        [matTooltipPosition]="field.tip?.position ?? 'below'"
+        class="example-full-width">
+        <mat-label>{{ (field.params | asType: TextParams).label }}</mat-label>
+        <textarea matInput formControlName="{{ field.name }}"></textarea>
+        @if (formGroup.get(field.name)?.invalid) {
+        <mat-error>{{ getErrorMessage(formGroup.get(field.name)!) }}</mat-error>
+        }
+    </mat-form-field>
+    } @case (ControlType.SELECT) {
+    <mat-form-field [matTooltip]="field.tip?.message ?? ''" [matTooltipPosition]="field.tip?.position ?? 'below'">
+        <mat-label>{{ (field.params | asType: SelectParams).label }}</mat-label>
+        <mat-select
+            [multiple]="(field.params | asType: SelectParams).multiple ?? false"
+            [formControlName]="field.name"
+            [required]="(field.params | asType: SelectParams).required ?? true">
+            @for (option of ((field.params | asType: SelectParams).options.data | toObservable | async); track $index) {
+            <mat-option [value]="option[(field.params | asType: SelectParams).options.valueProp]">
+                {{
+                    (field.params | asType: SelectParams).options.displayProp
+                        ? option[(field.params | asType: SelectParams).options.displayProp]
+                        : option
+                }}
+            </mat-option>
+            }
+        </mat-select>
+        @if (formGroup.get(field.name)?.invalid) {
+        <mat-error>{{ getErrorMessage(formGroup.get(field.name)!) }}</mat-error>
+        }
+    </mat-form-field>
+    } @case (ControlType.DATE) {
+    <mat-form-field [matTooltip]="field.tip?.message ?? ''" [matTooltipPosition]="field.tip?.position ?? 'below'">
+        <mat-label>{{ (field.params | asType: DateParams).label }}</mat-label>
+        <input matInput [matDatepicker]="picker" [formControlName]="field.name" />
+        @if ((field.params | asType: DateParams).hint) {
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        }
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    } @case (ControlType.DATERANGE) {
+    <mat-form-field [matTooltip]="field.tip?.message ?? ''" [matTooltipPosition]="field.tip?.position ?? 'below'">
+        <mat-label>{{ (field.params | asType: DateParams).label }}</mat-label>
+        <mat-date-range-input [formGroup]="formGroup.get(field.name) | asType: FormGroup" [rangePicker]="rangePicker">
+            <input matStartDate formControlName="startDate" placeholder="Start date" />
+            <input matEndDate formControlName="endDate" placeholder="End date" />
+        </mat-date-range-input>
+        @if ((field.params | asType: DateParams).hint) {
+        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        }
+        <mat-datepicker-toggle matIconSuffix [for]="rangePicker"></mat-datepicker-toggle>
+        <mat-date-range-picker #rangePicker></mat-date-range-picker>
+    </mat-form-field>
+    } @case (ControlType.GROUP) {
+    <app-dynamic-form-fields
+        [fields]="(field.params | asType: GroupParams).fields"
+        [formGroup]="formGroup.get(field.name) | asType: FormGroup"></app-dynamic-form-fields>
+    } @case (ControlType.ARRAY) {
+    <div class="flex flex-col align-middle">
+        @for (el of (field.params | asType: ArrayParams).elements; track el; let i = $index) {
+        <app-dynamic-form-fields
+            (arrayChangedEvent)="onNestedArrayChanged($event)"
+            [fields]="(el.params | asType: GroupParams).fields"
+            [formGroup]="
+                (formGroup.get(field.name) | asType: FormArray).at(i) | asType: FormGroup
+            "></app-dynamic-form-fields>
+        }
+    </div>
+    @if ((field.params | asType: ArrayParams).visibleChangeButtons) {
+    <button type="button" class="btn-success" (click)="arrayChanged(ArrayAction.ADD, field)">Add</button>
+    <button type="button" class="btn-error" (click)="arrayChanged(ArrayAction.REMOVE, field)">Remove</button>
+    } } @case (ControlType.CHECKBOX) {
+    <mat-checkbox
+        [matTooltip]="field.tip?.message ?? ''"
+        [matTooltipPosition]="field.tip?.position ?? 'below'"
+        color="primary"
+        [formControlName]="field.name"
+        >{{ (field.params | asType: TextParams)?.label ?? field.name }}
+    </mat-checkbox>
+    } } } }
+</div>

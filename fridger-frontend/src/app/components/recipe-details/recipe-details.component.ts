@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Recipe } from 'src/app/common/recipe';
+import { Recipe } from 'src/app/shared/models/recipe';
 import { MessageService } from 'src/app/services/message.service';
 import { RecipeService } from 'src/app/services/recipe.service';
 

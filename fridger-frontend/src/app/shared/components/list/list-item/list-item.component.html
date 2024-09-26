@@ -1,0 +1,14 @@
+<div
+    (click)="onItemClickedEvent.emit(item)"
+    class="relative flex h-[150px] min-h-[150px] items-center justify-end overflow-visible transition-all duration-200 hover:scale-110">
+    <div class="absolute inset-0 w-[150px] cursor-pointer">
+        <ng-content select="div"></ng-content>
+    </div>
+    <div
+        class="name-box ml-4 flex h-[70%] w-[80%] cursor-pointer items-center justify-end rounded-lg text-xl shadow"
+        color="orange"
+        appGenerateBgColor>
+        <p class="mb-0 w-full pl-20 text-center sm:text-center">{{ item.label }}</p>
+        <ng-content select="section"></ng-content>
+    </div>
+</div>

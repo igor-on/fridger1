@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { RecipesComponent } from './components/recipes/recipes.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RecipesListComponent } from './components/recipes-list/recipes-list.component';
-import { ColorsDirective } from './common/colors.directive';
 import { AppRoutingModule } from './app-routing.module';
 import {
   ConfirmDialogComponent,
@@ -18,7 +17,10 @@ import { RecipeCalendarComponent } from './components/recipe-calendar/recipe-cal
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { AddEventDialogComponent } from './components/recipe-calendar/add-event-dialog/add-event-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDialogModule } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DEFAULT_OPTIONS,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { GroceriesListComponent } from './components/groceries-list/groceries-list.component';
@@ -29,6 +31,12 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { ToastModule } from 'primeng/toast';
 import { AuthInterceptor } from './http-interceptors/auth-interceptor';
 import { LoginComponent } from './components/login/login.component';
+import { FridgeComponent } from './components/fridge/fridge.component';
+import { MatIconModule } from '@angular/material/icon';
+import { ListItemComponent } from './shared/components/list/list-item/list-item.component';
+import { SharedModule } from './shared/shared.module';
+import { ListComponent } from './shared/components/list/list.component';
+import { DynamicFormComponent } from './shared/components/dynamic-form/dynamic-form.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +44,6 @@ import { LoginComponent } from './components/login/login.component';
     RecipesComponent,
     SidebarComponent,
     RecipesListComponent,
-    ColorsDirective,
     RecipeDetailsComponent,
     RecipeFormComponent,
     RecipeCalendarComponent,
@@ -60,12 +67,22 @@ import { LoginComponent } from './components/login/login.component';
     MatSidenavModule,
     SkeletonModule,
     ToastModule,
+    FridgeComponent,
+    MatIconModule,
+    ListItemComponent,
+    ListComponent,
+    SharedModule,
+    DynamicFormComponent,
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
+    },
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: { position: { top: '15rem' } },
     },
   ],
   bootstrap: [AppComponent],

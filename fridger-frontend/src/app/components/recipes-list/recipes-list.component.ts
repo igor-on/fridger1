@@ -1,9 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Recipe } from 'src/app/common/recipe';
+import { Recipe } from 'src/app/shared/models/recipe';
 import { MessageService } from 'src/app/services/message.service';
 
 import { RecipeService } from 'src/app/services/recipe.service';
+import { ListRecipe } from 'src/app/shared/models/list-recipe.model';
+import { map } from 'rxjs';
+import { MatLabel } from '@angular/material/form-field';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-recipes-list',
@@ -13,7 +17,7 @@ import { RecipeService } from 'src/app/services/recipe.service';
 export class RecipesListComponent implements OnInit, OnDestroy {
   globalFilter: FormControl = new FormControl('');
 
-  recipes: Recipe[] = [];
+  recipes: ListRecipe[] = [];
 
   recipesLoading = false;
 
@@ -21,7 +25,8 @@ export class RecipesListComponent implements OnInit, OnDestroy {
 
   constructor(
     private recipeService: RecipeService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -30,11 +35,27 @@ export class RecipesListComponent implements OnInit, OnDestroy {
 
   handleRecipes() {
     this.recipesLoading = true;
-    this.recipeService.getRecipes().subscribe(response => {
-      this.recipes = response;
-      this.recipesLoading = false;
-      // console.log(`Recipes arrived: ${JSON.stringify(this.recipes)}`)
-    });
+    this.recipeService
+      .getRecipes()
+      .pipe(
+        map((response: Recipe[]) => {
+          return response.map(r => {
+            return {
+              label: r.name,
+              ...r,
+            };
+          });
+        })
+      )
+      .subscribe((response: ListRecipe[]) => {
+        this.recipes = response;
+        this.recipesLoading = false;
+        // console.log(`Recipes arrived: ${JSON.stringify(this.recipes)}`)
+      });
+  }
+
+  recipeClicked(recipe: ListRecipe) {
+    this.router.navigate(['recipe-details', recipe.id]);
   }
 
   getGlobalFilteredRecipes() {
@@ -48,13 +69,15 @@ export class RecipesListComponent implements OnInit, OnDestroy {
   }
 
   private _filterPredicate(data: Recipe, filter: string): boolean {
-    const nameIncludes = data.name.includes(filter);
-    const linkIncludes = data.link.includes(filter);
-    const descriptionIncludes = data.description.includes(filter);
+    filter = filter.toLowerCase();
+
+    const nameIncludes = data.name.toLowerCase().includes(filter);
+    const linkIncludes = data.link.toLowerCase().includes(filter);
+    const descriptionIncludes = data.description.toLowerCase().includes(filter);
     const ingredientIncludes =
       data.recipeIngredients
         .map(ri => ri.ingredient)
-        .filter(i => i.name.includes(filter)).length > 0;
+        .filter(i => i.name.toLowerCase().includes(filter)).length > 0;
 
     return (
       nameIncludes || linkIncludes || descriptionIncludes || ingredientIncludes

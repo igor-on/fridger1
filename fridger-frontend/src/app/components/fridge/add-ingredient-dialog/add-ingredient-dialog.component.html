@@ -1,0 +1,25 @@
+<form>
+    <div class="flex">
+        <h2 mat-dialog-title class="mb-2">Add ingredient</h2>
+        <button type="button" class="flex-box-center mr-4" (click)="onAdd()">
+            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="add"></mat-icon>
+        </button>
+        <button
+            [disabled]="(fields[0].params | asType: ArrayParams).elements.length === 1"
+            type="button"
+            class="button flex-box-center"
+            (click)="onDelete()">
+            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="remove"></mat-icon>
+        </button>
+    </div>
+
+    <mat-dialog-content class="!max-h-[40vh]">
+        <app-dynamic-form #dynamicForm [fields]="fields" [buttons]="[]"></app-dynamic-form>
+    </mat-dialog-content>
+    <mat-dialog-actions class="!px-6">
+        <button type="button" class="btn-error mr-4" (click)="onCancel()">Cancel</button>
+        <button type="button" (click)="onSubmit()" [disabled]="!dynamicForm.formGroup.valid" class="btn-success">
+            Save
+        </button>
+    </mat-dialog-actions>
+</form>
