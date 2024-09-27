@@ -64,7 +64,14 @@
             </li>
         </ul>
     </div>
-    <button (click)="onLogOut()" class="p-2 text-red-500 transition-all hover:scale-110">
-        <i class="bi bi-box-arrow-in-left mr-1"></i>Log out
+
+    <button type="button" class="btn-primary flex items-center gap-2" [matMenuTriggerFor]="menu">
+        <mat-icon aria-hidden="false" aria-label="person icon" fontIcon="person"></mat-icon> {{ credentials.sub }}
     </button>
+
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item class="text-red-400" (click)="onLogOut()">
+            <mat-icon color="warn" aria-hidden="false" aria-label="logout icon" fontIcon="logout"></mat-icon>Logout
+        </button>
+    </mat-menu>
 </section>
