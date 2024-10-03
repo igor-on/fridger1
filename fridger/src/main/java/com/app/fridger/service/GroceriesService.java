@@ -31,6 +31,7 @@ public class GroceriesService {
     private final SessionService session;
 
     public GroceriesListDTO generateGroceriesList(LocalDateTime startDate, LocalDateTime endDate, boolean withFridge) {
+        endDate = endDate.withHour(23).withMinute(59).withSecond(59);
         List<Object[]> ingredients = ingredientRepository.getIngredientsFromPlannedRecipes(startDate, endDate, session.getUser().getUsername());
 
         GroceriesList groceriesList = new GroceriesList();
