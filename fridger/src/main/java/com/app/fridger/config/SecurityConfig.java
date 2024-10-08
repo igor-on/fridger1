@@ -43,7 +43,7 @@ public class SecurityConfig {
 
         return http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers( "/auth/user/new", "/auth/authenticate", "/auth/refresh-token").permitAll()
+                .requestMatchers( "/auth/user/new", "/auth/authenticate", "/auth/refresh-token", "api/send").permitAll()
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/**", "/auth/user/**")
