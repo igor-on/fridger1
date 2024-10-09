@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "mail.notifications")
-public class MailNotificationsProperties {
+public class EmailNotificationsProperties {
 
     Ingredients ingredients;
 

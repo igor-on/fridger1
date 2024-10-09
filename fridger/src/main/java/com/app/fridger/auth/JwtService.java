@@ -80,7 +80,7 @@ public class JwtService {
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         T apply = claimsResolver.apply(claims);
-        log.info("Extracted: " + apply.toString());
+//        log.info("Extracted: " + apply.toString());
         return apply;
     }
 
@@ -101,14 +101,14 @@ public class JwtService {
     public Boolean validateRefreshToken(String token, String udUsername) {
         final boolean isRefresh = extractRefresh(token);
         final String username = extractUsername(token);
-        log.info("validateRefreshToken: " +  (username.equals(udUsername) && !isTokenExpired(token) && isRefresh) );
+//        log.info("validateRefreshToken: " +  (username.equals(udUsername) && !isTokenExpired(token) && isRefresh) );
         return (username.equals(udUsername) && !isTokenExpired(token)) && isRefresh;
     }
 
     public Boolean validateToken(String token, String udUsername) {
         final boolean isRefresh = extractRefresh(token);
         final String username = extractUsername(token);
-        log.info("validateToken: " +  (username.equals(udUsername) && !isTokenExpired(token) && !isRefresh) );
+//        log.info("validateToken: " +  (username.equals(udUsername) && !isTokenExpired(token) && !isRefresh) );
         return (username.equals(udUsername) && !isTokenExpired(token)) && !isRefresh;
     }
 }

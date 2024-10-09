@@ -16,7 +16,7 @@ public class MessageCreator {
             message.append("There are some ingredients in your fridge that will expire soon. Check them out!\n");
             withExpDate.forEach(i -> {
                 LocalDateTime expDate = i.isOpen() ? i.getAfterOpeningExpirationDate() : i.getExpirationDate();
-                message.append(String.format("%s -> %s\n", i.getIngredient().getName(), expDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))));
+                message.append(String.format("%s -> %s\n", i.getIngredient().getName(), PredefinedDateTimeFormatter.toddMMyyyy(expDate)));
             });
             message.append("\n\n");
         }
@@ -35,7 +35,7 @@ public class MessageCreator {
             message.append("And these only waits for you to throw them out :\\\n");
             expired.forEach(i -> {
                 LocalDateTime expDate = i.isOpen() ? i.getAfterOpeningExpirationDate() : i.getExpirationDate();
-                message.append(String.format("%s -> %s\n", i.getIngredient().getName(), expDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))));
+                message.append(String.format("%s -> %s\n", i.getIngredient().getName(), PredefinedDateTimeFormatter.toddMMyyyy(expDate)));
             });
         }
 

@@ -71,5 +71,4 @@ public class User {
             fridge.setUser(this);
         }
     }
-
 }
