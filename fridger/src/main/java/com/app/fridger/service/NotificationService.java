@@ -1,5 +1,6 @@
 package com.app.fridger.service;
 
+import com.app.fridger.config.MailNotificationsProperties;
 import com.app.fridger.entity.FridgeIngredient;
 import com.app.fridger.model.Notification;
 import com.app.fridger.repo.FridgeRepository;
@@ -23,6 +24,7 @@ public class NotificationService {
     private final FridgeRepository fridgeRepository;
     private final EmailService emailService;
 
+    private final MailNotificationsProperties notificationsProperties;
 
     public List<Notification> prepareFoodExpiresNotifications() {
 
@@ -38,9 +40,9 @@ public class NotificationService {
                 LocalDateTime expDate = ingredient.isOpen() ? ingredient.getAfterOpeningExpirationDate() : ingredient.getExpirationDate();
                 if (expDate == null) {
                     noExpDate.add(ingredient);
-                } else if (LocalDate.now().minusDays(3).isBefore(expDate.toLocalDate())) {
+                } else if (LocalDate.now().minusDays(notificationsProperties.getIngredients().getExpireMsgBeforeDays()).isBefore(expDate.toLocalDate())) {
                     withExpDate.add(ingredient);
-                } else if (LocalDate.now().minusDays(3).isAfter(expDate.toLocalDate())) {
+                } else if (LocalDate.now().minusDays(notificationsProperties.getIngredients().getExpireMsgBeforeDays()).isAfter(expDate.toLocalDate())) {
                     expired.add(ingredient);
                 }
             });
@@ -58,7 +60,7 @@ public class NotificationService {
     }
 
     @Transactional
-    @Scheduled(cron = "0 12 * * * ?", zone = "Europe/Warsaw") // Every day at 12:00 PM
+    @Scheduled(cron = "${mail.notifications.cron}", zone = "Europe/Warsaw") // Every day at 12:00 PM
     public void sendNotifications() {
         log.debug("Sending notifications!");
 
