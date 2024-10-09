@@ -77,6 +77,21 @@ public class GlobalErrorHandler {
                 .build();
     }
 
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Error handleRuntimeException(Exception e, HttpServletRequest request) {
+        log.error("Exception handled in global exception handler: " + e);
+        e.printStackTrace();
+
+        return Error.builder()
+                .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .time(LocalDateTime.now().atZone(ZoneId.systemDefault()).toString())
+                .message(e.getMessage())
+                .path(request.getRequestURI())
+                .method(request.getMethod())
+                .build();
+    }
+
 }
 
 @Data
