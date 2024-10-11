@@ -3,18 +3,21 @@ package com.app.fridger.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Table(name = "users")
 @Entity
 @NoArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode(of = {"username"})
 public class User {
 
     @Id
@@ -41,6 +44,9 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Fridge fridge;
+
+    @ManyToMany(mappedBy = "subscribers")
+    private Set<Notification> notifications;
 
 
     public void addRecipe(Recipe recipe) {

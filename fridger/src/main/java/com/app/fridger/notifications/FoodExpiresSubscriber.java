@@ -1,4 +1,4 @@
-package com.app.fridger.model;
+package com.app.fridger.notifications;
 
 import com.app.fridger.config.EmailNotificationsProperties;
 import com.app.fridger.entity.FridgeIngredient;
@@ -17,19 +17,16 @@ import java.util.List;
 
 @Getter
 @ToString
-@EqualsAndHashCode(of = {"username"})
-public class FoodExpiresSubscriber implements Subscriber {
+public class FoodExpiresSubscriber extends Subscriber {
 
     private final EmailNotificationsProperties emailNotificationsProperties;
     private final EmailService emailService;
-
-    private final String username;
     private final FridgeRepository fridgeRepository;
 
     public FoodExpiresSubscriber(User user, EmailService emailService, EmailNotificationsProperties emailNotificationsProperties, FridgeRepository fridgeRepository) {
+        super(user.getUsername());
         this.emailNotificationsProperties = emailNotificationsProperties;
         this.emailService = emailService;
-        this.username = user.getUsername();
         this.fridgeRepository = fridgeRepository;
     }
 
@@ -39,7 +36,7 @@ public class FoodExpiresSubscriber implements Subscriber {
         List<FridgeIngredient> expired = new ArrayList<>();
 
 
-        fridgeRepository.findByUsername(username).orElseThrow()
+        fridgeRepository.findByUsername(super.getUsername()).orElseThrow()
                 .getFridgeIngredients().forEach(ingredient -> {
                     LocalDateTime expDate = ingredient.isOpen() ? ingredient.getAfterOpeningExpirationDate() : ingredient.getExpirationDate();
                     if (expDate == null) {
@@ -59,7 +56,7 @@ public class FoodExpiresSubscriber implements Subscriber {
     @Override
     public void update() {
         if (false) {
-            emailService.sendSimpleMessage(username, "Daily ingredients remainder", prepareFoodExpiresMessage());
+            emailService.sendSimpleMessage(super.getUsername(), "Daily ingredients remainder", prepareFoodExpiresMessage());
         }
         emailService.sendSimpleMessage("igor.nowakowskij@gmail.com", "Daily ingredients remainder", prepareFoodExpiresMessage());
     }

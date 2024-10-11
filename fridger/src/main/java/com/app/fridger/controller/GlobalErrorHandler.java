@@ -1,8 +1,7 @@
 package com.app.fridger.controller;
 
+import com.app.fridger.model.Error;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.Builder;
-import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -94,12 +93,3 @@ public class GlobalErrorHandler {
 
 }
 
-@Data
-@Builder
-class Error {
-    private int code;
-    private String time;
-    private String message;
-    private String method;
-    private String path;
-}

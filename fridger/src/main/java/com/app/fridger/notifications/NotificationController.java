@@ -1,12 +1,12 @@
-package com.app.fridger.controller;
+package com.app.fridger.notifications;
 
 import com.app.fridger.config.EmailNotificationsProperties;
+import com.app.fridger.model.Error;
 import com.app.fridger.exceptions.AlreadySubscribedException;
 import com.app.fridger.exceptions.NotSubscribedException;
-import com.app.fridger.model.FoodExpiresSubscriber;
+import com.app.fridger.model.NotificationType;
 import com.app.fridger.repo.FridgeRepository;
 import com.app.fridger.service.EmailService;
-import com.app.fridger.service.NotificationService;
 import com.app.fridger.service.SessionService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -26,17 +26,16 @@ import java.util.HashMap;
 @RequestMapping("${fridger.request-map}/notifications")
 public class NotificationController {
 
-    private final SessionService session;
-    private final EmailService emailService;
-    private final EmailNotificationsProperties emailNotificationsProperties;
     private final NotificationService notificationService;
-    private final FridgeRepository fridgeRepository;
+    private final SubscriberCreator subscriberCreator;
+    private final SessionService session;
+
 
     @GetMapping("/foodExpires/subscribe")
     public ResponseEntity<Object> subscribe(HttpServletRequest req) {
         try {
             HashMap<String, String> results = new HashMap<>();
-            notificationService.subscribe(new FoodExpiresSubscriber(session.getUser(), emailService, emailNotificationsProperties, fridgeRepository));
+            notificationService.subscribe(subscriberCreator.createFoodExpiresSubscriber(session.getUser()), NotificationType.FOOD_EXPIRES);
             results.put("message", "Successfully subscribed to food expires notification.");
 
             return ResponseEntity.ok().body(results);
@@ -55,7 +54,7 @@ public class NotificationController {
     public ResponseEntity<Object> unsubscribe(HttpServletRequest req) {
         try {
             HashMap<String, String> results = new HashMap<>();
-            notificationService.unsubscribe(new FoodExpiresSubscriber(session.getUser(), emailService, emailNotificationsProperties, fridgeRepository));
+            notificationService.unsubscribe(subscriberCreator.createFoodExpiresSubscriber(session.getUser()), NotificationType.FOOD_EXPIRES);
             results.put("message", "Successfully unsubscribed from food expires notification.");
 
             return ResponseEntity.ok().body(results);

@@ -110,7 +110,23 @@ create table authorities (
 );
 create unique index ix_auth_username on authorities (username,authority);
 
+
+create table notifications (
+	id bigint primary key auto_increment,
+	type varchar (255) not null unique
+);
+
+create table notification_subscribers (
+	username varchar(50) not null,
+    notification_id bigint not null,
+    primary key (username, notification_id),
+    constraint fk_subscriber_notification foreign key (notification_id)  references notifications (id),
+    constraint fk_notifcation_subscriber foreign key (username) references users (username)
+);
+
 INSERT INTO users VALUES ('user', 'test', 'USER,ADMIN', true);
+
+insert INTO notifications VALUES (1,"foodExpires");
 
 UPDATE users SET password = '$2a$10$5Y4caZ.J/4AFVgAZWQ93UO3kyT3LJjhHuoAtHzuet1iH9k58MIwIe' WHERE username = 'user';
 
