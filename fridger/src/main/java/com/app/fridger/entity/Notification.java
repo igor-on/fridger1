@@ -1,9 +1,13 @@
 package com.app.fridger.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -30,6 +34,7 @@ public class Notification {
             joinColumns = @JoinColumn(name = "notification_id"),
             inverseJoinColumns = @JoinColumn(name = "username")
     )
+    @JsonIncludeProperties(value = {"username"})
     private Set<User> subscribers;
 
     public void addSubscriber(User user) {

@@ -7,38 +7,36 @@ import com.app.fridger.exceptions.NotSubscribedException;
 import com.app.fridger.model.NotificationType;
 import com.app.fridger.repo.NotificationRepository;
 import com.app.fridger.repo.UserRepository;
-import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 @Log4j2
-@RequiredArgsConstructor
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;
     private final UserRepository userRepository;
-    private final List<Subscriber> subscribers = new ArrayList<>();
+    private final SubscriberCreator subscriberCreator;
 
-    @PostConstruct
-    public void print() {
-        log.debug("Subscribers: " + subscribers);
+    @Autowired
+    public NotificationService(NotificationRepository notificationRepository, UserRepository userRepository, SubscriberCreator subscriberCreator) {
+        this.notificationRepository = notificationRepository;
+        this.userRepository = userRepository;
+        this.subscriberCreator = subscriberCreator;
     }
 
     @Transactional
     public void subscribe(Subscriber subscriber, NotificationType notificationType) throws AlreadySubscribedException {
-        if (subscribers.contains(subscriber)) {
+        Notification notification = notificationRepository.findByType(notificationType.getName()).orElseThrow();
+        User user = userRepository.findByUsername(subscriber.getUsername()).orElseThrow();
+
+        if (notification.getSubscribers().contains(user)) {
             throw new AlreadySubscribedException();
         }
 
-        Notification notification = notificationRepository.findByType(notificationType.getName()).orElseThrow();
-        User user = userRepository.findByUsername(subscriber.getUsername()).orElseThrow();
         switch (notificationType) { // More soon...
             default:
             case FOOD_EXPIRES:
@@ -47,32 +45,33 @@ public class NotificationService {
 
 
         notificationRepository.save(notification);
-        subscribers.add(subscriber);
     }
 
     @Transactional
     public void unsubscribe(Subscriber subscriber, NotificationType notificationType) throws NotSubscribedException {
-        if (!subscribers.contains(subscriber)) {
+        Notification notification = notificationRepository.findByType(notificationType.getName()).orElseThrow();
+        User user = userRepository.findByUsername(subscriber.getUsername()).orElseThrow();
+
+        if (!notification.getSubscribers().contains(user)) {
             throw new NotSubscribedException();
         }
 
-        Notification notification = notificationRepository.findByType(notificationType.getName()).orElseThrow();
-        User user = userRepository.findByUsername(subscriber.getUsername()).orElseThrow();
         switch (notificationType) { // More soon...
             default:
             case FOOD_EXPIRES:
                 notification.removeSubscriber(user);
         }
-
-
-
-        subscribers.remove(subscriber);
     }
 
     @Transactional
     @Scheduled(cron = "${mail.notifications.cron}", zone = "Europe/Warsaw")
     public void sendNotifications() {
         log.debug("Sending notifications!");
-        subscribers.forEach(Subscriber::update);
+        notificationRepository.findAll().forEach(n -> {
+            n.getSubscribers().forEach(s -> {
+                subscriberCreator.create(FoodExpiresSubscriber.class, s).update();
+            });
+        });
+//        subscribers.forEach(Subscriber::update);
     }
 }

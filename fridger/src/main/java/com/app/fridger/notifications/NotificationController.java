@@ -1,12 +1,9 @@
 package com.app.fridger.notifications;
 
-import com.app.fridger.config.EmailNotificationsProperties;
-import com.app.fridger.model.Error;
 import com.app.fridger.exceptions.AlreadySubscribedException;
 import com.app.fridger.exceptions.NotSubscribedException;
+import com.app.fridger.model.Error;
 import com.app.fridger.model.NotificationType;
-import com.app.fridger.repo.FridgeRepository;
-import com.app.fridger.service.EmailService;
 import com.app.fridger.service.SessionService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +32,8 @@ public class NotificationController {
     public ResponseEntity<Object> subscribe(HttpServletRequest req) {
         try {
             HashMap<String, String> results = new HashMap<>();
-            notificationService.subscribe(subscriberCreator.createFoodExpiresSubscriber(session.getUser()), NotificationType.FOOD_EXPIRES);
+
+            notificationService.subscribe(subscriberCreator.create(FoodExpiresSubscriber.class, session.getUser()), NotificationType.FOOD_EXPIRES);
             results.put("message", "Successfully subscribed to food expires notification.");
 
             return ResponseEntity.ok().body(results);

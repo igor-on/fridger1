@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class FoodExpiresSubscriber extends Subscriber {
 
     private final EmailNotificationsProperties emailNotificationsProperties;

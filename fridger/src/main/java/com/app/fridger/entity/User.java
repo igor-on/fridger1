@@ -41,7 +41,7 @@ public class User {
     @JsonIgnore
     private List<GroceriesList> groceriesLists;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     private Fridge fridge;
 
