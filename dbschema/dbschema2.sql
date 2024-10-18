@@ -100,7 +100,11 @@ create table users(
 	username varchar(50) not null primary key,
 	password varchar(500) not null,
     roles varchar(255) not null,
-	enabled boolean not null
+	enabled boolean not null,
+	email VARCHAR(55),
+    first_name VARCHAR(55),
+    last_name VARCHAR(55),
+    profile_picture MEDIUMBLOB
 );
 
 create table authorities (

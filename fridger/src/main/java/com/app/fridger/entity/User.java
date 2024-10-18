@@ -2,6 +2,7 @@ package com.app.fridger.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -32,6 +33,21 @@ public class User {
     @Column(name = "enabled")
     @JsonIgnore
     private Boolean enabled;
+
+    @Column(name = "email")
+    @Email
+    private String email;
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "profile_picture", columnDefinition = "MEDIUMBLOB")
+    // TODO: for now - later move id do S3 service
+    @Lob
+    private byte[] profilePicture;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     @JsonIgnore
