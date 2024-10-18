@@ -38,6 +38,7 @@ import { SharedModule } from './shared/shared.module';
 import { ListComponent } from './shared/components/list/list.component';
 import { DynamicFormComponent } from './shared/components/dynamic-form/dynamic-form.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { MatMenuModule } from '@angular/material/menu';
     SharedModule,
     DynamicFormComponent,
     MatMenuModule,
+    NavbarComponent,
   ],
   providers: [
     {

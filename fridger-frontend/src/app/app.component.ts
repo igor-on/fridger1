@@ -12,6 +12,7 @@ import { Subscription, delay, filter } from 'rxjs';
 import { AuthService } from './services/auth.service';
 import { MessageService } from './services/message.service';
 import { MessageService as PrimengMessageService } from 'primeng/api';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +29,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   // sidenavOpened!: boolean;
   sidenavHidden = false;
 
+  mobile = false;
+
   messageSubscription?: Subscription;
 
   constructor(
@@ -42,6 +45,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.authService.listenForTokenRefresh();
 
     this.sidenavMode = window.innerWidth <= 1054 ? 'over' : 'side';
+
+    this.mobile = window.innerWidth <= 1054;
 
     this.router.events
       .pipe(filter(event => event instanceof NavigationStart))

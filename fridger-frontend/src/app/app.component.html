@@ -1,3 +1,10 @@
+@if (mobile) {
+<app-navbar></app-navbar>
+<p-toast></p-toast>
+<router-outlet></router-outlet>
+
+} @else {
+
 <mat-drawer-container class="main-wrapper">
     <!-- <div class="h-[100%] w-[15rem] bg-black"></div> -->
     <mat-drawer [hidden]="sidenavHidden" #drawer [mode]="sidenavMode">
@@ -14,3 +21,5 @@
         <router-outlet></router-outlet>
     </mat-drawer-content>
 </mat-drawer-container>
+
+}
