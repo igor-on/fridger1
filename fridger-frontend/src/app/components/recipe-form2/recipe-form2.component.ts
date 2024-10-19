@@ -26,7 +26,7 @@ import { JsonPipe } from '@angular/common';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { MessageService } from 'src/app/services/message.service';
 import { AsTypePipe } from 'src/app/shared/pipes/as-type.pipe';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
@@ -43,6 +43,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     JsonPipe,
     AsTypePipe,
     MatProgressSpinnerModule,
+    RouterLink,
   ],
   templateUrl: './recipe-form2.component.html',
   styleUrl: './recipe-form2.component.scss',

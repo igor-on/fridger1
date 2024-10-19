@@ -1,6 +1,12 @@
 import { DialogModule } from '@angular/cdk/dialog';
 import { DatePipe } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -32,6 +38,9 @@ import { ListGroceriesList } from 'src/app/shared/models/list-groceries-list.mod
 import { AsTypePipe } from 'src/app/shared/pipes/as-type.pipe';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatBadgeModule } from '@angular/material/badge';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-groceries-details',
@@ -60,6 +69,8 @@ import { MatBadgeModule } from '@angular/material/badge';
   styleUrl: './groceries-details.component.scss',
 })
 export class GroceriesDetailsComponent implements OnInit {
+  @ViewChild('groceriesList', { static: true }) groceriesList!: ElementRef;
+
   dialogReadingInfo =
     'This list was generated with fridge ingredients checking option enabled. The ingredients you are missing are in the first table. The ingredients that are already in your fridge are on the second table.';
   form!: FormArray;
@@ -71,6 +82,11 @@ export class GroceriesDetailsComponent implements OnInit {
     'unit',
     'expiration-date',
   ];
+
+  groceriesRange =
+    format(this.data.startDate, 'dd.MM.yyyy') +
+    ' - ' +
+    format(this.data.endDate, 'dd.MM.yyyy');
   protected readonly FormControl!: FormControl;
 
   constructor(
@@ -85,6 +101,21 @@ export class GroceriesDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     console.log(this.form.value);
+  }
+
+  downloadPDF() {
+    const data = this.groceriesList.nativeElement;
+    if (data) {
+      html2canvas(data).then(canvas => {
+        const imgWidth = 208;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        const contentDataURL = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const position = 0;
+        pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+        pdf.save(`groceries-list-${this.groceriesRange.replace(' ', '')}.pdf`);
+      });
+    }
   }
 
   onAddToFridge() {
@@ -163,7 +194,4 @@ export class GroceriesDetailsComponent implements OnInit {
 })
 export class AddExpirationDateDialog {
   constructor(public dialogRef: MatDialogRef<AddExpirationDateDialog>) {}
-}
-function providerNativeDateAdapter(): import('@angular/core').Provider {
-  throw new Error('Function not implemented.');
 }

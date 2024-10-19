@@ -1,6 +1,6 @@
 package com.app.fridger.repo;
 
-import com.app.fridger.entity.Fridge;
+import com.app.fridger.entity.Notification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface FridgeRepository extends JpaRepository<Fridge, String> {
+public interface NotificationRepository extends JpaRepository<Notification, Long> {
 
-    Optional<Fridge> findByUsername(@Param("username")String username);
+    Optional<Notification> findByType(@Param("type") String notificationType);
 }

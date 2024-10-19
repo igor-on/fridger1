@@ -65,9 +65,16 @@
         </ul>
     </div>
 
-    <button type="button" class="btn-primary flex items-center gap-2" [matMenuTriggerFor]="menu">
-        <mat-icon aria-hidden="false" aria-label="person icon" fontIcon="person"></mat-icon> {{ credentials.sub }}
-    </button>
+    <div class="flex items-center gap-1">
+        <img class="h-16 w-16 rounded-full" [src]="profilePicture" alt="" />
+        <!-- <button type="button" class="btn-primary gap-2" [matMenuTriggerFor]="menu"> -->
+        <div>
+            <b>
+                {{ credentials.sub }}
+            </b>
+        </div>
+        <!-- </button> -->
+    </div>
 
     <mat-menu #menu="matMenu">
         <button mat-menu-item class="text-red-400" (click)="onLogOut()">

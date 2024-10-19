@@ -1,8 +1,7 @@
 package com.app.fridger.controller;
 
+import com.app.fridger.model.Error;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.Builder;
-import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -77,14 +76,20 @@ public class GlobalErrorHandler {
                 .build();
     }
 
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Error handleRuntimeException(Exception e, HttpServletRequest request) {
+        log.error("Exception handled in global exception handler: " + e);
+        e.printStackTrace();
+
+        return Error.builder()
+                .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .time(LocalDateTime.now().atZone(ZoneId.systemDefault()).toString())
+                .message(e.getMessage())
+                .path(request.getRequestURI())
+                .method(request.getMethod())
+                .build();
+    }
+
 }
 
-@Data
-@Builder
-class Error {
-    private int code;
-    private String time;
-    private String message;
-    private String method;
-    private String path;
-}

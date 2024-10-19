@@ -39,7 +39,12 @@ public class FridgeService {
     public Optional<FridgeIngredientDTO> getIngredientByName(String name) {
         // TODO: now there can be more than one fridge ingrs with the same name - think about how to stack these
         List<FridgeIngredient> ingrsByName = getFridge().getFridgeIngredients().stream().filter(i -> name.equals(i.getIngredient().getName())).toList();
-        return Optional.of(new FridgeIngredientDTO(ingrsByName));
+        try {
+            return Optional.of(new FridgeIngredientDTO(ingrsByName));
+        } catch (Exception e) {
+            log.error(e);
+            return Optional.empty();
+        }
     }
 
     @Transactional
