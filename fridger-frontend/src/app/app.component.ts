@@ -29,7 +29,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   // sidenavOpened!: boolean;
   sidenavHidden = false;
 
-  mobile = false;
+  mobile = true;
 
   messageSubscription?: Subscription;
 
@@ -44,8 +44,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.handleMessages();
     this.authService.listenForTokenRefresh();
 
-    this.sidenavMode = window.innerWidth <= 1054 ? 'over' : 'side';
-
+    // this.sidenavMode = window.innerWidth <= 1054 ? 'over' : 'side';
+    console.log(window.innerWidth);
     this.mobile = window.innerWidth <= 1054;
 
     this.router.events
@@ -68,6 +68,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit(): void {
     window.innerWidth < 1054 ? this.sidenav.close() : this.sidenav.open();
+    // this.sidenav.open();
   }
 
   handleMessages() {

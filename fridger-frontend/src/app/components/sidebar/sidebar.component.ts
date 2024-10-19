@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
@@ -10,6 +10,8 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent {
+  @Output() closeMenu = new EventEmitter<void>();
+
   credentials!: { sub: string; iat: number; exp: number };
 
   profilePicture!: SafeUrl;

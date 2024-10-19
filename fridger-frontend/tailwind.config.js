@@ -8,7 +8,10 @@ module.exports = {
       colors: {
         transparent: 'transparent',
         current: 'currentColor',
-        'dirty-white': '#edece8'
+        'dirty-white': '#edece8',
+        'light-gray': '#A4A3A3',
+        'very-light-gray': '#D9D9D9',
+        'material-blue': '#005cbb',
       },
     },
   },

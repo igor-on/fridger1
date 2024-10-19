@@ -11,6 +11,7 @@ import { LoginComponent } from './components/login/login.component';
 import { authGuard } from './guards/auth-guard';
 import { DynamicFormTestComponent } from './components/dynamic-form-test/dynamic-form-test.component';
 import { RecipeForm2Component } from './components/recipe-form2/recipe-form2.component';
+import { MyAccountComponent } from './components/my-account/my-account.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -53,6 +54,11 @@ const routes: Routes = [
       import('./components/fridge/fridge.component').then(mod => {
         return mod.FridgeComponent;
       }),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'my-account',
+    component: MyAccountComponent,
     canActivate: [authGuard],
   },
 ];

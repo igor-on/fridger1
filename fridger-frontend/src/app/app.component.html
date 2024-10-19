@@ -1,12 +1,10 @@
-@if (mobile) {
-<app-navbar></app-navbar>
-<p-toast></p-toast>
-<router-outlet></router-outlet>
+<!-- @if (mobile) {
+
+
 
 } @else {
 
 <mat-drawer-container class="main-wrapper">
-    <!-- <div class="h-[100%] w-[15rem] bg-black"></div> -->
     <mat-drawer [hidden]="sidenavHidden" #drawer [mode]="sidenavMode">
         <app-sidebar></app-sidebar>
     </mat-drawer>
@@ -22,4 +20,38 @@
     </mat-drawer-content>
 </mat-drawer-container>
 
+} -->
+
+@if (mobile) {
+
+<mat-drawer-container class="main-wrapper">
+    <mat-drawer class="!w-full" [hidden]="false" #drawer [mode]="'over'">
+        <app-sidebar-mobile (closeMenu)="drawer.close()"></app-sidebar-mobile>
+    </mat-drawer>
+    <mat-drawer-content>
+        <app-navbar (openMenu)="drawer.open()"></app-navbar>
+        <p-toast></p-toast>
+        <router-outlet></router-outlet>
+        <!-- <div class="example-sidenav-content">
+                <button type="button" mat-button (click)="drawer.toggle()">Toggle sidenav</button>
+            </div> -->
+    </mat-drawer-content>
+</mat-drawer-container>
+
+} @else {
+<mat-drawer-container class="main-wrapper">
+    <mat-drawer [hidden]="sidenavHidden" #drawer [mode]="sidenavMode">
+        <app-sidebar></app-sidebar>
+    </mat-drawer>
+    <mat-drawer-content>
+        <div
+            [hidden]="drawer.mode === 'side'"
+            class="fixed left-2 top-2 z-[9999999] cursor-pointer text-xl transition-all duration-300 hover:text-2xl"
+            (click)="drawer.toggle()">
+            <i class="bi bi-three-dots-vertical"></i>
+        </div>
+        <p-toast></p-toast>
+        <router-outlet></router-outlet>
+    </mat-drawer-content>
+</mat-drawer-container>
 }

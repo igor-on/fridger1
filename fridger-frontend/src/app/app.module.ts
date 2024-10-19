@@ -39,6 +39,7 @@ import { ListComponent } from './shared/components/list/list.component';
 import { DynamicFormComponent } from './shared/components/dynamic-form/dynamic-form.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { SidebarMobileComponent } from './components/sidebar-mobile/sidebar-mobile.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     DynamicFormComponent,
     MatMenuModule,
     NavbarComponent,
+    SidebarMobileComponent,
   ],
   providers: [
     {
