@@ -1,24 +1,29 @@
 import {
   AfterViewInit,
   Component,
-  ElementRef,
   HostListener,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { MatDrawer, MatDrawerMode } from '@angular/material/sidenav';
-import { NavigationStart, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  ChildrenOutletContexts,
+  NavigationStart,
+  Router,
+} from '@angular/router';
 import { Subscription, delay, filter } from 'rxjs';
 import { AuthService } from './services/auth.service';
 import { MessageService } from './services/message.service';
 import { MessageService as PrimengMessageService } from 'primeng/api';
-import { NavbarComponent } from './components/navbar/navbar.component';
+import { rightSlideInOutAnimation } from './animations';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   providers: [PrimengMessageService],
+  animations: [rightSlideInOutAnimation],
 })
 export class AppComponent implements OnInit, AfterViewInit {
   title = 'fridger-frontend';
@@ -34,11 +39,21 @@ export class AppComponent implements OnInit, AfterViewInit {
   messageSubscription?: Subscription;
 
   constructor(
+    public route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
     private messageService: MessageService,
-    private primengMessageService: PrimengMessageService
+    private primengMessageService: PrimengMessageService,
+    private contexts: ChildrenOutletContexts
   ) {}
+
+  getRouteAnimationData() {
+    console.log(this.contexts);
+
+    return this.contexts.getContext('primary')?.route?.snapshot?.data?.[
+      'animation'
+    ];
+  }
 
   ngOnInit(): void {
     this.handleMessages();

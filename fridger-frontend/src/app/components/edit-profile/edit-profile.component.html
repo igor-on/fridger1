@@ -1,0 +1,31 @@
+<div class="absolute left-0 top-0 h-[100vh] w-full bg-white">
+    <div class="h-11"></div>
+    <div routerLink="/my-account" class="mb-[36px] ml-[48px] flex items-center gap-[16px]">
+        <mat-icon class="medium-icon" [fontIcon]="Icon.ARROW_BACK"></mat-icon>
+        <div class="medium-text">Back</div>
+    </div>
+    <section class="mb-[52px] flex justify-center">
+        <div class="relative">
+            <img class="h-[124px] w-[124px] rounded-full bg-light-gray" src="" alt="" />
+            <div
+                class="absolute bottom-0 right-0 flex h-[32px] w-[32px] items-center justify-center rounded-full bg-black">
+                <mat-icon class="small-icon text-white" [fontIcon]="Icon.PHOTO_CAMERA"></mat-icon>
+            </div>
+        </div>
+    </section>
+    <section class="mx-[20px] my-6">
+        <h5 class="small-text mb-[16px] text-light-gray" style="font-weight: 400">Information</h5>
+        <div class="mx-1 mb-16">
+            <app-dynamic-form #form [fields]="fields" flexDirection="vertical" [buttons]="[]"></app-dynamic-form>
+        </div>
+        <div class="flex justify-center">
+            <button
+                [disabled]="form.formGroup.invalid"
+                [ngClass]="{ 'disabled-btn': form.formGroup.invalid, 'text-white': form.formGroup.valid }"
+                class="flex items-center rounded-3xl bg-material-blue px-[12px] py-2 transition-all duration-300">
+                Update profile
+                <mat-icon aria-hidden="false" aria-label="Example home icon" [fontIcon]="Icon.CHECK"></mat-icon>
+            </button>
+        </div>
+    </section>
+</div>

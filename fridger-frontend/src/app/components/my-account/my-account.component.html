@@ -1,21 +1,23 @@
-<div class="mt-9 flex flex-col">
+<div class="main-content mt-9 flex flex-col">
     <section class="flex flex-col items-center">
         <img
             class="mb-2 h-[86px] w-[86px] rounded-full"
             src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/no-profile-picture-icon.png"
             alt="" />
         <p class="medium-text !mb-2">First Last</p>
-        <p class="text-light-gray small-text !mb-3">&#64;test</p>
-        <button class="bg-material-blue flex items-center rounded-3xl px-[12px] py-2 text-white">
+        <p class="small-text !mb-3 text-light-gray">&#64;test</p>
+        <button
+            routerLink="/edit-profile"
+            class="flex items-center rounded-3xl bg-material-blue px-[12px] py-2 text-white">
             Edit profile
             <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="chevron_right"></mat-icon>
         </button>
     </section>
     <section class="mx-[20px] my-6">
-        <h5 class="small-text text-light-gray mb-[16px]" style="font-weight: 400">Information</h5>
+        <h5 class="small-text mb-[16px] text-light-gray" style="font-weight: 400">Information</h5>
         <div class="mx-1 mb-[16px] flex items-center justify-between">
             <div class="px-1" class="flex items-center gap-2">
-                <div class="bg-very-light-gray flex h-8 w-8 items-center justify-center rounded-full">
+                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-very-light-gray">
                     <mat-icon
                         class="small-icon text-light-gray"
                         aria-hidden="false"
@@ -28,7 +30,7 @@
         </div>
         <div class="mx-1 flex items-center justify-between">
             <div class="px-1" class="flex items-center gap-2">
-                <div class="bg-very-light-gray flex h-8 w-8 items-center justify-center rounded-full">
+                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-very-light-gray">
                     <mat-icon
                         class="small-icon text-light-gray"
                         aria-hidden="false"
@@ -41,10 +43,10 @@
         </div>
     </section>
     <section class="mx-[20px]">
-        <h5 class="small-text text-light-gray mb-[16px]" style="font-weight: 400">Notifications</h5>
+        <h5 class="small-text mb-[16px] text-light-gray" style="font-weight: 400">Notifications</h5>
         <div class="mx-1 mb-[16px] flex items-center justify-between">
             <div class="px-1" class="flex items-center gap-2">
-                <div class="bg-very-light-gray flex h-8 w-8 items-center justify-center rounded-full">
+                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-very-light-gray">
                     <mat-icon
                         class="small-icon text-light-gray"
                         aria-hidden="false"
@@ -57,7 +59,7 @@
         </div>
         <div class="mx-1 flex items-center justify-between">
             <div class="px-1" class="flex items-center gap-2">
-                <div class="bg-very-light-gray flex h-8 w-8 items-center justify-center rounded-full">
+                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-very-light-gray">
                     <mat-icon
                         class="small-icon text-light-gray"
                         aria-hidden="false"
@@ -70,3 +72,5 @@
         </div>
     </section>
 </div>
+
+<div class="backdrop opacity-1 absolute left-0 top-0 z-[9999] hidden h-full w-full bg-black"></div>

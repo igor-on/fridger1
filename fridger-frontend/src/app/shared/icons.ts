@@ -7,4 +7,7 @@ export enum Icon {
   FRIDGE = 'kitchen',
   BULB = 'lightbulb',
   CONTACT = 'contact_phone',
+  PHOTO_CAMERA = 'photo_camera',
+  ARROW_BACK = 'arrow_back',
+  CHECK = 'check',
 }

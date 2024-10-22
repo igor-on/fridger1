@@ -31,7 +31,9 @@
     <mat-drawer-content>
         <app-navbar (openMenu)="drawer.open()"></app-navbar>
         <p-toast></p-toast>
-        <router-outlet></router-outlet>
+        <div [@routeAnimations]="getRouteAnimationData()">
+            <router-outlet></router-outlet>
+        </div>
         <!-- <div class="example-sidenav-content">
                 <button type="button" mat-button (click)="drawer.toggle()">Toggle sidenav</button>
             </div> -->

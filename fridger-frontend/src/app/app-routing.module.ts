@@ -12,6 +12,7 @@ import { authGuard } from './guards/auth-guard';
 import { DynamicFormTestComponent } from './components/dynamic-form-test/dynamic-form-test.component';
 import { RecipeForm2Component } from './components/recipe-form2/recipe-form2.component';
 import { MyAccountComponent } from './components/my-account/my-account.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -60,6 +61,13 @@ const routes: Routes = [
     path: 'my-account',
     component: MyAccountComponent,
     canActivate: [authGuard],
+    data: { animation: 'MyAccount' },
+  },
+  {
+    path: 'edit-profile',
+    component: EditProfileComponent,
+    canActivate: [authGuard],
+    data: { animation: 'EditProfile' },
   },
 ];
 

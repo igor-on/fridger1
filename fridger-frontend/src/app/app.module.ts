@@ -16,7 +16,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RecipeCalendarComponent } from './components/recipe-calendar/recipe-calendar.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { AddEventDialogComponent } from './components/recipe-calendar/add-event-dialog/add-event-dialog.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  BrowserAnimationsModule,
+  provideAnimations,
+} from '@angular/platform-browser/animations';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatDialogModule,
@@ -90,6 +93,7 @@ import { SidebarMobileComponent } from './components/sidebar-mobile/sidebar-mobi
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: { position: { top: '15rem' } },
     },
+    provideAnimations(),
   ],
   bootstrap: [AppComponent],
 })
