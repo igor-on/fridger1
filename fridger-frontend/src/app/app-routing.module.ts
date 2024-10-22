@@ -13,6 +13,10 @@ import { DynamicFormTestComponent } from './components/dynamic-form-test/dynamic
 import { RecipeForm2Component } from './components/recipe-form2/recipe-form2.component';
 import { MyAccountComponent } from './components/my-account/my-account.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import {
+  userProfilePictureResolver,
+  userResolver,
+} from './shared/resolvers/user.resolver';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -62,6 +66,7 @@ const routes: Routes = [
     component: MyAccountComponent,
     canActivate: [authGuard],
     data: { animation: 'MyAccount' },
+    resolve: { user: userResolver, userProfPic: userProfilePictureResolver },
   },
   {
     path: 'edit-profile',

@@ -30,8 +30,8 @@ export const rightSlideInOutAnimation = trigger('routeAnimations', [
     ]),
     query(':enter', [style({ left: '100%' })], { optional: true }),
     group([
-      query('.backdrop', [animate('300ms ease-out', style({ opacity: 0.7 }))]),
-      query(':enter', [animate('300ms ease-out', style({ left: '0%' }))], {
+      query('.backdrop', [animate('300ms ease', style({ opacity: 0.7 }))]),
+      query(':enter', [animate('300ms ease', style({ left: '0%' }))], {
         optional: true,
       }),
     ]),

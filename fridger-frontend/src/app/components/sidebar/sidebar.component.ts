@@ -22,25 +22,7 @@ export class SidebarComponent {
     private sanitazer: DomSanitizer
   ) {}
 
-  ngOnInit(): void {
-    const token = localStorage.getItem('token');
-
-    if (token) {
-      this.credentials = jwtDecode<{
-        sub: string;
-        iat: number;
-        exp: number;
-      }>(localStorage.getItem('token')!);
-
-      console.log(this.credentials);
-    }
-
-    this.userService.getUserProfilePicture()!.subscribe((img: any) => {
-      const objectURL = URL.createObjectURL(img);
-      this.profilePicture = this.sanitazer.bypassSecurityTrustUrl(objectURL);
-      // console.log('profilePicture', this.profilePicture);
-    });
-  }
+  ngOnInit(): void {}
 
   onLogOut() {
     this.authService.logout();

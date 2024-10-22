@@ -6,7 +6,7 @@
     </div>
     <section class="mb-[52px] flex justify-center">
         <div class="relative">
-            <img class="h-[124px] w-[124px] rounded-full bg-light-gray" src="" alt="" />
+            <img class="light-shadow h-[124px] w-[124px] rounded-full bg-light-gray" src="" alt="" />
             <div
                 class="absolute bottom-0 right-0 flex h-[32px] w-[32px] items-center justify-center rounded-full bg-black">
                 <mat-icon class="small-icon text-white" [fontIcon]="Icon.PHOTO_CAMERA"></mat-icon>
@@ -22,7 +22,7 @@
             <button
                 [disabled]="form.formGroup.invalid"
                 [ngClass]="{ 'disabled-btn': form.formGroup.invalid, 'text-white': form.formGroup.valid }"
-                class="flex items-center rounded-3xl bg-material-blue px-[12px] py-2 transition-all duration-300">
+                class="light-shadow flex items-center rounded-3xl bg-material-blue px-[12px] py-2 transition-all duration-300">
                 Update profile
                 <mat-icon aria-hidden="false" aria-label="Example home icon" [fontIcon]="Icon.CHECK"></mat-icon>
             </button>

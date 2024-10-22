@@ -17,8 +17,9 @@
   --pastel-orange: rgb(228, 194, 132);
   --pastel-yellow: rgb(234, 234, 160);
   --pastel-red: rgb(244, 117, 117);
-  --light-gray: #a4a3a3;
-  --dark-gray: #3a3939;
+  --light-gray: #b7b7b7;
+  --mid-gray: #949393;
+  --dark-gray: #757575;
   --material-blue: #005cbb;
 }
 
@@ -197,7 +198,16 @@ body {
 }
 
 .disabled-btn {
-  background-color: #969696;
-  color: var(--dark-gray) !important;
-  opacity: 0.6;
+  background-color: var(--light-gray);
+  color: var(--mid-gray) !important;
+  fill: var(--mid-gray);
+  box-shadow: inset 0px 4px 15px 0px rgba(0, 0, 0, 20%) !important;
+}
+
+.light-shadow {
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px;
+}
+
+.light-inner-shadow {
+  box-shadow: inset 0px 4px 15px 0px rgba(0, 0, 0, 20%);
 }

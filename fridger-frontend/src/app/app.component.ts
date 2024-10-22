@@ -48,16 +48,17 @@ export class AppComponent implements OnInit, AfterViewInit {
   ) {}
 
   getRouteAnimationData() {
-    console.log(this.contexts);
-
     return this.contexts.getContext('primary')?.route?.snapshot?.data?.[
       'animation'
     ];
   }
 
   ngOnInit(): void {
+    console.log('App component initialized');
+
     this.handleMessages();
     this.authService.listenForTokenRefresh();
+    this.authService.autologin();
 
     // this.sidenavMode = window.innerWidth <= 1054 ? 'over' : 'side';
     console.log(window.innerWidth);

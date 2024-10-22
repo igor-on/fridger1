@@ -10,4 +10,5 @@ export enum Icon {
   PHOTO_CAMERA = 'photo_camera',
   ARROW_BACK = 'arrow_back',
   CHECK = 'check',
+  LOGOUT = 'logout',
 }

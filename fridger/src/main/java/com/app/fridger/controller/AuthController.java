@@ -42,8 +42,7 @@ public class AuthController {
             response.addCookie(jwtRefreshTokenCookie);
 
             return AuthResponse.builder()
-                    .username(authRequest.getUsername())
-                    .tokenData(tokenData)
+                    .token(tokenData.getToken())
                     .build();
         } else {
             throw new UsernameNotFoundException("invalid user request !");

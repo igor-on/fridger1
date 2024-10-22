@@ -1,8 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
-import { empty, Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  empty,
+  Observable,
+  ReplaySubject,
+  Subject,
+  tap,
+} from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { UserDTO } from '../shared/models/user.dto';
+import { TokenService } from './token.service';
+import { AuthUser } from '../shared/models/auth-user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,38 +20,18 @@ import { environment } from 'src/environments/environment';
 export class UserService {
   private url = `${environment.apiUrl}/user`;
 
+  public authUser = new BehaviorSubject<AuthUser | undefined>(undefined);
+
   constructor(private httpClient: HttpClient) {}
 
-  getUserInfo() {
-    // TODO: temporary solutin - create TokenService
-    const token = localStorage.getItem('token');
-
-    if (token) {
-      const cred = jwtDecode<{
-        sub: string;
-        iat: number;
-        exp: number;
-      }>(localStorage.getItem('token')!);
-
-      return this.httpClient.get(`${this.url}/${cred.sub}`);
-    } else return null;
+  getUserDetails(username: string): Observable<UserDTO> {
+    return this.httpClient.get<UserDTO>(`${this.url}/${username}`);
   }
 
-  getUserProfilePicture(): Observable<any> {
-    const token = localStorage.getItem('token');
-
-    if (token) {
-      const cred = jwtDecode<{
-        sub: string;
-        iat: number;
-        exp: number;
-      }>(localStorage.getItem('token')!);
-
-      return this.httpClient.get<Blob>(
-        `${this.url}/${cred.sub}/profilePicture`,
-        { responseType: 'blob' as 'json' } // TS...
-      );
-    }
-    return empty();
+  getUserProfilePicture(username: string): Observable<any> {
+    return this.httpClient.get<Blob>(
+      `${this.url}/${username}/profilePicture`,
+      { responseType: 'blob' as 'json' } // TS...
+    );
   }
 }

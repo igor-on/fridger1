@@ -1,14 +1,11 @@
 <div class="main-content mt-9 flex flex-col">
     <section class="flex flex-col items-center">
-        <img
-            class="mb-2 h-[86px] w-[86px] rounded-full"
-            src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/no-profile-picture-icon.png"
-            alt="" />
-        <p class="medium-text !mb-2">First Last</p>
-        <p class="small-text !mb-3 text-light-gray">&#64;test</p>
+        <img class="light-shadow mb-2 h-[86px] w-[86px] rounded-full" [src]="userProfilePicture" alt="" />
+        <p class="medium-text !mb-2">{{ user.firstName }} {{ user.lastName }}</p>
+        <p class="small-text !mb-3 text-light-gray">&#64;{{ user.username }}</p>
         <button
             routerLink="/edit-profile"
-            class="flex items-center rounded-3xl bg-material-blue px-[12px] py-2 text-white">
+            class="light-shadow flex items-center rounded-3xl bg-material-blue px-[12px] py-2 text-white">
             Edit profile
             <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="chevron_right"></mat-icon>
         </button>
@@ -26,7 +23,7 @@
                 </div>
                 <div>Email</div>
             </div>
-            <div class="text-light-gray">first.lastgmail.com</div>
+            <div class="text-light-gray">{{ user.email }}</div>
         </div>
         <div class="mx-1 flex items-center justify-between">
             <div class="px-1" class="flex items-center gap-2">
@@ -71,6 +68,10 @@
             <div><mat-slide-toggle></mat-slide-toggle></div>
         </div>
     </section>
+</div>
+<div class="small-text mt-[168px] flex items-center justify-center gap-2 text-custom-red">
+    Logout
+    <mat-icon class="" aria-hidden="false" aria-label="Example shopping basket" [fontIcon]="Icon.LOGOUT"></mat-icon>
 </div>
 
 <div class="backdrop opacity-1 absolute left-0 top-0 z-[9999] hidden h-full w-full bg-black"></div>
