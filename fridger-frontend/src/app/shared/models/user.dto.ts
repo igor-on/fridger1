@@ -3,6 +3,7 @@ export class UserDTO {
     public username: string,
     public firstName: string,
     public lastName: string,
-    public email: string
+    public email: string,
+    public joined: Date
   ) {}
 }

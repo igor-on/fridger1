@@ -104,8 +104,9 @@ create table users(
 	email VARCHAR(55),
     first_name VARCHAR(55),
     last_name VARCHAR(55),
-    profile_picture MEDIUMBLOB
-);
+    profile_picture MEDIUMBLOB,
+    joined date not null
+); 
 
 create table authorities (
 	username varchar(50) not null,

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
 import {
   BehaviorSubject,
+  catchError,
   empty,
   map,
   Observable,
@@ -26,6 +27,8 @@ export class UserService {
 
   public authUser = new BehaviorSubject<AuthUser | undefined>(undefined);
   public profilePictureChanged = new Subject<SafeUrl>();
+
+  private _placeholderImgUrl = 'assets/placeholder-profile-img.png';
 
   private _imgUrl?: string;
 
@@ -53,6 +56,11 @@ export class UserService {
               this._imgUrl = URL.createObjectURL(blob);
             }
             return this.sanitizer.bypassSecurityTrustUrl(this._imgUrl);
+          }),
+          catchError(error => {
+            console.error('Error fetching profile picture', error);
+            this._imgUrl = this._placeholderImgUrl;
+            return of(this.sanitizer.bypassSecurityTrustUrl(this._imgUrl));
           })
         );
     } else {

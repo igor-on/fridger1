@@ -8,7 +8,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -26,7 +28,6 @@ public class User {
     private String username;
     @Column(name = "password")
     @NotNull
-    @JsonIgnore
     private String password;
     @Column(name = "roles")
     private String roles;
@@ -43,6 +44,10 @@ public class User {
 
     @Column(name = "last_name")
     private String lastName;
+
+    @Column(name = "joined")
+    @CreationTimestamp
+    private LocalDate joined;
 
     @Column(name = "profile_picture", columnDefinition = "MEDIUMBLOB")
     // TODO: for now - later move id do S3 service
