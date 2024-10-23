@@ -5,6 +5,7 @@ import com.app.fridger.dto.UserDTO;
 import com.app.fridger.entity.User;
 import com.app.fridger.model.Error;
 import com.app.fridger.repo.UserRepository;
+import com.app.fridger.utils.Utils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -62,8 +63,9 @@ public class UserController {
     @PreAuthorize("#username == authentication.name")
     @Transactional
     public ResponseEntity<Object> uploadProfilePicture(@PathVariable String username, @RequestParam("file") MultipartFile multipartImage) throws IOException {
+
         User user = userRepository.findByUsername(username).orElseThrow();
-        user.setProfilePicture(multipartImage.getBytes());
+        user.setProfilePicture(Utils.compressMultipartImage(multipartImage));
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "image/jpeg"); // or the appropriate image type
