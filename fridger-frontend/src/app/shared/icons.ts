@@ -11,4 +11,9 @@ export enum Icon {
   ARROW_BACK = 'arrow_back',
   CHECK = 'check',
   LOGOUT = 'logout',
+  ADD = 'add',
+  PUBLISH = 'publish',
+  END_CALENDAR = 'event_busy',
+  MORE_HORIZ = 'more_horiz',
+  LOCK_OPEN = 'lock_open',
 }

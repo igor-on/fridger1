@@ -29,6 +29,9 @@ import {
   NoopScrollStrategy,
   ScrollStrategyOptions,
 } from '@angular/cdk/overlay';
+import { MobileAddBtnComponent } from 'src/app/shared/components/mobile-add-btn/mobile-add-btn.component';
+import { Icon } from 'src/app/shared/icons';
+import { FridgeItemComponent } from './fridge-item/fridge-item.component';
 
 @Component({
   selector: 'app-fridge',
@@ -42,12 +45,16 @@ import {
     MatDatepickerModule,
     DatePipe,
     MatIconModule,
+    MobileAddBtnComponent,
+    FridgeItemComponent,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './fridge.component.html',
   styleUrl: './fridge.component.scss',
 })
 export class FridgeComponent implements OnInit {
+  protected readonly Icon = Icon;
+
   fridge!: Fridge;
   ingredientsType: string[] | undefined;
   editMode: boolean = false;
