@@ -107,12 +107,20 @@ export class DynamicFormFieldsComponent<T extends ControlType>
   }
 
   getErrorMessage(formField: AbstractControl): string {
+    // console.log('Formfield errors: ', formField.errors);
+
     if (formField.hasError('required')) {
       return 'You must enter a value';
     } else if (formField.hasError('min')) {
       return `Minimum value is ${formField.errors!['min'].min}`;
+    } else if (formField.hasError('maxlength')) {
+      return `Maximum length is ${
+        formField.errors!['maxlength'].requiredLength
+      }, you entered ${formField.errors!['maxlength'].actualLength}`;
+    } else if (formField.hasError('email')) {
+      return 'Invalid email';
     } else {
-      return '';
+      return 'Invalid value';
     }
   }
 }

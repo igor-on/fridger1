@@ -1,0 +1,91 @@
+<div class="h-11"></div>
+<div (click)="closeMenu.emit()" class="mb-[36px] ml-[48px] flex items-center gap-[16px]">
+    <mat-icon class="medium-icon" fontIcon="arrow_back"></mat-icon>
+    <div class="medium-text">Back</div>
+</div>
+<section class="ml-[56px]">
+    <div class="mb-[52px] flex items-center gap-[16px]">
+        <img class="h-[44px] w-[44px] rounded-full" [src]="userProfilePicture" alt="" />
+        <div class="medium-text">{{ user?.firstName }} {{ user?.lastName }}</div>
+    </div>
+    <section class="mb-[24px]">
+        <h2 class="mb-[20px] font-bold">DISCOVER</h2>
+        <div class="flex flex-col gap-[36px]">
+            <div (click)="onNavigation('recipes')" class="px-1" class="flex items-center gap-3">
+                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-very-light-gray">
+                    <mat-icon
+                        class="small-icon text-light-gray"
+                        aria-hidden="false"
+                        aria-label="Example nofood icon"
+                        [fontIcon]="Icon.HOME"></mat-icon>
+                </div>
+                <div>Home</div>
+            </div>
+            <div (click)="onNavigation('recipes')" class="px-1" class="flex items-center gap-3">
+                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-very-light-gray">
+                    <mat-icon
+                        class="small-icon text-light-gray"
+                        aria-hidden="false"
+                        aria-label="Example nofood icon"
+                        [fontIcon]="Icon.SEARCH"></mat-icon>
+                </div>
+                <div>Recipes</div>
+            </div>
+            <div (click)="onNavigation('calendar')" class="px-1" class="flex items-center gap-3">
+                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-very-light-gray">
+                    <mat-icon
+                        class="small-icon text-light-gray"
+                        aria-hidden="false"
+                        aria-label="Example nofood icon"
+                        [fontIcon]="Icon.CALENDAR_MONTH"></mat-icon>
+                </div>
+                <div>Calendar</div>
+            </div>
+            <div (click)="onNavigation('groceries')" class="px-1" class="flex items-center gap-3">
+                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-very-light-gray">
+                    <mat-icon
+                        class="small-icon text-light-gray"
+                        aria-hidden="false"
+                        aria-label="Example nofood icon"
+                        [fontIcon]="Icon.SHOPPING_BASKET"></mat-icon>
+                </div>
+                <div>Groceries</div>
+            </div>
+            <div (click)="onNavigation('fridge')" class="px-1" class="flex items-center gap-3">
+                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-very-light-gray">
+                    <mat-icon
+                        class="small-icon text-light-gray"
+                        aria-hidden="false"
+                        aria-label="Example nofood icon"
+                        [fontIcon]="Icon.FRIDGE"></mat-icon>
+                </div>
+                <div>Fridge</div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <h2 class="mb-[20px] font-bold">Help</h2>
+        <div class="flex flex-col gap-[36px]">
+            <div class="px-1" class="flex items-center gap-3">
+                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-very-light-gray">
+                    <mat-icon
+                        class="small-icon text-light-gray"
+                        aria-hidden="false"
+                        aria-label="Example nofood icon"
+                        [fontIcon]="Icon.BULB"></mat-icon>
+                </div>
+                <div>Instructions</div>
+            </div>
+            <div class="px-1" class="flex items-center gap-3">
+                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-very-light-gray">
+                    <mat-icon
+                        class="small-icon text-light-gray"
+                        aria-hidden="false"
+                        aria-label="Example nofood icon"
+                        [fontIcon]="Icon.CONTACT"></mat-icon>
+                </div>
+                <div>Contact</div>
+            </div>
+        </div>
+    </section>
+</section>

@@ -16,7 +16,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RecipeCalendarComponent } from './components/recipe-calendar/recipe-calendar.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { AddEventDialogComponent } from './components/recipe-calendar/add-event-dialog/add-event-dialog.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  BrowserAnimationsModule,
+  provideAnimations,
+} from '@angular/platform-browser/animations';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatDialogModule,
@@ -38,6 +41,8 @@ import { SharedModule } from './shared/shared.module';
 import { ListComponent } from './shared/components/list/list.component';
 import { DynamicFormComponent } from './shared/components/dynamic-form/dynamic-form.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { SidebarMobileComponent } from './components/sidebar-mobile/sidebar-mobile.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +80,8 @@ import { MatMenuModule } from '@angular/material/menu';
     SharedModule,
     DynamicFormComponent,
     MatMenuModule,
+    NavbarComponent,
+    SidebarMobileComponent,
   ],
   providers: [
     {
@@ -86,6 +93,7 @@ import { MatMenuModule } from '@angular/material/menu';
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: { position: { top: '15rem' } },
     },
+    provideAnimations(),
   ],
   bootstrap: [AppComponent],
 })

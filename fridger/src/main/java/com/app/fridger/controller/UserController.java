@@ -1,43 +1,75 @@
 package com.app.fridger.controller;
 
 import com.app.fridger.auth.UserDetailsServiceImpl;
-import com.app.fridger.dto.AuthRequest;
-import com.app.fridger.dto.AuthResponse;
+import com.app.fridger.dto.UserDTO;
 import com.app.fridger.entity.User;
-import com.app.fridger.auth.TokenData;
+import com.app.fridger.model.Error;
 import com.app.fridger.repo.UserRepository;
-import com.app.fridger.auth.JwtService;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
+import com.app.fridger.utils.Utils;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
 
 @RestController
 @Log4j2
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping("${fridger.request-map}")
 public class UserController {
-
     private final UserRepository userRepository;
 
     private final UserDetailsServiceImpl userDetailsService;
 
-    private final AuthenticationManager authenticationManager;
-
-    private final JwtService jwtService;
-
-
     @GetMapping("/user/{username}")
     @PreAuthorize("#username == authentication.name")
-    public User getUser(@PathVariable  String username) {
+    public UserDTO getUser(@PathVariable String username) {
         log.info("get User endpoint");
-        return userRepository.findByUsername(username).orElseThrow();
+        return UserDTO.fromEntity(userRepository.findByUsername(username).orElseThrow());
+    }
+
+    @GetMapping("/user/{username}/profilePicture")
+    @PreAuthorize("#username == authentication.name")
+    public ResponseEntity<Object> getProfilePicture(HttpServletRequest req, @PathVariable String username) {
+        log.info(req.getServletPath());
+
+        User user = userRepository.findByUsername(username).orElseThrow();
+        byte[] profilePicture = user.getProfilePicture();
+        if (profilePicture != null) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Content-Type", "image/jpeg"); // or the appropriate image type
+            return new ResponseEntity<>(profilePicture, headers, HttpStatus.OK);
+        }
+
+        return ResponseEntity.badRequest().body(Error.builder()
+                .code(HttpStatus.BAD_REQUEST.value())
+                .time(LocalDateTime.now().toString())
+                .method(req.getMethod())
+                .path(req.getServletPath())
+                .message("User doesn't have profile picture")
+                .build());
+    };
+
+
+    @PostMapping("/user/{username}/profilePicture/upload")
+    @PreAuthorize("#username == authentication.name")
+    @Transactional
+    public ResponseEntity<Object> uploadProfilePicture(@PathVariable String username, @RequestParam("file") MultipartFile multipartImage) throws IOException {
+
+        User user = userRepository.findByUsername(username).orElseThrow();
+        user.setProfilePicture(Utils.compressMultipartImage(multipartImage));
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "image/jpeg"); // or the appropriate image type
+        return new ResponseEntity<>(user.getProfilePicture(), headers, HttpStatus.OK);
     }
 
     @PostMapping("/user/new")
@@ -45,29 +77,9 @@ public class UserController {
         return userDetailsService.addUser(user);
     }
 
-    @GetMapping("/refresh-token")
-    public TokenData refreshToken(@CookieValue("refresh-token") String refreshToken) {
-        log.info("RefreshToken: " + refreshToken);
-        return jwtService.refreshAccessToken(refreshToken);
-    }
-
-    @PostMapping("/authenticate")
-    public AuthResponse authenticateAndGetToken(@RequestBody AuthRequest authRequest, HttpServletResponse response) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-        if (authentication.isAuthenticated()) {
-            TokenData tokenData = jwtService.generateToken(authRequest.getUsername());
-
-            String refreshToken = jwtService.generateRefreshToken(authRequest.getUsername());
-            Cookie jwtRefreshTokenCookie = new Cookie("refresh-token", refreshToken);
-            jwtRefreshTokenCookie.setHttpOnly(true);
-            response.addCookie(jwtRefreshTokenCookie);
-
-            return AuthResponse.builder()
-                    .username(authRequest.getUsername())
-                    .tokenData(tokenData)
-                    .build();
-        } else {
-            throw new UsernameNotFoundException("invalid user request !");
-        }
+    @PutMapping("/user/{username}")
+    public ResponseEntity<Object> updateUser(@RequestBody UserDTO userDto) {
+        UserDTO updatedUserDto = userDetailsService.updateUser(userDto);
+        return ResponseEntity.ok(updatedUserDto);
     }
 }

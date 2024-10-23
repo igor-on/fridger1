@@ -9,7 +9,5 @@ import lombok.Setter;
 @Setter
 @Builder
 public class AuthResponse {
-
-    public String username;
-    public TokenData tokenData;
+    public String token;
 }

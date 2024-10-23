@@ -1,20 +1,22 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+import { UserService } from '../services/user.service';
+import { map } from 'rxjs';
 
 export const authGuard: CanActivateFn = () => {
   const router = inject(Router);
+  const userSvc = inject(UserService);
 
-  const token = localStorage.getItem('token');
-  const expirationDate = localStorage.getItem('expirationDate');
+  console.log('authGuard running...');
 
-  if (
-    !token ||
-    !expirationDate ||
-    new Date(expirationDate).getTime() < Date.now()
-  ) {
-    router.navigate(['/login']);
-    return false;
-  }
+  return userSvc.authUser.pipe(
+    map(user => {
+      const isAuth = !!user;
+      if (isAuth) {
+        return true;
+      }
 
-  return true;
+      return router.createUrlTree(['/login']);
+    })
+  );
 };

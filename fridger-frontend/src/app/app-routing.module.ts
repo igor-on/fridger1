@@ -11,6 +11,13 @@ import { LoginComponent } from './components/login/login.component';
 import { authGuard } from './guards/auth-guard';
 import { DynamicFormTestComponent } from './components/dynamic-form-test/dynamic-form-test.component';
 import { RecipeForm2Component } from './components/recipe-form2/recipe-form2.component';
+import { MyAccountComponent } from './components/my-account/my-account.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import {
+  resolveUserDetails,
+  userProfilePictureResolver,
+  userResolver,
+} from './shared/resolvers/user.resolver';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -54,6 +61,20 @@ const routes: Routes = [
         return mod.FridgeComponent;
       }),
     canActivate: [authGuard],
+  },
+  {
+    path: 'my-account',
+    component: MyAccountComponent,
+    canActivate: [authGuard],
+    data: { animation: 'MyAccount' },
+    resolve: { ...resolveUserDetails },
+  },
+  {
+    path: 'edit-profile',
+    component: EditProfileComponent,
+    canActivate: [authGuard],
+    data: { animation: 'EditProfile' },
+    resolve: { ...resolveUserDetails },
   },
 ];
 

@@ -1,6 +1,7 @@
 package com.app.fridger.auth;
 
 import com.app.fridger.auth.UserDetailsImpl;
+import com.app.fridger.dto.UserDTO;
 import com.app.fridger.entity.User;
 import com.app.fridger.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -40,4 +42,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         return "User Added Successfully";
     }
+
+    @Transactional
+    public UserDTO updateUser(UserDTO userDto) {
+        User user = userRepository.findByUsername(userDto.getUsername()).orElseThrow();
+
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setEmail(userDto.getEmail());
+
+        return UserDTO.fromEntity(user);
+    };
 }

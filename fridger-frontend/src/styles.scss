@@ -17,6 +17,10 @@
   --pastel-orange: rgb(228, 194, 132);
   --pastel-yellow: rgb(234, 234, 160);
   --pastel-red: rgb(244, 117, 117);
+  --light-gray: #b7b7b7;
+  --mid-gray: #949393;
+  --dark-gray: #757575;
+  --material-blue: #005cbb;
 }
 
 /* TAILWIND CLASSES */
@@ -155,4 +159,55 @@ body {
 
 .bg-shadow {
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.large-text {
+  font-size: 32px;
+  line-height: 32px;
+}
+
+.medium-text {
+  font-size: 20px;
+  line-height: 20px;
+}
+
+.small-text {
+  font-size: 16px;
+  line-height: 16px;
+}
+
+.small-icon {
+  font-size: 16px !important;
+  line-height: 16px !important;
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.medium-icon {
+  font-size: 20px !important;
+  line-height: 20px !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.large-icon {
+  font-size: 32px !important;
+  line-height: 32px !important;
+  width: 32px !important;
+  height: 32px !important;
+}
+
+.disabled-btn {
+  background-color: var(--light-gray);
+  color: var(--mid-gray) !important;
+  fill: var(--mid-gray);
+  box-shadow: inset 0px 4px 15px 0px rgba(0, 0, 0, 20%) !important;
+}
+
+.light-shadow {
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px;
+}
+
+.light-inner-shadow {
+  box-shadow: inset 0px 4px 15px 0px rgba(0, 0, 0, 20%);
 }

@@ -1,0 +1,19 @@
+@if (isAuth) {
+
+<div class="h-11"></div>
+<div class="flex h-14 items-center justify-between px-[20px] pb-[12px]">
+    <div class="flex items-center">
+        <mat-icon
+            (click)="openMenu.emit()"
+            class="large-text !h-8 !w-8"
+            aria-hidden="false"
+            aria-label="Example home icon"
+            fontIcon="menu"></mat-icon>
+    </div>
+    <div class="text-3xl font-bold" style="font-family: 'Judson'">Fridger</div>
+    <div class="flex items-center">
+        <img routerLink="/my-account" class="h-8 w-8 rounded-full" [src]="userProfilePicture" alt="" />
+    </div>
+</div>
+
+}

@@ -1,0 +1,77 @@
+<div class="main-content mt-9 flex flex-col">
+    <section class="flex flex-col items-center">
+        <img class="light-shadow mb-2 h-[86px] w-[86px] rounded-full" [src]="userProfilePicture" alt="" />
+        <p class="medium-text !mb-2">{{ user.firstName }} {{ user.lastName }}</p>
+        <p class="small-text !mb-3 text-light-gray">&#64;{{ user.username }}</p>
+        <button
+            routerLink="/edit-profile"
+            class="light-shadow flex items-center rounded-3xl bg-material-blue px-[12px] py-2 text-white">
+            Edit profile
+            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="chevron_right"></mat-icon>
+        </button>
+    </section>
+    <section class="mx-[20px] my-6">
+        <h5 class="small-text mb-[16px] text-light-gray" style="font-weight: 400">Information</h5>
+        <div class="mx-1 mb-[16px] flex items-center justify-between">
+            <div class="px-1" class="flex items-center gap-2">
+                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-very-light-gray">
+                    <mat-icon
+                        class="small-icon text-light-gray"
+                        aria-hidden="false"
+                        aria-label="Example email icon"
+                        fontIcon="email"></mat-icon>
+                </div>
+                <div>Email</div>
+            </div>
+            <div class="text-light-gray">{{ user.email }}</div>
+        </div>
+        <div class="mx-1 flex items-center justify-between">
+            <div class="px-1" class="flex items-center gap-2">
+                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-very-light-gray">
+                    <mat-icon
+                        class="small-icon text-light-gray"
+                        aria-hidden="false"
+                        aria-label="Example calendar"
+                        fontIcon="calendar_month"></mat-icon>
+                </div>
+                <div>Joined</div>
+            </div>
+            <div class="text-light-gray">{{ user.joined | date: 'longDate' }}</div>
+        </div>
+    </section>
+    <section class="mx-[20px]">
+        <h5 class="small-text mb-[16px] text-light-gray" style="font-weight: 400">Notifications</h5>
+        <div class="mx-1 mb-[16px] flex items-center justify-between">
+            <div class="px-1" class="flex items-center gap-2">
+                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-very-light-gray">
+                    <mat-icon
+                        class="small-icon text-light-gray"
+                        aria-hidden="false"
+                        aria-label="Example nofood icon"
+                        fontIcon="no_food"></mat-icon>
+                </div>
+                <div>Food expires</div>
+            </div>
+            <div><mat-slide-toggle></mat-slide-toggle></div>
+        </div>
+        <div class="mx-1 flex items-center justify-between">
+            <div class="px-1" class="flex items-center gap-2">
+                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-very-light-gray">
+                    <mat-icon
+                        class="small-icon text-light-gray"
+                        aria-hidden="false"
+                        aria-label="Example shopping basket"
+                        fontIcon="shopping_basket"></mat-icon>
+                </div>
+                <div>Groceries generator</div>
+            </div>
+            <div><mat-slide-toggle></mat-slide-toggle></div>
+        </div>
+    </section>
+</div>
+<div (click)="onLogout()" class="small-text mt-[168px] flex items-center justify-center gap-2 text-custom-red">
+    Logout
+    <mat-icon class="" aria-hidden="false" aria-label="Example shopping basket" [fontIcon]="Icon.LOGOUT"></mat-icon>
+</div>
+
+<div class="backdrop opacity-1 absolute left-0 top-0 z-[9999] hidden h-full w-full bg-black"></div>

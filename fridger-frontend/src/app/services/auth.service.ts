@@ -1,20 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '../shared/models/user';
-import { Subject } from 'rxjs';
+import { AuthResponse } from '../shared/models/auth-reponse.model';
 import { Router } from '@angular/router';
 import { MessageService } from './message.service';
+import { UserService } from './user.service';
+import { TokenService } from './token.service';
+import { AuthUser } from '../shared/models/auth-user.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  public user = new Subject<User>();
-
   constructor(
     private httpClient: HttpClient,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private userService: UserService,
+    private tokenService: TokenService
   ) {}
 
   listenForTokenRefresh() {
@@ -34,8 +36,9 @@ export class AuthService {
   }
 
   logout(session_expired = false) {
+    this.userService.authUser.next(undefined);
     localStorage.removeItem('token');
-    localStorage.removeItem('expirationDate');
+
     this.router.navigate(['/login']);
     if (session_expired) {
       this.messageService.sendMessage({
@@ -50,7 +53,7 @@ export class AuthService {
 
   login(username: string, password: string) {
     return this.httpClient
-      .post<User>(
+      .post<AuthResponse>(
         'http://localhost:8080/auth/authenticate',
         {
           username: username,
@@ -59,8 +62,8 @@ export class AuthService {
         { withCredentials: true }
       )
       .subscribe({
-        next: (user: User) => {
-          this._handleAuthentication(user);
+        next: (auth: AuthResponse) => {
+          this._handleAuthentication(auth);
           this.router.navigate(['/recipes']);
         },
         error: err => {
@@ -74,28 +77,34 @@ export class AuthService {
       });
   }
 
-  private _handleAuthentication(user: User) {
-    localStorage.setItem('token', user.tokenData.token.toString());
-    localStorage.setItem(
-      'expirationDate',
-      user.tokenData.expirationDate.toString()
+  autologin() {
+    console.log('trying autologin...');
+
+    const token = this.tokenService.getJwtToken();
+    const claims = this.tokenService.getJwtClaims(token);
+    if (!claims || !token) return;
+
+    const authenticatedUser = new AuthUser(
+      claims.sub,
+      token,
+      new Date(claims.exp * 1000)
     );
-    this.user.next(new User(user.username, user.tokenData));
+
+    if (!authenticatedUser.token) {
+      return;
+    }
+
+    this.userService.authUser.next(authenticatedUser);
   }
 
   refreshToken() {
     return this.httpClient
-      .get<{ token: string; expirationDate: Date }>(
-        'http://localhost:8080/auth/refresh-token',
-        { withCredentials: true }
-      )
+      .get<{ token: string }>('http://localhost:8080/auth/refresh-token', {
+        withCredentials: true,
+      })
       .subscribe({
-        next: (response: { token: string; expirationDate: Date }) => {
-          localStorage.setItem('token', response.token.toString());
-          localStorage.setItem(
-            'expirationDate',
-            response.expirationDate.toString()
-          );
+        next: (auth: { token: string }) => {
+          this._handleAuthentication(auth);
         },
         error: err => {
           console.log('error refreshing token, logging out...', err);
@@ -103,5 +112,19 @@ export class AuthService {
         },
         // complete: () => {},
       });
+  }
+  private _handleAuthentication(auth: AuthResponse) {
+    localStorage.setItem('token', auth.token);
+
+    const claims = this.tokenService.getJwtClaims(auth.token);
+    if (!claims) return;
+
+    const authenticatedUser = new AuthUser(
+      claims.sub,
+      auth.token,
+      new Date(claims.exp * 1000)
+    );
+
+    this.userService.authUser.next(authenticatedUser);
   }
 }
