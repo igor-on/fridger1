@@ -8,7 +8,7 @@ import { recipesResolver } from './recipes-resolver';
 import { GroceriesListComponent } from './components/groceries-list/groceries-list.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
-import { authGuard } from './guards/auth-guard';
+import { authGuard } from './shared/guards/auth-guard';
 import { DynamicFormTestComponent } from './components/dynamic-form-test/dynamic-form-test.component';
 import { RecipeForm2Component } from './components/recipe-form2/recipe-form2.component';
 import { MyAccountComponent } from './components/my-account/my-account.component';

@@ -32,7 +32,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { SkeletonModule } from 'primeng/skeleton';
 import { ToastModule } from 'primeng/toast';
-import { AuthInterceptor } from './http-interceptors/auth-interceptor';
+import { AuthInterceptor } from './shared/http-interceptors/auth-interceptor';
 import { LoginComponent } from './components/login/login.component';
 import { FridgeComponent } from './components/fridge/fridge.component';
 import { MatIconModule } from '@angular/material/icon';
