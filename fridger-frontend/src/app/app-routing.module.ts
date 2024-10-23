@@ -14,6 +14,7 @@ import { RecipeForm2Component } from './components/recipe-form2/recipe-form2.com
 import { MyAccountComponent } from './components/my-account/my-account.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import {
+  resolveUserDetails,
   userProfilePictureResolver,
   userResolver,
 } from './shared/resolvers/user.resolver';
@@ -66,13 +67,14 @@ const routes: Routes = [
     component: MyAccountComponent,
     canActivate: [authGuard],
     data: { animation: 'MyAccount' },
-    resolve: { user: userResolver, userProfPic: userProfilePictureResolver },
+    resolve: { ...resolveUserDetails },
   },
   {
     path: 'edit-profile',
     component: EditProfileComponent,
     canActivate: [authGuard],
     data: { animation: 'EditProfile' },
+    resolve: { ...resolveUserDetails },
   },
 ];
 

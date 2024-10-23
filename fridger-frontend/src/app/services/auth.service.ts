@@ -78,6 +78,8 @@ export class AuthService {
   }
 
   autologin() {
+    console.log('trying autologin...');
+
     const token = this.tokenService.getJwtToken();
     const claims = this.tokenService.getJwtClaims(token);
     if (!claims || !token) return;

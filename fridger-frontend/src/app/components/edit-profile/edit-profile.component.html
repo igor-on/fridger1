@@ -6,8 +6,19 @@
     </div>
     <section class="mb-[52px] flex justify-center">
         <div class="relative">
-            <img class="light-shadow h-[124px] w-[124px] rounded-full bg-light-gray" src="" alt="" />
+            <img
+                class="light-shadow h-[124px] w-[124px] rounded-full bg-light-gray"
+                [src]="userProfilePicture"
+                alt="" />
+            <input
+                (change)="onFileChange($event)"
+                #uploadFile
+                class="hidden"
+                accept="image/png, image/jpeg"
+                type="file"
+                name="{{ user.username }}_prof_picture" />
             <div
+                (click)="uploadFile.click()"
                 class="absolute bottom-0 right-0 flex h-[32px] w-[32px] items-center justify-center rounded-full bg-black">
                 <mat-icon class="small-icon text-white" [fontIcon]="Icon.PHOTO_CAMERA"></mat-icon>
             </div>

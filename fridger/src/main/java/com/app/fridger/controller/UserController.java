@@ -35,7 +35,8 @@ public class UserController {
     }
 
     @GetMapping("/user/{username}/profilePicture")
-    public ResponseEntity<Object> getUserProfileImage(HttpServletRequest req, @PathVariable String username) {
+    @PreAuthorize("#username == authentication.name")
+    public ResponseEntity<Object> getProfilePicture(HttpServletRequest req, @PathVariable String username) {
         User user = userRepository.findByUsername(username).orElseThrow();
         byte[] profilePicture = user.getProfilePicture();
         if (profilePicture != null) {
@@ -57,11 +58,13 @@ public class UserController {
     @PostMapping("/user/{username}/profilePicture/upload")
     @PreAuthorize("#username == authentication.name")
     @Transactional
-    public UserDTO uploadProfilePicture(@PathVariable String username, @RequestParam("file") MultipartFile multipartImage) throws IOException {
+    public ResponseEntity<Object> uploadProfilePicture(@PathVariable String username, @RequestParam("file") MultipartFile multipartImage) throws IOException {
         User user = userRepository.findByUsername(username).orElseThrow();
         user.setProfilePicture(multipartImage.getBytes());
 
-        return UserDTO.fromEntity(user);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "image/jpeg"); // or the appropriate image type
+        return new ResponseEntity<>(user.getProfilePicture(), headers, HttpStatus.OK);
     }
 
     @PostMapping("/user/new")

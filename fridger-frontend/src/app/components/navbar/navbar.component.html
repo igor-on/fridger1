@@ -1,3 +1,5 @@
+@if (isAuth) {
+
 <div class="h-11"></div>
 <div class="flex h-14 items-center justify-between px-[20px] pb-[12px]">
     <div class="flex items-center">
@@ -10,10 +12,8 @@
     </div>
     <div class="text-3xl font-bold" style="font-family: 'Judson'">Fridger</div>
     <div class="flex items-center">
-        <img
-            routerLink="/my-account"
-            class="h-8 w-8 rounded-full"
-            src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/no-profile-picture-icon.png"
-            alt="" />
+        <img routerLink="/my-account" class="h-8 w-8 rounded-full" [src]="userProfilePicture" alt="" />
     </div>
 </div>
+
+}
