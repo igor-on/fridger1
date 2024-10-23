@@ -78,7 +78,7 @@ public class GlobalErrorHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Error handleRuntimeException(Exception e, HttpServletRequest request) {
+    public Error handleException(Exception e, HttpServletRequest request) {
         log.error("Exception handled in global exception handler: " + e);
         e.printStackTrace();
 

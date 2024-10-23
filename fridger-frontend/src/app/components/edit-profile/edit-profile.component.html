@@ -31,6 +31,7 @@
         </div>
         <div class="flex justify-center">
             <button
+                (click)="onUpdateProfile()"
                 [disabled]="form.formGroup.invalid"
                 [ngClass]="{ 'disabled-btn': form.formGroup.invalid, 'text-white': form.formGroup.valid }"
                 class="light-shadow flex items-center rounded-3xl bg-material-blue px-[12px] py-2 transition-all duration-300">

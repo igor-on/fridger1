@@ -84,4 +84,8 @@ export class UserService {
         })
       );
   }
+
+  updateUser(user: UserDTO) {
+    return this.httpClient.put<UserDTO>(`${this.url}/${user.username}`, user);
+  }
 }

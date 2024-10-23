@@ -5,11 +5,8 @@
 </div>
 <section class="ml-[56px]">
     <div class="mb-[52px] flex items-center gap-[16px]">
-        <img
-            class="h-[44px] w-[44px] rounded-full"
-            src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/no-profile-picture-icon.png"
-            alt="" />
-        <div class="medium-text">First Last</div>
+        <img class="h-[44px] w-[44px] rounded-full" [src]="userProfilePicture" alt="" />
+        <div class="medium-text">{{ user?.firstName }} {{ user?.lastName }}</div>
     </div>
     <section class="mb-[24px]">
         <h2 class="mb-[20px] font-bold">DISCOVER</h2>

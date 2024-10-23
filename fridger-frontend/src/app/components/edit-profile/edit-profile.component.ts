@@ -3,8 +3,9 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { SafeUrl } from '@angular/platform-browser';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { er } from '@fullcalendar/core/internal-common';
+import { MessageService } from 'src/app/services/message.service';
 import { UserService } from 'src/app/services/user.service';
 import { DynamicFormComponent } from 'src/app/shared/components/dynamic-form/dynamic-form.component';
 import {
@@ -33,7 +34,9 @@ export class EditProfileComponent implements OnInit {
   constructor(
     private tfb: TemplateFormBuilder,
     private route: ActivatedRoute,
-    private userService: UserService
+    private router: Router,
+    private userService: UserService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -44,7 +47,15 @@ export class EditProfileComponent implements OnInit {
   }
 
   initTemplateForm() {
-    this.fields = this.tfb.fields({
+    this.fields = this.tfb.fields<UserDTO>({
+      username: this.tfb.text({
+        value: this.user.username,
+        params: {
+          label: 'Username',
+        },
+        readonly: true,
+        validators: [Validators.required, Validators.maxLength(55)],
+      }),
       firstName: this.tfb.text({
         value: this.user.firstName,
         params: {
@@ -56,13 +67,6 @@ export class EditProfileComponent implements OnInit {
         value: this.user.lastName,
         params: {
           label: 'Last Name',
-        },
-        validators: [Validators.required, Validators.maxLength(55)],
-      }),
-      username: this.tfb.text({
-        value: this.user.username,
-        params: {
-          label: 'Username',
         },
         validators: [Validators.required, Validators.maxLength(55)],
       }),
@@ -90,5 +94,24 @@ export class EditProfileComponent implements OnInit {
           },
         });
     }
+  }
+
+  onUpdateProfile() {
+    console.log(this.form.formGroup.value);
+
+    this.userService.updateUser(this.form.formGroup.getRawValue()).subscribe({
+      next: () => {
+        this.messageService.sendMessage('Profile updated successfully'),
+          this.router.navigate(['/my-account']);
+      },
+      error: (err: any) => {
+        console.error(err);
+        this.messageService.sendMessage({
+          detail: 'Failed to update profile: ' + err.error.message,
+          summary: 'Error',
+          severity: 'error',
+        });
+      },
+    });
   }
 }

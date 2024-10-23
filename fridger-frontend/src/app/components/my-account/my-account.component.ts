@@ -28,6 +28,7 @@ export class MyAccountComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('MyAccount component initialized');
     this.user = this.route.snapshot.data['user'];
     this.userProfilePicture = this.route.snapshot.data['userProfPic'];
   }

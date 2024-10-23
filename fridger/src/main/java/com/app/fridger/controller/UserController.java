@@ -27,6 +27,7 @@ public class UserController {
     private final UserRepository userRepository;
 
     private final UserDetailsServiceImpl userDetailsService;
+
     @GetMapping("/user/{username}")
     @PreAuthorize("#username == authentication.name")
     public UserDTO getUser(@PathVariable String username) {
@@ -37,6 +38,8 @@ public class UserController {
     @GetMapping("/user/{username}/profilePicture")
     @PreAuthorize("#username == authentication.name")
     public ResponseEntity<Object> getProfilePicture(HttpServletRequest req, @PathVariable String username) {
+        log.info(req.getServletPath());
+
         User user = userRepository.findByUsername(username).orElseThrow();
         byte[] profilePicture = user.getProfilePicture();
         if (profilePicture != null) {
@@ -70,5 +73,11 @@ public class UserController {
     @PostMapping("/user/new")
     public String addNewUser(@RequestBody User user) {
         return userDetailsService.addUser(user);
+    }
+
+    @PutMapping("/user/{username}")
+    public ResponseEntity<Object> updateUser(@RequestBody UserDTO userDto) {
+        UserDTO updatedUserDto = userDetailsService.updateUser(userDto);
+        return ResponseEntity.ok(updatedUserDto);
     }
 }

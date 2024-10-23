@@ -31,42 +31,41 @@ export class NavbarComponent implements OnInit, OnDestroy {
   @Output() openMenu: EventEmitter<void> = new EventEmitter<void>();
 
   isAuth = false;
-  user!: UserDTO;
+  user?: UserDTO;
   userProfilePicture!: SafeUrl;
-  userProfilePictureChangedSub!: Subscription;
+  subscriptions: Subscription[] = [];
 
-  constructor(
-    private userService: UserService,
-    private sanitizer: DomSanitizer
-  ) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
     console.log('Navbar component initialized');
 
-    this.userService.authUser
-      .pipe(
-        tap(authUser => {
-          this.isAuth = !!authUser;
-        }),
-        concatMap(authUser => {
-          if (!authUser) {
-            return EMPTY;
-          }
-          return this.userService.getUserProfilePicture(authUser.username);
+    this.subscriptions.push(
+      this.userService.authUser
+        .pipe(
+          tap(authUser => {
+            this.isAuth = !!authUser;
+          }),
+          concatMap(authUser => {
+            if (!authUser) {
+              return EMPTY;
+            }
+            return this.userService.getUserProfilePicture(authUser.username);
+          })
+        )
+        .subscribe((imgUrl: SafeUrl) => {
+          this.userProfilePicture = imgUrl;
         })
-      )
-      .subscribe((imgUrl: SafeUrl) => {
-        console.log(imgUrl);
-        this.userProfilePicture = imgUrl;
-      });
+    );
 
-    this.userProfilePictureChangedSub =
+    this.subscriptions.push(
       this.userService.profilePictureChanged.subscribe((imgUrl: SafeUrl) => {
         this.userProfilePicture = imgUrl;
-      });
+      })
+    );
   }
 
   ngOnDestroy(): void {
-    this.userProfilePictureChangedSub.unsubscribe();
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 }
