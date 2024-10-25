@@ -98,7 +98,12 @@ export class FridgeComponent implements OnInit {
   }
 
   public onAdd() {
-    const dialogRef = this.dialog.open(AddIngredientDialogComponent);
+    const dialogRef = this.dialog.open(AddIngredientDialogComponent, {
+      minWidth: '100vw',
+      minHeight: '100vh',
+      maxHeight: 'none',
+      position: { top: '0' },
+    });
 
     dialogRef
       .afterClosed()

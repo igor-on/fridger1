@@ -6,6 +6,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { Icon } from 'src/app/shared/icons';
 import { UserDTO } from 'src/app/shared/models/user.dto';
 
@@ -18,6 +19,7 @@ import { UserDTO } from 'src/app/shared/models/user.dto';
     MatSlideToggleModule,
     RouterModule,
     DatePipe,
+    ButtonComponent,
   ],
   templateUrl: './my-account.component.html',
   styleUrl: './my-account.component.scss',

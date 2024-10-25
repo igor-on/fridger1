@@ -19,4 +19,6 @@ export enum Icon {
   LOCK_OPEN = 'lock_open',
   EDIT = 'edit',
   DELETE = 'delete',
+  CLOSE = 'close',
+  WARNING = 'warning',
 }

@@ -17,13 +17,14 @@
   --pastel-orange: rgb(228, 194, 132);
   --pastel-yellow: rgb(234, 234, 160);
   --pastel-red: rgb(244, 117, 117);
-  --light-gray: #b7b7b7;
-  --mid-gray: #949393;
+  --light-gray: #cecece;
+  --mid-gray: #a4a4a4;
   --dark-gray: #757575;
   --material-blue: #005cbb;
   --dirty-black: #4a4a4a;
   --light-green: #8ccb4c;
   --light-red: #e42a2a;
+  --orange: #e79e18;
 }
 
 /* TAILWIND CLASSES */
@@ -215,7 +216,7 @@ body {
   background-color: var(--light-gray);
   color: var(--mid-gray) !important;
   fill: var(--mid-gray);
-  box-shadow: inset 0px 4px 15px 0px rgba(0, 0, 0, 20%) !important;
+  box-shadow: inset 0px 4px 15px 0px rgba(0, 0, 0, 15%) !important;
 }
 
 .light-shadow {

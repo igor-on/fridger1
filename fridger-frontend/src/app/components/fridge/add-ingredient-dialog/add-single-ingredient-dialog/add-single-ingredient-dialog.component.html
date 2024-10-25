@@ -1,0 +1,15 @@
+<div class="absolute bottom-0 left-0 z-[999] w-full rounded-md bg-white">
+    <h2 mat-dialog-title>{{ editMode ? 'Update' : '' }} No. {{ ingrIdx + 1 }}</h2>
+    <mat-dialog-content>
+        <app-dynamic-form #form flexDirection="vertical" [fields]="fields" [buttons]="[]"></app-dynamic-form>
+    </mat-dialog-content>
+    <mat-dialog-actions class="flex gap-2">
+        <app-simple-button (btnClicked)="closeClicked.emit()" [icon]="Icon.CLOSE">Cancel</app-simple-button>
+        <app-button
+            [disabled]="form.formGroup.invalid"
+            (btnClicked)="editMode ? onUpdate() : onAdd()"
+            [icon]="editMode ? Icon.CHECK : Icon.ADD"
+            >{{ editMode ? 'Update' : 'Add' }}</app-button
+        >
+    </mat-dialog-actions>
+</div>

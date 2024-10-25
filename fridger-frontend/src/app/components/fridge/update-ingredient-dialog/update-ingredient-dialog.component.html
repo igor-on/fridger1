@@ -1,22 +1,19 @@
 <form>
     <div class="h-11"></div>
-    <div (click)="dialogRef.close()" class="mb-[24px] ml-[48px] flex items-center justify-between gap-[16px]">
-        <div class="item-center flex gap-[16px]">
+    <div class="mx-[48px] mb-[24px] flex items-center justify-between">
+        <div (click)="dialogRef.close()" class="flex items-center gap-[16px]">
             <mat-icon class="medium-icon" [fontIcon]="Icon.ARROW_BACK"></mat-icon>
             <div class="medium-text">Back</div>
         </div>
-        <button type="button" class="btn-success" (click)="onSave()">Save</button>
+        <app-button (btnClicked)="onSave()" [icon]="Icon.CHECK">Save</app-button>
     </div>
     <div class="flex">
-        <h2 mat-dialog-title class="mb-2">Update ingredient</h2>
+        <h2 mat-dialog-title class="mb-2">Update ingredient 🔥</h2>
     </div>
 
-    <mat-dialog-content class="!min-h-[90vh]">
+    <mat-dialog-content>
         <app-dynamic-form flexDirection="vertical" #dynamicForm [fields]="fields" [buttons]="[]"></app-dynamic-form>
     </mat-dialog-content>
-    <mat-dialog-actions class="!px-6">
-        <button type="button" class="btn-error mr-4" (click)="dialogRef.close()">Cancel</button>
-    </mat-dialog-actions>
 </form>
 <!-- <form>
     <div class="flex">

@@ -27,7 +27,6 @@ export class ExpirationDateHighlightDirective {
     }
 
     const expirationDate = this.element.nativeElement.innerText;
-    console.log('expirationDate', expirationDate);
     const textColor =
       new Date(expirationDate) < new Date()
         ? 'text-light-red'

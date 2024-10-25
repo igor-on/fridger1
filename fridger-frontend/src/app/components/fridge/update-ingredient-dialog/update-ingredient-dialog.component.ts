@@ -9,6 +9,7 @@ import {
 } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { of } from 'rxjs';
+import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { DynamicFormComponent } from 'src/app/shared/components/dynamic-form/dynamic-form.component';
 import {
   TemplateFormBuilder,
@@ -20,7 +21,12 @@ import { FridgeIngredient } from 'src/app/shared/models/fridge';
 @Component({
   selector: 'app-update-ingredient-dialog',
   standalone: true,
-  imports: [DynamicFormComponent, MatDialogModule, MatIconModule],
+  imports: [
+    DynamicFormComponent,
+    MatDialogModule,
+    MatIconModule,
+    ButtonComponent,
+  ],
   templateUrl: './update-ingredient-dialog.component.html',
   styleUrl: './update-ingredient-dialog.component.scss',
 })
@@ -46,6 +52,7 @@ export class UpdateIngredientDialogComponent implements OnInit {
   }
 
   onSave(): void {
+    console.log('Save');
     this.dialogRef.close(this.dynamicForm.formGroup.value);
   }
 

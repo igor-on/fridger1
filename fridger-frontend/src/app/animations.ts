@@ -7,6 +7,39 @@ import {
   animate,
 } from '@angular/animations';
 
+export const fadeInOut2 = trigger('fadeInOut2', [
+  transition(':enter', [
+    style({ opacity: 0 }),
+    animate('150ms', style({ opacity: 1 })),
+  ]),
+  transition(':leave', [animate('150ms ease-out', style({ opacity: 0 }))]),
+]);
+
+export const downSlideInOutAnimationComp = trigger('downSlideInOut', [
+  transition(':enter', [
+    style({
+      position: 'absolute',
+      width: '100%',
+      left: '0%',
+      bottom: '-100%',
+      zIndex: 999,
+      opacity: 0,
+    }),
+    animate('300ms ease', style({ bottom: '0%', opacity: 1 })),
+  ]),
+  transition(':leave', [
+    style({
+      position: 'absolute',
+      width: '100%',
+      left: '0%',
+      bottom: '0%',
+      zIndex: 999,
+      opacity: 1,
+    }),
+    animate('200ms ease-out', style({ bottom: '-100%', opacity: 0 })),
+  ]),
+]);
+
 export const fadeInOut = trigger('fadeInOut', [
   transition(':enter', [
     style({ opacity: 0 }),
