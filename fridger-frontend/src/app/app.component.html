@@ -33,6 +33,7 @@
         <p-toast></p-toast>
         <div [@routeAnimations]="getRouteAnimationData()" class="mt-[100px]">
             <router-outlet></router-outlet>
+            <div class="backdrop opacity-1 absolute left-0 top-0 z-[9999] hidden h-full w-full bg-black"></div>
         </div>
         <!-- <div class="example-sidenav-content">
                 <button type="button" mat-button (click)="drawer.toggle()">Toggle sidenav</button>

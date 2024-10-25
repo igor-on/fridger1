@@ -1,6 +1,8 @@
-<div class="light-shadow flex h-[5.5rem] justify-between rounded-[8px] p-2">
+<div class="light-shadow flex justify-between rounded-[8px] p-2">
     <div class="flex flex-col justify-center">
-        <h2 class="medium-text mb-2 w-72">{{ ingredient.ingredient.name }}</h2>
+        <h2 class="medium-text mb-2 max-w-[288px] break-words">
+            {{ ingredient.ingredient.name }}
+        </h2>
         <p class="small-text mb-2 text-light-gray">{{ ingredient.quantity }} {{ ingredient.unit }}</p>
         <div class="small-text flex items-center gap-2">
             <div class="small-text flex items-center gap-1 text-light-gray">
@@ -10,16 +12,30 @@
 
             <div class="h-1 w-1 rounded-full bg-light-gray"></div>
 
-            <div class="small-text text-light-green flex items-center gap-1">
+            <div [appExpirationDateHighlight]="ingredient" class="small-text flex items-center gap-1 text-light-green">
                 <mat-icon class="medium-icon pt-[1px]" [fontIcon]="Icon.END_CALENDAR"></mat-icon>
-                {{ ingredient.expirationDate | date: 'mediumDate' }}
+                {{
+                    (ingredient.open ? ingredient.afterOpeningExpirationDate : ingredient.expirationDate)
+                        | date: 'mediumDate'
+                }}
             </div>
         </div>
     </div>
     <div class="flex flex-col justify-between">
-        <mat-icon class="medium2-icon" [fontIcon]="Icon.MORE_HORIZ"></mat-icon>
+        <mat-icon [matMenuTriggerFor]="menu" class="medium2-icon" [fontIcon]="Icon.MORE_HORIZ"></mat-icon>
         @if (ingredient.open) {
         <mat-icon class="medium2-icon text-very-light-gray" [fontIcon]="Icon.LOCK_OPEN"></mat-icon>
         }
     </div>
 </div>
+
+<mat-menu #menu="matMenu">
+    <button (click)="onEditClick.emit(ingredient)" mat-menu-item>
+        <mat-icon [fontIcon]="Icon.EDIT"></mat-icon>
+        Edit
+    </button>
+    <button (click)="onDeleteClick.emit(ingredient.id)" mat-menu-item>
+        <mat-icon [fontIcon]="Icon.DELETE"></mat-icon>
+        Delete
+    </button>
+</mat-menu>

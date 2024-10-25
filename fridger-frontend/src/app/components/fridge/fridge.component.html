@@ -1,8 +1,11 @@
 <h1 class="mx-[20px] pt-6">Your Fridge 😋</h1>
 <section class="flex flex-col gap-6 px-[20px] pt-6">
     @for (fridgeIngredient of fridge != undefined ? fridge.fridgeIngredients : []; track fridgeIngredient.id) {
-    <app-fridge-item [ingredient]="fridgeIngredient"></app-fridge-item>
+    <app-fridge-item
+        (onEditClick)="onEdit($event)"
+        (onDeleteClick)="onDelete($event)"
+        [ingredient]="fridgeIngredient"></app-fridge-item>
     }
 </section>
 
-<app-mobile-add-btn></app-mobile-add-btn>
+<app-mobile-add-btn (btnClicked)="onAdd()"></app-mobile-add-btn>

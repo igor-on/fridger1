@@ -7,7 +7,7 @@
             routerLink="/edit-profile"
             class="light-shadow flex items-center rounded-3xl bg-material-blue px-[12px] py-2 text-white">
             Edit profile
-            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="chevron_right"></mat-icon>
+            <mat-icon aria-hidden="false" aria-label="Example home icon" [fontIcon]="Icon.ARROW_FRONT"></mat-icon>
         </button>
     </section>
     <section class="mx-[20px] my-6">
@@ -73,5 +73,3 @@
     Logout
     <mat-icon class="" aria-hidden="false" aria-label="Example shopping basket" [fontIcon]="Icon.LOGOUT"></mat-icon>
 </div>
-
-<div class="backdrop opacity-1 absolute left-0 top-0 z-[9999] hidden h-full w-full bg-black"></div>

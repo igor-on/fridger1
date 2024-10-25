@@ -134,8 +134,9 @@ export class FridgeComponent implements OnInit {
   public onEdit(ingr: FridgeIngredient) {
     const dialogRef = this.dialog.open(UpdateIngredientDialogComponent, {
       data: ingr,
-      minWidth: '40rem',
-      position: { top: '5%' },
+      minWidth: '100%',
+      minHeight: '100vh',
+      position: { top: '0' },
     });
 
     dialogRef

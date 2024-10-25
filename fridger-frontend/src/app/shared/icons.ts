@@ -9,6 +9,7 @@ export enum Icon {
   CONTACT = 'contact_phone',
   PHOTO_CAMERA = 'photo_camera',
   ARROW_BACK = 'arrow_back',
+  ARROW_FRONT = 'chevron_right',
   CHECK = 'check',
   LOGOUT = 'logout',
   ADD = 'add',
@@ -16,4 +17,6 @@ export enum Icon {
   END_CALENDAR = 'event_busy',
   MORE_HORIZ = 'more_horiz',
   LOCK_OPEN = 'lock_open',
+  EDIT = 'edit',
+  DELETE = 'delete',
 }

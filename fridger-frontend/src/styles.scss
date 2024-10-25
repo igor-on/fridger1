@@ -23,6 +23,7 @@
   --material-blue: #005cbb;
   --dirty-black: #4a4a4a;
   --light-green: #8ccb4c;
+  --light-red: #e42a2a;
 }
 
 /* TAILWIND CLASSES */
@@ -161,6 +162,10 @@ body {
 
 .bg-shadow {
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.bold {
+  font-weight: 400;
 }
 
 .large-text {
