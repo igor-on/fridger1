@@ -21,4 +21,5 @@ export enum Icon {
   DELETE = 'delete',
   CLOSE = 'close',
   WARNING = 'warning',
+  HIDE_SOURCE = 'hide_source',
 }

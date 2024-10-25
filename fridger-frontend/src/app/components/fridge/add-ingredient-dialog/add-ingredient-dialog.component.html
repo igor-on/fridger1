@@ -31,7 +31,7 @@
             <mat-icon class="medium-icon" [fontIcon]="Icon.ARROW_BACK"></mat-icon>
             <div class="medium-text">Back</div>
         </div>
-        <app-button (btnClicked)="onSave()" [icon]="Icon.CHECK">Save</app-button>
+        <app-button [disabled]="ingredients.length == 0" (btnClicked)="onSave()" [icon]="Icon.CHECK">Save</app-button>
     </div>
 </div>
 <div class="content-height">
@@ -66,6 +66,11 @@
             <div class="flex flex-col justify-between">
                 <mat-icon (click)="onX(i)" class="medium2-icon text-light-red" [fontIcon]="Icon.CLOSE"></mat-icon>
             </div>
+        </div>
+        } @empty {
+        <div @fadeInOut2 class="mt-20 flex h-full flex-col items-center justify-center gap-2 text-very-light-gray">
+            <mat-icon class="very-large-icon" [fontIcon]="Icon.HIDE_SOURCE"></mat-icon>
+            <h2 class="medium-text">Currently no ingredients added</h2>
         </div>
         }
     </section>

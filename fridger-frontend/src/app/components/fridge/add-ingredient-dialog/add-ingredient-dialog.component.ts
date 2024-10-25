@@ -1,36 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import {
-  MatDialog,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { getFormControl } from 'src/app/utils/form-helper';
 import { FridgeIngredient } from 'src/app/shared/models/fridge';
 import { MatIconModule } from '@angular/material/icon';
 import { AsTypePipe } from 'src/app/core/pipes/as-type.pipe';
-import {
-  ArrayParams,
-  ControlType,
-  TemplateFormBuilder,
-  TemplateFormField,
-} from 'src/app/shared/components/dynamic-form/template-form-field';
-import { FridgeService } from 'src/app/services/fridge.service';
-import { Ingredient } from 'src/app/shared/models/recipe';
 import { DynamicFormComponent } from 'src/app/shared/components/dynamic-form/dynamic-form.component';
-import { TemplateFormButton } from 'src/app/shared/components/dynamic-form/dynamic-form-buttons/dynamic-form-buttons.component';
-import { ArrayAction } from 'src/app/shared/components/dynamic-form/dynamic-form-fields/dynamic-form-fields.component';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { Icon } from 'src/app/shared/icons';
 import { MobileAddBtnComponent } from 'src/app/shared/components/mobile-add-btn/mobile-add-btn.component';
@@ -76,7 +54,7 @@ export class AddIngredientDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<
       AddIngredientDialogComponent,
-      FridgeIngredient
+      FridgeIngredient[]
     >
   ) {}
 
@@ -88,6 +66,7 @@ export class AddIngredientDialogComponent implements OnInit {
 
   onSave(): void {
     console.log(this.ingredients);
+    this.dialogRef.close(this.ingredients);
   }
 
   onAdd(data: FridgeIngredient) {
