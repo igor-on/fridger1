@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { ExpirationDateHighlightDirective } from 'src/app/shared/expiration-date-highlight.directive';
+import { ExpirationDateHighlightDirective } from 'src/app/core/directives/expiration-date-highlight.directive';
 import { Icon } from 'src/app/shared/icons';
 import { FridgeIngredient } from 'src/app/shared/models/fridge';
 import { fadeInOut, rightSlideInOutAnimationComp } from 'src/app/animations';

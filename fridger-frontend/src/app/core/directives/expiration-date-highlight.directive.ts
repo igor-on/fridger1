@@ -1,5 +1,5 @@
 import { Directive, ElementRef, Input, SimpleChanges } from '@angular/core';
-import { FridgeIngredient } from './models/fridge';
+import { FridgeIngredient } from '../../shared/models/fridge';
 
 @Directive({
   selector: '[appExpirationDateHighlight]',

@@ -25,7 +25,7 @@ import {
 import { JsonPipe } from '@angular/common';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { MessageService } from 'src/app/services/message.service';
-import { AsTypePipe } from 'src/app/shared/pipes/as-type.pipe';
+import { AsTypePipe } from 'src/app/core/pipes/as-type.pipe';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 

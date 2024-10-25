@@ -19,16 +19,16 @@ import {
 } from '../template-form-field';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { AsTypePipe } from 'src/app/shared/pipes/as-type.pipe';
+import { AsTypePipe } from 'src/app/core/pipes/as-type.pipe';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { ToObservablePipe } from 'src/app/shared/pipes/to-observable.pipe';
+import { ToObservablePipe } from 'src/app/core/pipes/to-observable.pipe';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { FieldVisiblePipe } from 'src/app/shared/pipes/field-visible.pipe';
+import { FieldVisiblePipe } from 'src/app/core/pipes/field-visible.pipe';
 
 export enum ArrayAction {
   ADD,
