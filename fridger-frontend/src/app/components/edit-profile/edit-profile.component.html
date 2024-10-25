@@ -30,14 +30,9 @@
             <app-dynamic-form #form [fields]="fields" flexDirection="vertical" [buttons]="[]"></app-dynamic-form>
         </div>
         <div class="flex justify-center">
-            <button
-                (click)="onUpdateProfile()"
-                [disabled]="form.formGroup.invalid"
-                [ngClass]="{ 'disabled-btn': form.formGroup.invalid, 'text-white': form.formGroup.valid }"
-                class="light-shadow flex items-center rounded-3xl bg-material-blue px-[12px] py-2 transition-all duration-300">
-                Update profile
-                <mat-icon aria-hidden="false" aria-label="Example home icon" [fontIcon]="Icon.CHECK"></mat-icon>
-            </button>
+            <app-button (btnClicked)="onUpdateProfile()" [disabled]="form.formGroup.invalid" [icon]="Icon.CHECK">
+                UpdateProfile
+            </app-button>
         </div>
     </section>
 </div>

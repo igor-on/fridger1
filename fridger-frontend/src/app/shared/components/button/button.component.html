@@ -1,0 +1,9 @@
+<button
+    (click)="btnClicked.emit($event)"
+    [disabled]="disabled"
+    [ngClass]="{ 'disabled-btn': disabled, 'text-white': !disabled }"
+    class="light-shadow flex items-center rounded-3xl {{ twBgColor }} px-[12px] py-2 transition-all duration-300">
+    <ng-content></ng-content> @if (icon) {
+    <mat-icon aria-hidden="false" aria-label="Example home icon" [fontIcon]="icon"></mat-icon>
+    }
+</button>

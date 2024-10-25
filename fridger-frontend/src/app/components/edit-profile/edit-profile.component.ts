@@ -7,6 +7,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { er } from '@fullcalendar/core/internal-common';
 import { MessageService } from 'src/app/services/message.service';
 import { UserService } from 'src/app/services/user.service';
+import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { DynamicFormComponent } from 'src/app/shared/components/dynamic-form/dynamic-form.component';
 import {
   TemplateFormBuilder,
@@ -18,7 +19,13 @@ import { UserDTO } from 'src/app/shared/models/user.dto';
 @Component({
   selector: 'app-edit-profile',
   standalone: true,
-  imports: [MatIconModule, DynamicFormComponent, CommonModule, RouterModule],
+  imports: [
+    MatIconModule,
+    DynamicFormComponent,
+    CommonModule,
+    RouterModule,
+    ButtonComponent,
+  ],
   templateUrl: './edit-profile.component.html',
   styleUrl: './edit-profile.component.scss',
 })
