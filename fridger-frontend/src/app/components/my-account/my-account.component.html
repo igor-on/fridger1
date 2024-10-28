@@ -1,14 +1,11 @@
-<div class="main-content mt-9 flex flex-col">
+<div class="main-content flex flex-col pt-9">
     <section class="flex flex-col items-center">
         <img class="light-shadow mb-2 h-[86px] w-[86px] rounded-full" [src]="userProfilePicture" alt="" />
         <p class="medium-text !mb-2">{{ user.firstName }} {{ user.lastName }}</p>
         <p class="small-text !mb-3 text-light-gray">&#64;{{ user.username }}</p>
-        <button
-            routerLink="/edit-profile"
-            class="light-shadow flex items-center rounded-3xl bg-material-blue px-[12px] py-2 text-white">
-            Edit profile
-            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="chevron_right"></mat-icon>
-        </button>
+        <div routerLink="/edit-profile">
+            <app-button [icon]="Icon.ARROW_FRONT"> Edit profile </app-button>
+        </div>
     </section>
     <section class="mx-[20px] my-6">
         <h5 class="small-text mb-[16px] text-light-gray" style="font-weight: 400">Information</h5>
@@ -73,5 +70,3 @@
     Logout
     <mat-icon class="" aria-hidden="false" aria-label="Example shopping basket" [fontIcon]="Icon.LOGOUT"></mat-icon>
 </div>
-
-<div class="backdrop opacity-1 absolute left-0 top-0 z-[9999] hidden h-full w-full bg-black"></div>

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { FieldVisible } from '../components/dynamic-form/template-form-field';
+import { FieldVisible } from '../../shared/components/dynamic-form/template-form-field';
 import { FormGroup } from '@angular/forms';
 import { BehaviorSubject, mergeMap, Observable, of } from 'rxjs';
 

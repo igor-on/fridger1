@@ -1,4 +1,4 @@
-<form>
+<!-- <form>
     <div class="flex">
         <h2 mat-dialog-title class="mb-2">Add ingredient</h2>
         <button type="button" class="flex-box-center mr-4" (click)="onAdd()">
@@ -22,4 +22,75 @@
             Save
         </button>
     </mat-dialog-actions>
-</form>
+</form> -->
+
+<div class="fixed left-0 top-0 z-[9] w-full rounded-none bg-white">
+    <div class="h-11"></div>
+    <div class="mx-[48px] mb-[24px] flex items-center justify-between">
+        <div (click)="dialogRef.close()" class="flex items-center gap-[16px]">
+            <mat-icon class="medium-icon" [fontIcon]="Icon.ARROW_BACK"></mat-icon>
+            <div class="medium-text">Back</div>
+        </div>
+        <app-button [disabled]="ingredients.length == 0" (btnClicked)="onSave()" [icon]="Icon.CHECK">Save</app-button>
+    </div>
+</div>
+<div class="content-height">
+    <div class="mt-[100px] flex">
+        <h2 mat-dialog-title class="mb-2">Add ingredients 🔥</h2>
+    </div>
+    <section class="flex flex-col gap-6 px-[20px] pt-6">
+        @for (ingredient of ingredients; track ingredient.id; let i = $index) {
+
+        <div
+            @fadeInOut2
+            (click)="addIngredientDialogVisible = true; selectedIngredient = ingredient; ingrIdx = i"
+            class="light-shadow flex justify-between rounded-[8px] p-2">
+            <div class="flex flex-col justify-center">
+                <h2 class="medium-text mb-2 max-w-[288px] break-words">{{ ingredient.ingredient.name }}</h2>
+                <p class="small-text mb-2 text-light-gray">{{ ingredient.quantity }} {{ ingredient.unit }}</p>
+                <div class="small-text flex items-center gap-2">
+                    <div
+                        class="small-text flex items-center gap-1 {{
+                            ingredient.expirationDate ? 'text-light-gray' : 'text-orange'
+                        }}">
+                        @if (ingredient.expirationDate) {
+                        <mat-icon class="medium-icon" [fontIcon]="Icon.END_CALENDAR"></mat-icon>
+                        {{ ingredient.expirationDate | date: 'mediumDate' }}
+                        } @else {
+
+                        <mat-icon class="medium-icon" [fontIcon]="Icon.WARNING"></mat-icon>
+                        Exp. date not provided }
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col justify-between">
+                <mat-icon (click)="onX(i)" class="medium2-icon text-light-red" [fontIcon]="Icon.CLOSE"></mat-icon>
+            </div>
+        </div>
+        } @empty {
+        <div @fadeInOut2 class="mt-20 flex h-full flex-col items-center justify-center gap-2 text-very-light-gray">
+            <mat-icon class="very-large-icon" [fontIcon]="Icon.HIDE_SOURCE"></mat-icon>
+            <h2 class="medium-text">Currently no ingredients added</h2>
+        </div>
+        }
+    </section>
+</div>
+
+<app-mobile-add-btn
+    (btnClicked)="
+        addIngredientDialogVisible = true; selectedIngredient = undefined; ingrIdx = ingredients.length
+    "></app-mobile-add-btn>
+
+@if (addIngredientDialogVisible) {
+<app-add-single-ingredient-dialog
+    @downSlideInOut
+    (closeClicked)="addIngredientDialogVisible = false"
+    (addClicked)="onAdd($event)"
+    (updateClicked)="onUpdate($event)"
+    [ingredient]="selectedIngredient"
+    [ingrIdx]="ingrIdx"></app-add-single-ingredient-dialog>
+<div
+    @fadeInOut
+    (click)="addIngredientDialogVisible = false"
+    class="backdrop fixed left-0 top-0 z-[99] h-full w-full rounded-none bg-black opacity-70"></div>
+}

@@ -1,7 +1,7 @@
 <div
     [formGroup]="formGroup"
     [ngStyle]="{ flexDirection: flexDirection === 'vertical' ? 'column' : 'row' }"
-    class="flex gap-4">
+    class="flex gap-2">
     @for (field of fields; track $index) { @if ((field.visible | fieldVisible: formGroup) | async) { @switch
     (field.controlType) { @case (ControlType.TEXT) {
     <mat-form-field
@@ -74,12 +74,14 @@
     </mat-form-field>
     } @case (ControlType.GROUP) {
     <app-dynamic-form-fields
+        [flexDirection]="flexDirection"
         [fields]="(field.params | asType: GroupParams).fields"
         [formGroup]="formGroup.get(field.name) | asType: FormGroup"></app-dynamic-form-fields>
     } @case (ControlType.ARRAY) {
     <div class="flex flex-col align-middle">
         @for (el of (field.params | asType: ArrayParams).elements; track el; let i = $index) {
         <app-dynamic-form-fields
+            [flexDirection]="flexDirection"
             (arrayChangedEvent)="onNestedArrayChanged($event)"
             [fields]="(el.params | asType: GroupParams).fields"
             [formGroup]="

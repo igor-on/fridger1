@@ -1,9 +1,9 @@
 import { ResolveFn } from '@angular/router';
-import { UserDTO } from '../models/user.dto';
+import { UserDTO } from 'src/app/shared/models/user.dto';
 import { inject } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { concatMap, EMPTY } from 'rxjs';
-import { AuthUser } from '../models/auth-user.model';
+import { AuthUser } from 'src/app/shared/models/auth-user.model';
 import { SafeUrl } from '@angular/platform-browser';
 
 export const userResolver: ResolveFn<UserDTO> = (route, state) => {

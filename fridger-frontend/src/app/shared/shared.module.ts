@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { GenerateBgColorDirective } from './directives/generate-bg-color.directive';
+import { GenerateBgColorDirective } from '../core/directives/generate-bg-color.directive';
 
 @NgModule({
   declarations: [GenerateBgColorDirective],

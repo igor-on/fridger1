@@ -1,32 +1,24 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { getFormControl } from 'src/app/utils/form-helper';
 import { FridgeIngredient } from 'src/app/shared/models/fridge';
 import { MatIconModule } from '@angular/material/icon';
-import { AsTypePipe } from 'src/app/shared/pipes/as-type.pipe';
-import {
-  ArrayParams,
-  ControlType,
-  TemplateFormBuilder,
-  TemplateFormField,
-} from 'src/app/shared/components/dynamic-form/template-form-field';
-import { FridgeService } from 'src/app/services/fridge.service';
-import { Ingredient } from 'src/app/shared/models/recipe';
+import { AsTypePipe } from 'src/app/core/pipes/as-type.pipe';
 import { DynamicFormComponent } from 'src/app/shared/components/dynamic-form/dynamic-form.component';
-import { TemplateFormButton } from 'src/app/shared/components/dynamic-form/dynamic-form-buttons/dynamic-form-buttons.component';
-import { ArrayAction } from 'src/app/shared/components/dynamic-form/dynamic-form-fields/dynamic-form-fields.component';
+import { ButtonComponent } from 'src/app/shared/components/button/button.component';
+import { Icon } from 'src/app/shared/icons';
+import { MobileAddBtnComponent } from 'src/app/shared/components/mobile-add-btn/mobile-add-btn.component';
+import { AddSingleIngredientDialogComponent } from './add-single-ingredient-dialog/add-single-ingredient-dialog.component';
+import {
+  downSlideInOutAnimationComp,
+  fadeInOut,
+  fadeInOut2,
+} from 'src/app/animations';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-ingredient-dialog',
@@ -40,129 +32,54 @@ import { ArrayAction } from 'src/app/shared/components/dynamic-form/dynamic-form
     MatIconModule,
     AsTypePipe,
     DynamicFormComponent,
+    ButtonComponent,
+    MobileAddBtnComponent,
+    AddSingleIngredientDialogComponent,
+    CommonModule,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './add-ingredient-dialog.component.html',
   styleUrl: './add-ingredient-dialog.component.scss',
+  animations: [fadeInOut, downSlideInOutAnimationComp, fadeInOut2],
 })
 export class AddIngredientDialogComponent implements OnInit {
-  @ViewChild(DynamicFormComponent) dynamicForm!: DynamicFormComponent<any>;
-  ingredientsFormArray!: FormArray;
-  protected readonly FormGroup!: FormGroup;
+  protected readonly Icon = Icon;
 
-  fields!: TemplateFormField[];
-  buttons!: TemplateFormButton[];
+  ingredients: FridgeIngredient[] = [];
+  selectedIngredient: FridgeIngredient | undefined = undefined;
+  ingrIdx = this.ingredients.length;
 
-  protected readonly ArrayParams!: ArrayParams;
+  addIngredientDialogVisible: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<
       AddIngredientDialogComponent,
-      FridgeIngredient
-    >,
-    public tfb: TemplateFormBuilder
+      FridgeIngredient[]
+    >
   ) {}
 
-  ngOnInit(): void {
-    this.initTemplateForm();
+  ngOnInit(): void {}
+
+  onX(ingrIdx: number): void {
+    this.ingredients.splice(ingrIdx, 1);
   }
 
-  onCancel(): void {
-    this.dialogRef.close();
+  onSave(): void {
+    console.log(this.ingredients);
+    this.dialogRef.close(this.ingredients);
   }
 
-  onCheck() {
-    console.log(this.dynamicForm.fields);
-    this.dynamicForm.onArrayChanged({
-      action: ArrayAction.ADD,
-      field: this.fields[0] as unknown as TemplateFormField<ControlType.ARRAY>,
-      formGroup: this.dynamicForm.formGroup,
-    });
+  onAdd(data: FridgeIngredient) {
+    if (data) {
+      this.ingredients.push(data);
+    }
+    this.addIngredientDialogVisible = false;
   }
 
-  initTemplateForm() {
-    this.fields = this.tfb.fields({
-      hello: this.tfb.array([
-        this.tfb.group({
-          ingredient: this.tfb.group<Ingredient>({
-            name: this.tfb.text({
-              visible: true,
-              validators: [Validators.required],
-              params: { label: 'Ingredient' },
-            }),
-          }),
-          quantity: this.tfb.text({
-            visible: true,
-            validators: [Validators.required],
-            params: {
-              label: 'Quantity',
-              type: 'number',
-            },
-          }),
-          unit: this.tfb.select({
-            visible: true,
-            params: {
-              label: 'Unit',
-              options: {
-                data: [
-                  { value: 'KG', display: 'kilogram' },
-                  {
-                    value: 'G',
-                    display: 'gram',
-                  },
-                  { value: 'ML', display: 'mililiter' },
-                  { value: 'PCS', display: 'pieces' },
-                ],
-                displayProp: 'display',
-                valueProp: 'value',
-              },
-            },
-          }),
-          expirationDate: this.tfb.date({
-            visible: true,
-            params: { label: 'Expiration Date' },
-          }),
-        }),
-      ]),
-    });
-
-    this.buttons = [
-      {
-        text: 'Submit',
-        type: 'button',
-        onClick: (_, form) => {
-          console.log(form.value);
-        },
-      },
-    ];
-  }
-
-  onSubmit(): void {
-    console.log(this.dynamicForm.formGroup.value);
-    console.log(this.dynamicForm.formGroup.valid);
-    this.dialogRef.close(this.dynamicForm.formGroup.value['hello']);
-  }
-
-  hasError(idx: number, err: string, controlName: string): boolean {
-    return getFormControl(
-      this.ingredientsFormArray.at(idx) as FormGroup,
-      controlName
-    ).hasError(err);
-  }
-
-  onAdd() {
-    this.dynamicForm.onArrayChanged({
-      action: ArrayAction.ADD,
-      field: this.fields[0] as unknown as TemplateFormField<ControlType.ARRAY>,
-      formGroup: this.dynamicForm.formGroup,
-    });
-  }
-
-  onDelete() {
-    this.dynamicForm.onArrayChanged({
-      action: ArrayAction.REMOVE,
-      field: this.fields[0] as unknown as TemplateFormField<ControlType.ARRAY>,
-      formGroup: this.dynamicForm.formGroup,
-    });
+  onUpdate(data: { ingr: FridgeIngredient; ingrIdx: number }) {
+    if (data) {
+      this.ingredients[data.ingrIdx] = data.ingr;
+    }
+    this.addIngredientDialogVisible = false;
   }
 }

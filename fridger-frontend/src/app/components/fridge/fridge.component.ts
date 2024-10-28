@@ -29,6 +29,9 @@ import {
   NoopScrollStrategy,
   ScrollStrategyOptions,
 } from '@angular/cdk/overlay';
+import { MobileAddBtnComponent } from 'src/app/shared/components/mobile-add-btn/mobile-add-btn.component';
+import { Icon } from 'src/app/shared/icons';
+import { FridgeItemComponent } from './fridge-item/fridge-item.component';
 
 @Component({
   selector: 'app-fridge',
@@ -42,12 +45,16 @@ import {
     MatDatepickerModule,
     DatePipe,
     MatIconModule,
+    MobileAddBtnComponent,
+    FridgeItemComponent,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './fridge.component.html',
   styleUrl: './fridge.component.scss',
 })
 export class FridgeComponent implements OnInit {
+  protected readonly Icon = Icon;
+
   fridge!: Fridge;
   ingredientsType: string[] | undefined;
   editMode: boolean = false;
@@ -91,7 +98,12 @@ export class FridgeComponent implements OnInit {
   }
 
   public onAdd() {
-    const dialogRef = this.dialog.open(AddIngredientDialogComponent);
+    const dialogRef = this.dialog.open(AddIngredientDialogComponent, {
+      minWidth: '100vw',
+      minHeight: '100vh',
+      maxHeight: 'none',
+      position: { top: '0' },
+    });
 
     dialogRef
       .afterClosed()
@@ -127,8 +139,9 @@ export class FridgeComponent implements OnInit {
   public onEdit(ingr: FridgeIngredient) {
     const dialogRef = this.dialog.open(UpdateIngredientDialogComponent, {
       data: ingr,
-      minWidth: '40rem',
-      position: { top: '5%' },
+      minWidth: '100%',
+      minHeight: '100vh',
+      position: { top: '0' },
     });
 
     dialogRef

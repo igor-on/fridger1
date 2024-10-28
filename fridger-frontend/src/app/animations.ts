@@ -3,13 +3,74 @@ import {
   transition,
   style,
   query,
-  animateChild,
   group,
   animate,
 } from '@angular/animations';
-import { display } from 'html2canvas/dist/types/css/property-descriptors/display';
-import { opacity } from 'html2canvas/dist/types/css/property-descriptors/opacity';
-import { zIndex } from 'html2canvas/dist/types/css/property-descriptors/z-index';
+
+export const fadeInOut2 = trigger('fadeInOut2', [
+  transition(':enter', [
+    style({ opacity: 0 }),
+    animate('150ms', style({ opacity: 1 })),
+  ]),
+  transition(':leave', [animate('150ms ease-out', style({ opacity: 0 }))]),
+]);
+
+export const downSlideInOutAnimationComp = trigger('downSlideInOut', [
+  transition(':enter', [
+    style({
+      position: 'absolute',
+      width: '100%',
+      left: '0%',
+      bottom: '-100%',
+      zIndex: 999,
+      opacity: 0,
+    }),
+    animate('300ms ease', style({ bottom: '0%', opacity: 1 })),
+  ]),
+  transition(':leave', [
+    style({
+      position: 'absolute',
+      width: '100%',
+      left: '0%',
+      bottom: '0%',
+      zIndex: 999,
+      opacity: 1,
+    }),
+    animate('200ms ease-out', style({ bottom: '-100%', opacity: 0 })),
+  ]),
+]);
+
+export const fadeInOut = trigger('fadeInOut', [
+  transition(':enter', [
+    style({ opacity: 0 }),
+    animate('300ms', style({ opacity: 0.7 })),
+  ]),
+  transition(':leave', [animate('200ms ease-out', style({ opacity: 0 }))]),
+]);
+
+export const rightSlideInOutAnimationComp = trigger('componentAnimations', [
+  transition(':enter', [
+    style({
+      position: 'absolute',
+      top: '0%',
+      left: '100%',
+      opacity: 0,
+      zIndex: 99999,
+      width: '100%',
+    }),
+    group([animate('300ms ease', style({ opacity: 1, left: '0%' }))]),
+  ]),
+  transition(':leave', [
+    style({
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      zIndex: 99999,
+      width: '100%',
+    }),
+    animate('300ms ease', style({ left: '100%' })),
+  ]),
+]);
 
 export const rightSlideInOutAnimation = trigger('routeAnimations', [
   transition('MyAccount => EditProfile', [

@@ -7,24 +7,34 @@ import {
   MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { of } from 'rxjs';
+import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { DynamicFormComponent } from 'src/app/shared/components/dynamic-form/dynamic-form.component';
 import {
   TemplateFormBuilder,
   TemplateFormField,
 } from 'src/app/shared/components/dynamic-form/template-form-field';
+import { Icon } from 'src/app/shared/icons';
 import { FridgeIngredient } from 'src/app/shared/models/fridge';
 
 @Component({
   selector: 'app-update-ingredient-dialog',
   standalone: true,
-  imports: [DynamicFormComponent, MatDialogModule],
+  imports: [
+    DynamicFormComponent,
+    MatDialogModule,
+    MatIconModule,
+    ButtonComponent,
+  ],
   templateUrl: './update-ingredient-dialog.component.html',
   styleUrl: './update-ingredient-dialog.component.scss',
 })
 export class UpdateIngredientDialogComponent implements OnInit {
   @ViewChild(DynamicFormComponent) dynamicForm!: DynamicFormComponent<any>;
   fields!: TemplateFormField[];
+
+  protected readonly Icon = Icon;
 
   afterOpeningExpirationDateVisible!: boolean;
 
@@ -41,11 +51,8 @@ export class UpdateIngredientDialogComponent implements OnInit {
     this.initTemplateForm();
   }
 
-  onCancel(): void {
-    this.dialogRef.close();
-  }
-
   onSave(): void {
+    console.log('Save');
     this.dialogRef.close(this.dynamicForm.formGroup.value);
   }
 
