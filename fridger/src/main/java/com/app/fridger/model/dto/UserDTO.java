@@ -1,6 +1,6 @@
-package com.app.fridger.dto;
+package com.app.fridger.model.dto;
 
-import com.app.fridger.entity.User;
+import com.app.fridger.model.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

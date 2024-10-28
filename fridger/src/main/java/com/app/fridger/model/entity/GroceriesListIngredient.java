@@ -1,6 +1,6 @@
-package com.app.fridger.entity;
+package com.app.fridger.model.entity;
 
-import com.app.fridger.model.Unit;
+import com.app.fridger.model.core.Unit;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;

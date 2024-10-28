@@ -1,6 +1,6 @@
 package com.app.fridger.auth;
 
-import com.app.fridger.entity.User;
+import com.app.fridger.model.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

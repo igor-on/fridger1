@@ -1,9 +1,8 @@
 package com.app.fridger.utils;
 
-import com.app.fridger.entity.FridgeIngredient;
+import com.app.fridger.model.entity.FridgeIngredient;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class MessageCreator {

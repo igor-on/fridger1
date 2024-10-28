@@ -1,6 +1,6 @@
 package com.app.fridger.repo;
 
-import com.app.fridger.entity.User;
+import com.app.fridger.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

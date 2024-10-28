@@ -1,6 +1,6 @@
 package com.app.fridger.controller;
 
-import com.app.fridger.model.Error;
+import com.app.fridger.model.core.Error;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataAccessException;

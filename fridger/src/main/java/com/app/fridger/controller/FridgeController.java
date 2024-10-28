@@ -1,7 +1,7 @@
 package com.app.fridger.controller;
 
-import com.app.fridger.entity.Fridge;
-import com.app.fridger.entity.FridgeIngredient;
+import com.app.fridger.model.entity.Fridge;
+import com.app.fridger.model.entity.FridgeIngredient;
 import com.app.fridger.service.FridgeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

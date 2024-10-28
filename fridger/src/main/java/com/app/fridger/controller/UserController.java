@@ -1,9 +1,9 @@
 package com.app.fridger.controller;
 
 import com.app.fridger.auth.UserDetailsServiceImpl;
-import com.app.fridger.dto.UserDTO;
-import com.app.fridger.entity.User;
-import com.app.fridger.model.Error;
+import com.app.fridger.model.dto.UserDTO;
+import com.app.fridger.model.entity.User;
+import com.app.fridger.model.core.Error;
 import com.app.fridger.repo.UserRepository;
 import com.app.fridger.utils.Utils;
 import jakarta.servlet.http.HttpServletRequest;

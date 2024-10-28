@@ -1,6 +1,6 @@
 package com.app.fridger.repo;
 
-import com.app.fridger.entity.Ingredient;
+import com.app.fridger.model.entity.Ingredient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

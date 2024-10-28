@@ -1,6 +1,8 @@
 package com.app.fridger.controller;
 
-import com.app.fridger.entity.Recipe;
+import com.app.fridger.client.SpoonacularClient;
+import com.app.fridger.model.api.spoonacular.RecipeInformation;
+import com.app.fridger.model.entity.Recipe;
 import com.app.fridger.service.RecipeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import java.util.Map;
 @CrossOrigin("${fridger.allowed-origins}")
 public class RecipeController {
     private final RecipeService recipeService;
+    private final SpoonacularClient spoonacularClient;
 
 
     // TODO: think about sending it in data & message format as others
@@ -85,6 +88,19 @@ public class RecipeController {
 
         result.put("message", "Successfully fetched favorite recipes");
         result.put("data", dbRecipe);
+
+
+        return result;
+    }
+
+    @GetMapping("/recipes/random")
+    public Map<String, Object> getRandomRecipes(@RequestParam int number) {
+
+        HashMap<String, Object> result = new HashMap<>();
+        List<Recipe> recipes = recipeService.generateRandomRecipes(number);
+
+        result.put("message", "Successfully generated random recipes");
+        result.put("data", recipes);
 
 
         return result;

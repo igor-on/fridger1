@@ -1,4 +1,4 @@
-package com.app.fridger.dto;
+package com.app.fridger.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

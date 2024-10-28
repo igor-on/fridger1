@@ -1,10 +1,9 @@
-package com.app.fridger.entity;
+package com.app.fridger.model.entity;
 
-import com.app.fridger.model.Unit;
+import com.app.fridger.model.core.Unit;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Table(name = "recipe_ingredient")
@@ -21,7 +20,7 @@ public class RecipeIngredient {
     @Column(name = "id")
     private Long id;
     @Column(name = "quantity")
-    @Min(1)
+//    @Min(1)
     private double quantity;
     @Column(name = "unit")
     private Unit unit;

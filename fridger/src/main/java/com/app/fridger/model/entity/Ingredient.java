@@ -1,7 +1,6 @@
-package com.app.fridger.entity;
+package com.app.fridger.model.entity;
 
-import com.app.fridger.model.IngredientType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.app.fridger.model.core.IngredientType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -1,7 +1,6 @@
-package com.app.fridger.entity;
+package com.app.fridger.model.entity;
 
-import com.app.fridger.dto.FridgeIngredientDTO;
-import com.app.fridger.model.Unit;
+import com.app.fridger.model.core.Unit;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -12,13 +11,13 @@ import lombok.ToString;
 
 import java.time.LocalDateTime;
 
-@Table(name = "groceries_list_fridge_ingredient")
+@Table(name = "fridge_ingredient")
 @Entity
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
 @ToString
-public class GroceriesListFridgeIngredient {
+public class FridgeIngredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,21 +34,25 @@ public class GroceriesListFridgeIngredient {
     @Column(name = "expiration_date")
     private LocalDateTime expirationDate;
 
-    @ManyToOne
-    @JoinColumn(name = "groceries_list_id")
-    @JsonIgnore
-    private GroceriesList groceriesList;
+    @Column(name = "insert_date")
+    private LocalDateTime insertDate;
+
+    @Column(name = "is_open")
+    private boolean isOpen;
+
+    @Column(name = "after_opening_expiration_date")
+    private LocalDateTime afterOpeningExpirationDate;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "ingredient_name")
     private Ingredient ingredient;
 
+    @ManyToOne
+    @JoinColumn(name = "fridge_id")
+    @JsonIgnore
+    private Fridge fridge;
 
-    public GroceriesListFridgeIngredient(FridgeIngredientDTO ingredient) {
-        this.ingredient = ingredient.getIngredient();
-        this.expirationDate = ingredient.getExpirationDate();
-        this.unit = ingredient.getUnit();
-        this.quantity = ingredient.getQuantity();
+    public void addQuantity(double quantity) {
+        this.setQuantity(this.quantity + quantity);
     }
-
 }

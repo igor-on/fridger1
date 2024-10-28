@@ -1,11 +1,11 @@
 package com.app.fridger.service;
 
-import com.app.fridger.dto.FridgeIngredientDTO;
-import com.app.fridger.entity.Fridge;
-import com.app.fridger.entity.FridgeIngredient;
-import com.app.fridger.entity.Ingredient;
-import com.app.fridger.model.IngredientType;
-import com.app.fridger.model.Unit;
+import com.app.fridger.model.dto.FridgeIngredientDTO;
+import com.app.fridger.model.entity.Fridge;
+import com.app.fridger.model.entity.FridgeIngredient;
+import com.app.fridger.model.entity.Ingredient;
+import com.app.fridger.model.core.IngredientType;
+import com.app.fridger.model.core.Unit;
 import com.app.fridger.repo.FridgeIngredientRepository;
 import com.app.fridger.repo.FridgeRepository;
 import com.app.fridger.repo.IngredientRepository;

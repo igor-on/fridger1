@@ -1,4 +1,4 @@
-package com.app.fridger.model;
+package com.app.fridger.model.core;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

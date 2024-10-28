@@ -1,9 +1,9 @@
-package com.app.fridger.dto;
+package com.app.fridger.model.dto;
 
-import com.app.fridger.entity.GroceriesList;
-import com.app.fridger.entity.GroceriesListFridgeIngredient;
-import com.app.fridger.entity.GroceriesListIngredient;
-import com.app.fridger.model.Unit;
+import com.app.fridger.model.entity.GroceriesList;
+import com.app.fridger.model.entity.GroceriesListFridgeIngredient;
+import com.app.fridger.model.entity.GroceriesListIngredient;
+import com.app.fridger.model.core.Unit;
 import lombok.*;
 import lombok.extern.log4j.Log4j2;
 

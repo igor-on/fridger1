@@ -1,4 +1,4 @@
-package com.app.fridger.entity;
+package com.app.fridger.model.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

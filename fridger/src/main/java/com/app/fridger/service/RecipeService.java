@@ -1,12 +1,17 @@
 package com.app.fridger.service;
 
-import com.app.fridger.entity.Ingredient;
-import com.app.fridger.entity.Recipe;
-import com.app.fridger.entity.RecipeIngredient;
-import com.app.fridger.model.IngredientType;
+import com.app.fridger.client.SpoonacularClient;
+import com.app.fridger.model.api.spoonacular.RecipeInformation;
+import com.app.fridger.model.core.Unit;
+import com.app.fridger.model.entity.Ingredient;
+import com.app.fridger.model.entity.Recipe;
+import com.app.fridger.model.entity.RecipeIngredient;
+import com.app.fridger.model.core.IngredientType;
 import com.app.fridger.repo.IngredientRepository;
 import com.app.fridger.repo.RecipeIngredientRepository;
 import com.app.fridger.repo.RecipeRepository;
+import com.app.fridger.utils.RecipeMapper;
+import com.app.fridger.utils.UnitConverter;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -21,9 +26,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class RecipeService {
 
+    private final SpoonacularClient spoonacularClient;
     private final RecipeRepository recipeRepository;
     private final IngredientRepository ingredientRepository;
     private final RecipeIngredientRepository recipeIngredientRepository;
+
+    private final FileService fileService;
 
     private final SessionService session;
 
@@ -96,8 +104,8 @@ public class RecipeService {
             recipeIngredient.setIngredient(dbIngredient);
         } else { // else save new ingredient data
             log.info("Adding new ingredient...");
-            if (recipeIngredient.getIngredient().getType() == null) {
-                recipeIngredient.getIngredient().setType(IngredientType.OTHER);
+            if (ingredient.getType() == null) {
+                ingredient.setType(IngredientType.OTHER);
             }
             recipeIngredient.setIngredient(ingredient);
         }
@@ -127,5 +135,61 @@ public class RecipeService {
 
         dbRecipe.setFavorite(!dbRecipe.getFavorite());
         return dbRecipe;
+    }
+
+    @Transactional
+    public List<Recipe> generateRandomRecipes(int number) {
+        List<RecipeInformation> randomRecipes = spoonacularClient.getRandomRecipes(number);
+
+        List<Recipe> recipes = randomRecipes.stream().map(this::toEntity).toList();
+        recipes.forEach(r -> r.setUser(session.getUser()));
+
+        recipeRepository.saveAll(recipes);
+
+        return recipes;
+    }
+
+    public Recipe toEntity(RecipeInformation recipeInformation) {
+        Recipe recipe = new Recipe();
+        recipe.setName(recipeInformation.getTitle());
+        recipe.setDescription(recipeInformation.getSummary());
+        recipe.setInstructions(recipeInformation.getInstructions());
+        recipe.setImageUrl(recipeInformation.getImage());
+        recipe.setLink(recipeInformation.getSourceUrl());
+        recipe.setFavorite(false);
+
+        recipeInformation.getExtendedIngredients().forEach(ei -> {
+            RecipeIngredient ingredient = new RecipeIngredient();
+            Ingredient name = new Ingredient();
+            name.setName(ei.getName());
+            handleSettingIngredient(ingredient, name);
+
+            Unit unit;
+            double quantity;
+            try {
+                log.info("First try");
+                unit = Unit.fromText(ei.getMeasures().getMetric().getUnitShort());
+                quantity = ei.getMeasures().getMetric().getAmount();
+            } catch (Exception e) {
+                try {
+                    log.info("Second try");
+                    UnitConverter unitConverter = new UnitConverter(ei.getMeasures().getMetric().getUnitShort(), Unit.G);
+                    quantity = unitConverter.convert(ei.getMeasures().getMetric().getAmount());
+                    unit = Unit.G;
+                } catch (Exception ex) {
+                    log.error("Provided unit is currently not parsable... fallback to pieces: " + ei.getMeasures().getMetric().getUnitLong());
+                    fileService.writeFileToResourceFolder("spoonacular-missing-units.txt", ei.getMeasures().getMetric().getUnitLong());
+                    quantity = ei.getMeasures().getMetric().getAmount();
+                    unit = Unit.PCS;
+                }
+            }
+
+            ingredient.setQuantity(quantity);
+            ingredient.setUnit(unit);
+
+            recipe.add(ingredient);
+        });
+
+        return recipe;
     }
 }

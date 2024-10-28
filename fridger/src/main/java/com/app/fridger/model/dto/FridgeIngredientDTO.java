@@ -1,9 +1,9 @@
-package com.app.fridger.dto;
+package com.app.fridger.model.dto;
 
-import com.app.fridger.entity.Fridge;
-import com.app.fridger.entity.FridgeIngredient;
-import com.app.fridger.entity.Ingredient;
-import com.app.fridger.model.Unit;
+import com.app.fridger.model.entity.Fridge;
+import com.app.fridger.model.entity.FridgeIngredient;
+import com.app.fridger.model.entity.Ingredient;
+import com.app.fridger.model.core.Unit;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

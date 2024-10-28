@@ -1,12 +1,11 @@
 package com.app.fridger.notifications;
 
 import com.app.fridger.config.EmailNotificationsProperties;
-import com.app.fridger.entity.FridgeIngredient;
-import com.app.fridger.entity.User;
+import com.app.fridger.model.entity.FridgeIngredient;
+import com.app.fridger.model.entity.User;
 import com.app.fridger.repo.FridgeRepository;
 import com.app.fridger.service.EmailService;
 import com.app.fridger.utils.MessageCreator;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 

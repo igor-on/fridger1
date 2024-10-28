@@ -1,7 +1,7 @@
 package com.app.fridger.service;
 
 import com.app.fridger.auth.UserDetailsImpl;
-import com.app.fridger.entity.User;
+import com.app.fridger.model.entity.User;
 import com.app.fridger.repo.UserRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;

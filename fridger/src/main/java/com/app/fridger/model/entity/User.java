@@ -1,4 +1,4 @@
-package com.app.fridger.entity;
+package com.app.fridger.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

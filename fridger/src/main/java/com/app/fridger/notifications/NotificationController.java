@@ -2,8 +2,8 @@ package com.app.fridger.notifications;
 
 import com.app.fridger.exceptions.AlreadySubscribedException;
 import com.app.fridger.exceptions.NotSubscribedException;
-import com.app.fridger.model.Error;
-import com.app.fridger.model.NotificationType;
+import com.app.fridger.model.core.Error;
+import com.app.fridger.model.core.NotificationType;
 import com.app.fridger.service.SessionService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

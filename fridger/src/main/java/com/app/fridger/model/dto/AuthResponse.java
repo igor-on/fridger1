@@ -1,4 +1,4 @@
-package com.app.fridger.dto;
+package com.app.fridger.model.dto;
 
 import com.app.fridger.auth.TokenData;
 import lombok.Builder;
