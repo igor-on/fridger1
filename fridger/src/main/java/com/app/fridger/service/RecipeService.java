@@ -3,6 +3,7 @@ package com.app.fridger.service;
 import com.app.fridger.client.SpoonacularClient;
 import com.app.fridger.model.api.spoonacular.RecipeInformation;
 import com.app.fridger.model.core.Unit;
+import com.app.fridger.model.dto.RecipeDTO;
 import com.app.fridger.model.entity.Ingredient;
 import com.app.fridger.model.entity.Recipe;
 import com.app.fridger.model.entity.RecipeIngredient;
@@ -10,7 +11,6 @@ import com.app.fridger.model.core.IngredientType;
 import com.app.fridger.repo.IngredientRepository;
 import com.app.fridger.repo.RecipeIngredientRepository;
 import com.app.fridger.repo.RecipeRepository;
-import com.app.fridger.utils.RecipeMapper;
 import com.app.fridger.utils.UnitConverter;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +18,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Log4j2
@@ -28,8 +27,8 @@ public class RecipeService {
 
     private final SpoonacularClient spoonacularClient;
     private final RecipeRepository recipeRepository;
-    private final IngredientRepository ingredientRepository;
-    private final RecipeIngredientRepository recipeIngredientRepository;
+    private final IngredientRepository ingredientRepository; // TODO: get rid of this injection - use only service
+    private final IngredientService ingredientService;
 
     private final FileService fileService;
 
@@ -95,21 +94,25 @@ public class RecipeService {
         return recipeRepository.save(dbRecipe);
     }
 
-    private void handleSettingIngredient(RecipeIngredient recipeIngredient, Ingredient ingredient) {
+    private void handleSettingIngredient(RecipeIngredient recipeIngredient, Ingredient ingredient) {  // TODO there is a problem with this function - it doesn't work when putting mutlitple recipes at once
+        log.info("Checking ingredient if exits: " + ingredient.getName());
+
         Optional<Ingredient> ingrByName = ingredientRepository.findByName(ingredient.getName());
 
         // if present update with data from db
         if (ingrByName.isPresent()) {
+            log.info("Exists! updateing from db...");
             Ingredient dbIngredient = ingrByName.get();
             recipeIngredient.setIngredient(dbIngredient);
         } else { // else save new ingredient data
-            log.info("Adding new ingredient...");
+            log.info("Doesn't exists! Adding new ingredient...");
             if (ingredient.getType() == null) {
                 ingredient.setType(IngredientType.OTHER);
             }
             recipeIngredient.setIngredient(ingredient);
         }
     }
+
 
     public Recipe getRecipeDetails(Long id) {
         Recipe dbRecipe = recipeRepository.findById(id).orElseThrow();
@@ -138,7 +141,7 @@ public class RecipeService {
     }
 
     @Transactional
-    public List<Recipe> generateRandomRecipes(int number) {
+    public List<RecipeDTO> generateRandomRecipes(int number) {
         List<RecipeInformation> randomRecipes = spoonacularClient.getRandomRecipes(number);
 
         List<Recipe> recipes = randomRecipes.stream().map(this::toEntity).toList();
@@ -146,7 +149,7 @@ public class RecipeService {
 
         recipeRepository.saveAll(recipes);
 
-        return recipes;
+        return RecipeDTO.fromEntities(recipes);
     }
 
     public Recipe toEntity(RecipeInformation recipeInformation) {
@@ -158,21 +161,24 @@ public class RecipeService {
         recipe.setLink(recipeInformation.getSourceUrl());
         recipe.setFavorite(false);
 
+
+        Map<String, Ingredient> checkedIngredients = new HashMap<>();
         recipeInformation.getExtendedIngredients().forEach(ei -> {
-            RecipeIngredient ingredient = new RecipeIngredient();
-            Ingredient name = new Ingredient();
-            name.setName(ei.getName());
-            handleSettingIngredient(ingredient, name);
+            RecipeIngredient recipeIngredient = new RecipeIngredient();
+            if (!checkedIngredients.containsKey(ei.getName())) {
+                checkedIngredients.put(ei.getName(), ingredientService.getOrCreateIngredient(ei.getName(), null));
+            }
+            recipeIngredient.setIngredient(checkedIngredients.get(ei.getName()));
 
             Unit unit;
             double quantity;
             try {
-                log.info("First try");
+                log.info("First try - using available units");
                 unit = Unit.fromText(ei.getMeasures().getMetric().getUnitShort());
                 quantity = ei.getMeasures().getMetric().getAmount();
             } catch (Exception e) {
                 try {
-                    log.info("Second try");
+                    log.info("Second try - using unit converter");
                     UnitConverter unitConverter = new UnitConverter(ei.getMeasures().getMetric().getUnitShort(), Unit.G);
                     quantity = unitConverter.convert(ei.getMeasures().getMetric().getAmount());
                     unit = Unit.G;
@@ -184,10 +190,10 @@ public class RecipeService {
                 }
             }
 
-            ingredient.setQuantity(quantity);
-            ingredient.setUnit(unit);
+            recipeIngredient.setQuantity(quantity);
+            recipeIngredient.setUnit(unit);
 
-            recipe.add(ingredient);
+            recipe.add(recipeIngredient);
         });
 
         return recipe;

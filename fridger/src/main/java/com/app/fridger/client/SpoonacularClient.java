@@ -2,10 +2,7 @@ package com.app.fridger.client;
 
 import com.app.fridger.model.api.spoonacular.GetRandomRecipesResponse;
 import com.app.fridger.model.api.spoonacular.RecipeInformation;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -53,6 +50,7 @@ public class SpoonacularClient {
         } catch (IOException e) {
             log.error("There was en error writing to file... " + e.getMessage());
         }
+
 
         return res.getRecipes();
     }
