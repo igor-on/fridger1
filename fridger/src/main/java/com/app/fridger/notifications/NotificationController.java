@@ -2,9 +2,9 @@ package com.app.fridger.notifications;
 
 import com.app.fridger.exceptions.AlreadySubscribedException;
 import com.app.fridger.exceptions.NotSubscribedException;
-import com.app.fridger.model.core.Error;
 import com.app.fridger.model.core.NotificationType;
 import com.app.fridger.service.SessionService;
+import com.app.fridger.utils.Utils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 
 @Controller
@@ -38,13 +37,7 @@ public class NotificationController {
 
             return ResponseEntity.ok().body(results);
         } catch (AlreadySubscribedException e) {
-            return ResponseEntity.badRequest().body(Error.builder()
-                    .code(HttpStatus.BAD_REQUEST.value())
-                    .time(LocalDateTime.now().toString())
-                    .method(req.getMethod())
-                    .path(req.getServletPath())
-                    .message(e.getMessage())
-                    .build());
+            return Utils.createErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage(), req);
         }
     }
 
@@ -57,13 +50,7 @@ public class NotificationController {
 
             return ResponseEntity.ok().body(results);
         } catch (NotSubscribedException e) {
-            return ResponseEntity.badRequest().body(Error.builder()
-                    .code(HttpStatus.BAD_REQUEST.value())
-                    .time(LocalDateTime.now().toString())
-                    .method(req.getMethod())
-                    .path(req.getServletPath())
-                    .message(e.getMessage())
-                    .build());
+            return Utils.createErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage(), req);
         }
     }
 }

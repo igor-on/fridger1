@@ -1,13 +1,17 @@
 package com.app.fridger.controller;
 
 import com.app.fridger.client.SpoonacularClient;
+import com.app.fridger.exceptions.TooBigNumberException;
 import com.app.fridger.model.dto.RecipeDTO;
 import com.app.fridger.model.entity.Recipe;
 import com.app.fridger.service.RecipeService;
+import com.app.fridger.utils.Utils;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -94,19 +98,20 @@ public class RecipeController {
     }
 
     @GetMapping("/recipes/random")
-    public Map<String, Object> getRandomRecipes(@RequestParam int number) {
+    public ResponseEntity<Object> getRandomRecipes(HttpServletRequest req, @RequestParam int number) {
+        try {
+            HashMap<String, Object> result = new HashMap<>();
+            List<RecipeDTO> recipes = recipeService.generateRandomRecipes(number);
 
-        HashMap<String, Object> result = new HashMap<>();
-        List<RecipeDTO> recipes = recipeService.generateRandomRecipes(number);
+            String message = recipes.size() == number
+                    ? "Successfully generated random recipes"
+                    : "Unfortunately, we encountered some problems during finding for you " + number + " unique recipe, we only managed to get " + recipes.size() + " for You";
 
-        String message = recipes.size() == number
-                ? "Successfully generated random recipes"
-                : "Unfortunately, we encountered some problems during finding for you " + number + " unique recipe, we only managed to get " + recipes.size() +  " for You";
-
-        result.put("message", message);
-        result.put("data", recipes);
-
-
-        return result;
+            result.put("message", message);
+            result.put("data", recipes);
+            return ResponseEntity.ok(result);
+        } catch (TooBigNumberException e) {
+            return Utils.createErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage(), req);
+        }
     }
 }

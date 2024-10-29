@@ -1,6 +1,7 @@
 package com.app.fridger.service;
 
 import com.app.fridger.client.SpoonacularClient;
+import com.app.fridger.exceptions.TooBigNumberException;
 import com.app.fridger.model.api.spoonacular.RecipeInformation;
 import com.app.fridger.model.dto.RecipeDTO;
 import com.app.fridger.model.entity.Recipe;
@@ -120,7 +121,12 @@ public class RecipeService {
     }
 
     @Transactional
-    public List<RecipeDTO> generateRandomRecipes(int number) {
+    public List<RecipeDTO> generateRandomRecipes(int number) throws TooBigNumberException {
+        if (number > 15) {
+            throw new TooBigNumberException("Please choose a number between 1 and 15 for generating random recipes.");
+        }
+
+
         User user = session.getUser();
         List<String> actualUserRecipes = user.getRecipes().stream().map(Recipe::getName).toList();
 

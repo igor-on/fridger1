@@ -32,6 +32,7 @@ public class RecipeMapperImpl implements RecipeMapper {
         recipe.setFavorite(false);
 
 
+        // Using this map to prevent doubling same objects in hibernate session
         Map<String, Ingredient> checkedIngredients = new HashMap<>();
         recipeInformation.getExtendedIngredients().forEach(ei -> {
             RecipeIngredient recipeIngredient = new RecipeIngredient();
