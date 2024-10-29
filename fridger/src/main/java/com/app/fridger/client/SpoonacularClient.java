@@ -1,7 +1,8 @@
 package com.app.fridger.client;
 
 import com.app.fridger.model.api.spoonacular.GetRandomRecipesResponse;
-import com.app.fridger.model.api.spoonacular.RecipeInformation;
+import com.app.fridger.model.api.spoonacular.GetRecipeComplexSearchResponse;
+import com.app.fridger.model.api.spoonacular.generated.RecipeInformation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +31,27 @@ public class SpoonacularClient {
     public SpoonacularClient(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
         restClient = RestClient.create();
+    }
+
+    public List<RecipeInformation> recipeComplexSearch(String query) {
+        log.info("GET /recipes/complexSearch");
+
+        URI uri = UriComponentsBuilder.fromHttpUrl(URI)
+                .path("/recipes/complexSearch")
+                .queryParam("query", query)
+                .queryParam("addRecipeInformation", true)
+                .queryParam("number", 1)
+                .queryParam("instructionsRequired", true)
+                .build()
+                .toUri();
+
+        GetRecipeComplexSearchResponse res = restClient.get()
+                .uri(uri)
+                .header("x-api-key", apiKey)
+                .retrieve()
+                .body(GetRecipeComplexSearchResponse.class);
+
+        return res.getResults();
     }
 
     public List<RecipeInformation> getRandomRecipes(int number) {

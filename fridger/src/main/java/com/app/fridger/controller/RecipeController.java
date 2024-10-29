@@ -2,6 +2,7 @@ package com.app.fridger.controller;
 
 import com.app.fridger.client.SpoonacularClient;
 import com.app.fridger.exceptions.TooBigNumberException;
+import com.app.fridger.model.api.spoonacular.generated.RecipeInformation;
 import com.app.fridger.model.dto.RecipeDTO;
 import com.app.fridger.model.entity.Recipe;
 import com.app.fridger.service.RecipeService;
@@ -113,5 +114,13 @@ public class RecipeController {
         } catch (TooBigNumberException e) {
             return Utils.createErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage(), req);
         }
+    }
+
+    @GetMapping("/recipes/spoonacular/search")
+    public Object getRecipesComplexSearch(@RequestParam String query) {
+
+        List<RecipeInformation> recipeInformations = spoonacularClient.recipeComplexSearch(query);
+
+        return recipeInformations;
     }
 }

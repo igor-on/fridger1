@@ -2,7 +2,7 @@ package com.app.fridger.service;
 
 import com.app.fridger.client.SpoonacularClient;
 import com.app.fridger.exceptions.TooBigNumberException;
-import com.app.fridger.model.api.spoonacular.RecipeInformation;
+import com.app.fridger.model.api.spoonacular.generated.RecipeInformation;
 import com.app.fridger.model.dto.RecipeDTO;
 import com.app.fridger.model.entity.Recipe;
 import com.app.fridger.model.entity.RecipeIngredient;
@@ -30,6 +30,8 @@ public class RecipeService {
     private final RecipeMapper recipeMapper;
 
     private final SessionService session;
+
+    private static final int MAX_RANDOM_RECIPES = 15;
 
     public List<Recipe> getRecipes() {
         return recipeRepository.findAll(session.getUser().getUsername());
@@ -91,9 +93,6 @@ public class RecipeService {
         return recipeRepository.save(dbRecipe);
     }
 
-
-
-
     public Recipe getRecipeDetails(Long id) {
         Recipe dbRecipe = recipeRepository.findById(id).orElseThrow();
 
@@ -122,10 +121,9 @@ public class RecipeService {
 
     @Transactional
     public List<RecipeDTO> generateRandomRecipes(int number) throws TooBigNumberException {
-        if (number > 15) {
+        if (number > MAX_RANDOM_RECIPES) {
             throw new TooBigNumberException("Please choose a number between 1 and 15 for generating random recipes.");
         }
-
 
         User user = session.getUser();
         List<String> actualUserRecipes = user.getRecipes().stream().map(Recipe::getName).toList();
@@ -139,7 +137,7 @@ public class RecipeService {
             maxSpoonaRequests -= 1;
             uniqueRandomRecipes.addAll(randomRecipes
                     .stream()
-                    .filter(rr -> ( !actualUserRecipes.contains(rr.getTitle()) && !uniqueRandomRecipes.contains(rr)))
+                    .filter(rr -> (!actualUserRecipes.contains(rr.getTitle()) && !uniqueRandomRecipes.contains(rr)))
                     .toList());
             number -= uniqueRandomRecipes.size();
 
