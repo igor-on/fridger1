@@ -33,8 +33,11 @@ public class SpoonacularClient {
     }
 
     public List<RecipeInformation> getRandomRecipes(int number) {
+        log.info("GET /recipes/random?number=" + number);
+
         URI uri = UriComponentsBuilder.fromHttpUrl(URI)
                 .path("recipes/random")
+                .queryParam("includeNutrition", false)
                 .queryParam("number", number)
                 .build()
                 .toUri();
@@ -47,6 +50,18 @@ public class SpoonacularClient {
 
         try {
             objectMapper.writeValue(new File("random-recipe.json"), res);
+        } catch (IOException e) {
+            log.error("There was en error writing to file... " + e.getMessage());
+        }
+
+
+        return res.getRecipes();
+    }
+
+    public List<RecipeInformation> getRandomRecipesMock(int number) {
+        GetRandomRecipesResponse res = null;
+        try {
+            res = objectMapper.readValue(new File("random-recipe.json"), GetRandomRecipesResponse.class);
         } catch (IOException e) {
             log.error("There was en error writing to file... " + e.getMessage());
         }

@@ -5,6 +5,7 @@ import com.app.fridger.model.api.spoonacular.RecipeInformation;
 import com.app.fridger.model.dto.RecipeDTO;
 import com.app.fridger.model.entity.Recipe;
 import com.app.fridger.model.entity.RecipeIngredient;
+import com.app.fridger.model.entity.User;
 import com.app.fridger.repo.RecipeRepository;
 import com.app.fridger.utils.RecipeMapper;
 import jakarta.transaction.Transactional;
@@ -13,6 +14,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -119,12 +121,33 @@ public class RecipeService {
 
     @Transactional
     public List<RecipeDTO> generateRandomRecipes(int number) {
-        List<RecipeInformation> randomRecipes = spoonacularClient.getRandomRecipes(number);
+        User user = session.getUser();
+        List<String> actualUserRecipes = user.getRecipes().stream().map(Recipe::getName).toList();
 
-        List<Recipe> recipes = randomRecipes.stream().map(recipeMapper::toEntity).toList();
-        recipes.forEach(r -> r.setUser(session.getUser()));
+        List<RecipeInformation> uniqueRandomRecipes = new ArrayList<>();
 
-        recipeRepository.saveAll(recipes);
+        // This code tries to get <number> unique random recipes in 3 API requests or less
+        int maxSpoonaRequests = 3; // TODO: change this to spoonacular points
+        while (number > 0 && maxSpoonaRequests > 0) {
+            List<RecipeInformation> randomRecipes = spoonacularClient.getRandomRecipes(number);
+            maxSpoonaRequests -= 1;
+            uniqueRandomRecipes.addAll(randomRecipes
+                    .stream()
+                    .filter(rr -> ( !actualUserRecipes.contains(rr.getTitle()) && !uniqueRandomRecipes.contains(rr)))
+                    .toList());
+            number -= uniqueRandomRecipes.size();
+
+            log.debug("Successfully fetched: " + uniqueRandomRecipes.size());
+        }
+
+        List<Recipe> recipes = new ArrayList<>();
+        uniqueRandomRecipes.forEach(urr -> {
+            Recipe r = recipeMapper.toEntity(urr);
+            r.setUser(user);
+            recipeRepository.save(r);
+            log.debug("Saved recipe: " + r.getName());
+            recipes.add(r);
+        });
 
         return RecipeDTO.fromEntities(recipes);
     }

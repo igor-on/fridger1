@@ -19,17 +19,21 @@ public class IngredientService {
 
 
     public Ingredient getOrCreateIngredient(String name, IngredientType type) {
+        log.debug("Searching: " + name + " ..." );
+
         Optional<Ingredient> optionalIngredient = ingredientRepository.findById(name);
 
         // if present get from db
         if (optionalIngredient.isPresent()) {
+            log.debug("Found in db");
             return optionalIngredient.get();
         }
 
         // else create new
+        log.debug("Creating new...");
         Ingredient ingredient = new Ingredient();
         ingredient.setName(name);
-        ingredient.setType(type);
+        ingredient.setType(type != null ? type : IngredientType.OTHER);
         return ingredient;
     }
 

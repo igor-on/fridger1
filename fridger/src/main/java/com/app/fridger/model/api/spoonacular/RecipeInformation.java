@@ -1,7 +1,10 @@
 package com.app.fridger.model.api.spoonacular;
 
+import lombok.EqualsAndHashCode;
+
 import java.util.List;
 
+@EqualsAndHashCode(of = {"title"})
 public class RecipeInformation {
 	private String instructions;
 	private boolean sustainable;

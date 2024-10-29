@@ -1,7 +1,6 @@
 package com.app.fridger.controller;
 
 import com.app.fridger.client.SpoonacularClient;
-import com.app.fridger.model.api.spoonacular.RecipeInformation;
 import com.app.fridger.model.dto.RecipeDTO;
 import com.app.fridger.model.entity.Recipe;
 import com.app.fridger.service.RecipeService;
@@ -100,7 +99,11 @@ public class RecipeController {
         HashMap<String, Object> result = new HashMap<>();
         List<RecipeDTO> recipes = recipeService.generateRandomRecipes(number);
 
-        result.put("message", "Successfully generated random recipes");
+        String message = recipes.size() == number
+                ? "Successfully generated random recipes"
+                : "Unfortunately, we encountered some problems during finding for you " + number + " unique recipe, we only managed to get " + recipes.size() +  " for You";
+
+        result.put("message", message);
         result.put("data", recipes);
 
 
