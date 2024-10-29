@@ -7,9 +7,6 @@ import com.app.fridger.model.dto.RecipeDTO;
 import com.app.fridger.model.entity.Ingredient;
 import com.app.fridger.model.entity.Recipe;
 import com.app.fridger.model.entity.RecipeIngredient;
-import com.app.fridger.model.core.IngredientType;
-import com.app.fridger.repo.IngredientRepository;
-import com.app.fridger.repo.RecipeIngredientRepository;
 import com.app.fridger.repo.RecipeRepository;
 import com.app.fridger.utils.UnitConverter;
 import jakarta.transaction.Transactional;
@@ -18,7 +15,9 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Log4j2
@@ -27,7 +26,6 @@ public class RecipeService {
 
     private final SpoonacularClient spoonacularClient;
     private final RecipeRepository recipeRepository;
-    private final IngredientRepository ingredientRepository; // TODO: get rid of this injection - use only service
     private final IngredientService ingredientService;
 
     private final FileService fileService;
@@ -47,7 +45,7 @@ public class RecipeService {
         for (RecipeIngredient recipeIngredient : recipe.getRecipeIngredients()) {
             recipeIngredient.setRecipe(recipe); //TODO: test checking if recipeIngredient exists
 
-            handleSettingIngredient(recipeIngredient, recipeIngredient.getIngredient());
+            ingredientService.handleSettingIngredient(recipeIngredient, recipeIngredient.getIngredient());
         }
 
         Recipe savedRecipe = recipeRepository.save(recipe);
@@ -87,31 +85,14 @@ public class RecipeService {
 
         // Populate recipeIngredients from start
         for (RecipeIngredient recipeIngredient : recipe.getRecipeIngredients()) {
-            handleSettingIngredient(recipeIngredient, recipeIngredient.getIngredient());
+            ingredientService.handleSettingIngredient(recipeIngredient, recipeIngredient.getIngredient());
             dbRecipe.add(recipeIngredient);
         }
 
         return recipeRepository.save(dbRecipe);
     }
 
-    private void handleSettingIngredient(RecipeIngredient recipeIngredient, Ingredient ingredient) {  // TODO there is a problem with this function - it doesn't work when putting mutlitple recipes at once
-        log.info("Checking ingredient if exits: " + ingredient.getName());
 
-        Optional<Ingredient> ingrByName = ingredientRepository.findByName(ingredient.getName());
-
-        // if present update with data from db
-        if (ingrByName.isPresent()) {
-            log.info("Exists! updateing from db...");
-            Ingredient dbIngredient = ingrByName.get();
-            recipeIngredient.setIngredient(dbIngredient);
-        } else { // else save new ingredient data
-            log.info("Doesn't exists! Adding new ingredient...");
-            if (ingredient.getType() == null) {
-                ingredient.setType(IngredientType.OTHER);
-            }
-            recipeIngredient.setIngredient(ingredient);
-        }
-    }
 
 
     public Recipe getRecipeDetails(Long id) {
