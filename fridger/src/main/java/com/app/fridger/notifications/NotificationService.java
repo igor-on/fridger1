@@ -1,10 +1,10 @@
 package com.app.fridger.notifications;
 
-import com.app.fridger.entity.Notification;
-import com.app.fridger.entity.User;
+import com.app.fridger.model.entity.Notification;
+import com.app.fridger.model.entity.User;
 import com.app.fridger.exceptions.AlreadySubscribedException;
 import com.app.fridger.exceptions.NotSubscribedException;
-import com.app.fridger.model.NotificationType;
+import com.app.fridger.model.core.NotificationType;
 import com.app.fridger.repo.NotificationRepository;
 import com.app.fridger.repo.UserRepository;
 import jakarta.transaction.Transactional;

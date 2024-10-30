@@ -1,6 +1,6 @@
 package com.app.fridger.controller;
 
-import com.app.fridger.entity.PlannedRecipe;
+import com.app.fridger.model.entity.PlannedRecipe;
 import com.app.fridger.service.RecipeCalendarService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

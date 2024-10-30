@@ -1,13 +1,18 @@
 package com.app.fridger.utils;
 
+import com.app.fridger.model.core.Error;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
 import net.coobird.thumbnailator.Thumbnails;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @Log4j2
 public class Utils {
@@ -29,5 +34,17 @@ public class Utils {
         log.debug("Size after compression: " + baos.size());
 
         return baos.toByteArray().length > multipartImage.getSize() ? multipartImage.getBytes() : baos.toByteArray();
+    }
+
+    public static ResponseEntity<Object> createErrorResponse(HttpStatus status, String message, HttpServletRequest req) {
+        return ResponseEntity
+                .status(status)
+                .body(Error.builder()
+                .code(status.value())
+                .time(LocalDateTime.now().toString())
+                .method(req.getMethod())
+                .path(req.getServletPath())
+                .message(message)
+                .build());
     }
 }

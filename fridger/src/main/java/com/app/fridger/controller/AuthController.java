@@ -2,8 +2,8 @@ package com.app.fridger.controller;
 
 import com.app.fridger.auth.JwtService;
 import com.app.fridger.auth.TokenData;
-import com.app.fridger.dto.AuthRequest;
-import com.app.fridger.dto.AuthResponse;
+import com.app.fridger.model.dto.AuthRequest;
+import com.app.fridger.model.dto.AuthResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

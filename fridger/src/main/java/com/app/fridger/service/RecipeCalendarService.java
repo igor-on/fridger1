@@ -1,6 +1,6 @@
 package com.app.fridger.service;
 
-import com.app.fridger.entity.PlannedRecipe;
+import com.app.fridger.model.entity.PlannedRecipe;
 import com.app.fridger.repo.PlannedRecipeRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

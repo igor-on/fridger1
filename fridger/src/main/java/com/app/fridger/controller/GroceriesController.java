@@ -1,6 +1,6 @@
 package com.app.fridger.controller;
 
-import com.app.fridger.dto.GroceriesListDTO;
+import com.app.fridger.model.dto.GroceriesListDTO;
 import com.app.fridger.service.GroceriesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

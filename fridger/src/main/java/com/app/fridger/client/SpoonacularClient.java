@@ -1,0 +1,116 @@
+package com.app.fridger.client;
+
+import com.app.fridger.model.api.spoonacular.GetRandomRecipesResponse;
+import com.app.fridger.model.api.spoonacular.GetRecipeComplexSearchResponse;
+import com.app.fridger.model.api.spoonacular.generated.IngredientInformation;
+import com.app.fridger.model.api.spoonacular.generated.RecipeInformation;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.util.List;
+
+@Service
+@Log4j2
+public class SpoonacularClient {
+
+
+    private final ObjectMapper objectMapper;
+    private final RestClient restClient;
+
+    @Value("${spoonacular.api-key}")
+    private String apiKey;
+
+    private final static String URI = "https://api.spoonacular.com";
+
+    public SpoonacularClient(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+        restClient = RestClient.create();
+    }
+
+    public List<RecipeInformation> recipeComplexSearch(String query) {
+        log.info("GET /recipes/complexSearch");
+
+        URI uri = UriComponentsBuilder.fromHttpUrl(URI)
+                .path("/recipes/complexSearch")
+                .queryParam("query", query)
+                .queryParam("addRecipeInformation", true)
+                .queryParam("number", 1)
+                .queryParam("instructionsRequired", true)
+                .build()
+                .toUri();
+
+        GetRecipeComplexSearchResponse res = restClient.get()
+                .uri(uri)
+                .header("x-api-key", apiKey)
+                .retrieve()
+                .body(GetRecipeComplexSearchResponse.class);
+
+        return res.getResults();
+    }
+
+    public List<IngredientInformation> ingredientAutocompleteSearch(String query) {
+        log.info("GET /food/ingredients/autocomplete");
+
+        URI uri = UriComponentsBuilder.fromHttpUrl(URI)
+                .path("/food/ingredients/autocomplete")
+                .queryParam("query", query)
+                .queryParam("metaInformation", true)
+                .queryParam("number", 5)
+                .build()
+                .toUri();
+
+        return restClient.get()
+                .uri(uri)
+                .header("x-api-key", apiKey)
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<IngredientInformation>>() {
+                });
+    }
+
+    public List<RecipeInformation> getRandomRecipes(int number) {
+        log.info("GET /recipes/random?number=" + number);
+
+        URI uri = UriComponentsBuilder.fromHttpUrl(URI)
+                .path("recipes/random")
+                .queryParam("includeNutrition", false)
+                .queryParam("number", number)
+                .build()
+                .toUri();
+
+        GetRandomRecipesResponse res = restClient.get()
+                .uri(uri)
+                .header("x-api-key", apiKey)
+                .retrieve()
+                .body(GetRandomRecipesResponse.class);
+
+        try {
+            objectMapper.writeValue(new File("random-recipe.json"), res);
+        } catch (IOException e) {
+            log.error("There was en error writing to file... " + e.getMessage());
+        }
+
+
+        return res.getRecipes();
+    }
+
+    public List<RecipeInformation> getRandomRecipesMock(int number) {
+        GetRandomRecipesResponse res = null;
+        try {
+            res = objectMapper.readValue(new File("random-recipe.json"), GetRandomRecipesResponse.class);
+        } catch (IOException e) {
+            log.error("There was en error writing to file... " + e.getMessage());
+        }
+
+
+        return res.getRecipes();
+    }
+
+}

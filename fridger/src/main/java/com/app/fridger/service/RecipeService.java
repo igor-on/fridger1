@@ -1,31 +1,37 @@
 package com.app.fridger.service;
 
-import com.app.fridger.entity.Ingredient;
-import com.app.fridger.entity.Recipe;
-import com.app.fridger.entity.RecipeIngredient;
-import com.app.fridger.model.IngredientType;
-import com.app.fridger.repo.IngredientRepository;
-import com.app.fridger.repo.RecipeIngredientRepository;
+import com.app.fridger.client.SpoonacularClient;
+import com.app.fridger.exceptions.TooBigNumberException;
+import com.app.fridger.model.api.spoonacular.generated.RecipeInformation;
+import com.app.fridger.model.dto.RecipeDTO;
+import com.app.fridger.model.entity.Recipe;
+import com.app.fridger.model.entity.RecipeIngredient;
+import com.app.fridger.model.entity.User;
 import com.app.fridger.repo.RecipeRepository;
+import com.app.fridger.utils.RecipeMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Log4j2
 @RequiredArgsConstructor
 public class RecipeService {
 
+    private final SpoonacularClient spoonacularClient;
     private final RecipeRepository recipeRepository;
-    private final IngredientRepository ingredientRepository;
-    private final RecipeIngredientRepository recipeIngredientRepository;
+    private final IngredientService ingredientService;
+
+    private final RecipeMapper recipeMapper;
 
     private final SessionService session;
+
+    private static final int MAX_RANDOM_RECIPES = 15;
 
     public List<Recipe> getRecipes() {
         return recipeRepository.findAll(session.getUser().getUsername());
@@ -40,7 +46,7 @@ public class RecipeService {
         for (RecipeIngredient recipeIngredient : recipe.getRecipeIngredients()) {
             recipeIngredient.setRecipe(recipe); //TODO: test checking if recipeIngredient exists
 
-            handleSettingIngredient(recipeIngredient, recipeIngredient.getIngredient());
+            ingredientService.handleSettingIngredient(recipeIngredient, recipeIngredient.getIngredient());
         }
 
         Recipe savedRecipe = recipeRepository.save(recipe);
@@ -80,27 +86,11 @@ public class RecipeService {
 
         // Populate recipeIngredients from start
         for (RecipeIngredient recipeIngredient : recipe.getRecipeIngredients()) {
-            handleSettingIngredient(recipeIngredient, recipeIngredient.getIngredient());
+            ingredientService.handleSettingIngredient(recipeIngredient, recipeIngredient.getIngredient());
             dbRecipe.add(recipeIngredient);
         }
 
         return recipeRepository.save(dbRecipe);
-    }
-
-    private void handleSettingIngredient(RecipeIngredient recipeIngredient, Ingredient ingredient) {
-        Optional<Ingredient> ingrByName = ingredientRepository.findByName(ingredient.getName());
-
-        // if present update with data from db
-        if (ingrByName.isPresent()) {
-            Ingredient dbIngredient = ingrByName.get();
-            recipeIngredient.setIngredient(dbIngredient);
-        } else { // else save new ingredient data
-            log.info("Adding new ingredient...");
-            if (recipeIngredient.getIngredient().getType() == null) {
-                recipeIngredient.getIngredient().setType(IngredientType.OTHER);
-            }
-            recipeIngredient.setIngredient(ingredient);
-        }
     }
 
     public Recipe getRecipeDetails(Long id) {
@@ -128,4 +118,43 @@ public class RecipeService {
         dbRecipe.setFavorite(!dbRecipe.getFavorite());
         return dbRecipe;
     }
+
+    @Transactional
+    public List<RecipeDTO> generateRandomRecipes(int number) throws TooBigNumberException {
+        if (number > MAX_RANDOM_RECIPES) {
+            throw new TooBigNumberException("Please choose a number between 1 and 15 for generating random recipes.");
+        }
+
+        User user = session.getUser();
+        List<String> actualUserRecipes = user.getRecipes().stream().map(Recipe::getName).toList();
+
+        List<RecipeInformation> uniqueRandomRecipes = new ArrayList<>();
+
+        // This code tries to get <number> unique random recipes in 3 API requests or less
+        int maxSpoonaRequests = 3; // TODO: change this to spoonacular points
+        while (number > 0 && maxSpoonaRequests > 0) {
+            List<RecipeInformation> randomRecipes = spoonacularClient.getRandomRecipes(number);
+            maxSpoonaRequests -= 1;
+            uniqueRandomRecipes.addAll(randomRecipes
+                    .stream()
+                    .filter(rr -> (!actualUserRecipes.contains(rr.getTitle()) && !uniqueRandomRecipes.contains(rr)))
+                    .toList());
+            number -= uniqueRandomRecipes.size();
+
+            log.debug("Successfully fetched: " + uniqueRandomRecipes.size());
+        }
+
+        List<Recipe> recipes = new ArrayList<>();
+        uniqueRandomRecipes.forEach(urr -> {
+            Recipe r = recipeMapper.toEntity(urr);
+            r.setUser(user);
+            recipeRepository.save(r);
+            log.debug("Saved recipe: " + r.getName());
+            recipes.add(r);
+        });
+
+        return RecipeDTO.fromEntities(recipes);
+    }
+
+
 }
