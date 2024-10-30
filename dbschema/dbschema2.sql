@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS groceries_lists;
 
 CREATE TABLE IF NOT EXISTS `recipes` (
   `id` bigint PRIMARY KEY AUTO_INCREMENT,
-  `name` varchar(55) NOT NULL UNIQUE,
+  `name` varchar(255) NOT NULL UNIQUE,
   `description` text,
   `instructions` text NOT NULL,
   `image_url` varchar(255),
@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS `recipes` (
   `username` varchar(50),
   CONSTRAINT FK_username_recipe FOREIGN KEY (`username`) REFERENCES `users` (`username`)
 );
+
 
 CREATE TABLE IF NOT EXISTS `ingredients` (
   `name` varchar(255) PRIMARY KEY,

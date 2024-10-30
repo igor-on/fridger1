@@ -21,9 +21,9 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("${fridger.request-map}")
+@CrossOrigin("${fridger.allowed-origins}")
 @RequiredArgsConstructor
 @Log4j2
-@CrossOrigin("${fridger.allowed-origins}")
 public class RecipeController {
     private final RecipeService recipeService;
     private final SpoonacularClient spoonacularClient;

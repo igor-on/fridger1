@@ -2,10 +2,12 @@ package com.app.fridger.client;
 
 import com.app.fridger.model.api.spoonacular.GetRandomRecipesResponse;
 import com.app.fridger.model.api.spoonacular.GetRecipeComplexSearchResponse;
+import com.app.fridger.model.api.spoonacular.generated.IngredientInformation;
 import com.app.fridger.model.api.spoonacular.generated.RecipeInformation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -52,6 +54,25 @@ public class SpoonacularClient {
                 .body(GetRecipeComplexSearchResponse.class);
 
         return res.getResults();
+    }
+
+    public List<IngredientInformation> ingredientAutocompleteSearch(String query) {
+        log.info("GET /food/ingredients/autocomplete");
+
+        URI uri = UriComponentsBuilder.fromHttpUrl(URI)
+                .path("/food/ingredients/autocomplete")
+                .queryParam("query", query)
+                .queryParam("metaInformation", true)
+                .queryParam("number", 5)
+                .build()
+                .toUri();
+
+        return restClient.get()
+                .uri(uri)
+                .header("x-api-key", apiKey)
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<IngredientInformation>>() {
+                });
     }
 
     public List<RecipeInformation> getRandomRecipes(int number) {
